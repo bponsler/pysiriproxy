@@ -1,0 +1,54 @@
+#!/usr/bin/python2.6
+# -*-python-*-
+# Copyright (C) 2012 Brett Ponsler
+# This file is part of pysiriproxy.
+#
+# pysiriproxy is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# pysiriproxy is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with pysiriproxy.  If not, see <http://www.gnu.org/licenses/>.
+from time import sleep
+from os import environ
+from os.path import join
+
+from pysiriproxy.logger import Logger
+from pysiriproxy.packetPlayer import Player
+from pysiriproxy.connections.iphone import _iPhone
+
+from pyamp.logging.logger import LogLevel
+
+
+_LOG_LEVEL = LogLevel.DEBUG
+_DEBUG_LEVEL = 0
+
+
+if __name__ == '__main__':
+    # @todo: Add support for command line args
+
+    configDir = join(environ.get("HOME"), ".siriproxy")
+    packets = join(configDir, "binary2.data")
+
+    # Create the logger with the log and debug levels
+    logger = Logger(_LOG_LEVEL, _DEBUG_LEVEL)
+
+    # Create the packet player and connect it to the iPhone protocol
+    player = Player(_iPhone, packets, logger)
+    player.start()
+
+    # Continue until the player thread is shutdown
+    while player.isRunning():
+        try:
+            sleep(0.1)
+        except (KeyboardInterrupt, SystemExit):
+            print "Shutting down."
+            player.shutdown()
+            break
+            

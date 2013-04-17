@@ -1,0 +1,111 @@
+#!/usr/bin/python
+# -*-python-*-
+# Copyright (C) 2012 Brett Ponsler
+# This file is part of pysiriproxy.
+#
+# pysiriproxy is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# pysiriproxy is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with pysiriproxy.  If not, see <http://www.gnu.org/licenses/>.
+from sys import argv
+from os import environ
+from os.path import exists
+from shutil import copytree
+from subprocess import call, Popen, PIPE
+
+from twisted.internet import protocol, reactor
+
+from pysiriproxy.connections import iphone
+from pysiriproxy.options import Options, Directories, Ids, Files, Sections, \
+    Values
+
+from pyamp.logging.logger import LogData, LogLevel
+from pyamp.logging.prefix import Prefix, TimePrefix
+
+
+def genCerts(configDir):
+    '''Generate certificates for pysiriproxy.
+
+    * configDir -- The path to the user's configuration directory
+
+    '''
+    print "Generating certificates..."
+
+    # Execute the command to generate the certificates
+    process = Popen([Files.GenCerts, configDir], stdout=PIPE, stderr=PIPE)
+
+    # Print stdout, but don't print stderr because use of 'yes' in the
+    # gencerts script causes an error that we want to hide from the user
+    print process.stdout.read()
+    process.stdout.close()
+    process.stderr.close()
+
+
+def ensureConfigFiles():
+    '''Ensure that the pysiriproxy configuration directory exists in
+    the user's home directory. If it does not, then it needs to be
+    created and all of the default configuration files need to be
+    copied into the directory.
+
+    '''
+    configDir = Directories.Config
+
+    # Ensure that the pysiriproxy configuration directory exists in
+    # the user's home directory
+    if not exists(configDir):
+        # Copy all of the default configuration files into the user's
+        # home configuration directory
+        copytree(Directories.SystemDefaultConfig, configDir)
+
+        # Grab the name of the user where the configuration directory
+        # is located
+        username = configDir.split("/")[2]
+
+        # Make the user the owner of the entire configuration directory
+        userArg = ':'.join([username, username])
+        call(["chown", "-R", userArg, configDir])
+
+
+if __name__ == '__main__':
+    # Ensure that the pysiriproxy configuration files exist in the
+    # user's home directory
+    ensureConfigFiles()
+
+    # Create a logger just for the options loading
+    logger = LogData(LogLevel.DEBUG, 5)
+
+    # Parse the configuration options object
+    options = Options(logger)
+    options.parse(argv[1:], Files.ConfigFile)
+
+    # Determine if the user wants to generate certificates
+    if options.getCl(Ids.GenCerts, False):
+        # Generate certificates in the configuration directory
+        genCerts(Directories.Config)
+    else:
+        # Grab the log level and debug level from the configured options
+        logLevel = options.get(Sections.Logging, Ids.LogLevel)
+        debugLevel = options.get(Sections.Logging, Ids.DebugLevel)
+
+        # Use an empty prefix if the timestamp property is an empty string
+        timestampFormat = options.get(Sections.Logging, Ids.Timestamp, "")
+        if len(timestampFormat.strip()) == 0:
+            timePrefix = Prefix()
+        else:
+            timePrefix = TimePrefix(timestampFormat)
+
+        # Create a new logger using the loaded configuration settings
+        logger = LogData(logLevel, debugLevel, prefix=timePrefix)
+
+        # Start the SiriProxy server
+        iphone.connect(logger)
+
+        reactor.run()
