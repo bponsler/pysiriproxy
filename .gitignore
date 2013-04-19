@@ -1,2 +1,4 @@
+build
+pysiriproxy.egg-info
 doc/build
 doc/source/_generated/*
