@@ -1,5 +1,5 @@
 .. pysiriproxy documentation file, created by
-   generateRsts for pysiriproxy.utils on April 18, 2013
+   generateRsts for pysiriproxy.utils on April 19, 2013
    This file should not be modified.
 
 =================

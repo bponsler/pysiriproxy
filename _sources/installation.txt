@@ -147,7 +147,7 @@ Installing pysiriproxy
 Run the following commands::
 
     $ cd /opt
-    $ svn checkout http://pysiriproxy.googlecode.com/svn/trunk/pysiriproxy
+    $ git clone https://github.com/bponsler/pysiriproxy
     $ sudo chown -R $USERNAME:$USERNAME pysiriproxy
     $ cd pysiriproxy
     $ python setup.py build

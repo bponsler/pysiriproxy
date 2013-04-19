@@ -252,8 +252,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__inputBuffer</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
 
         <span class="c"># Print the decompressed data for debugging purposes</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;############# Decompressed Data #############&quot;</span><span class="p">,</span>
-                 <span class="n">toHex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span><span class="p">)]</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s">&quot;############# Decompressed Data #############&quot;</span><span class="p">,</span>
+            <span class="n">toHex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span><span class="p">),</span>
+            <span class="p">]</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;#&quot;</span> <span class="o">*</span> <span class="mi">45</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
@@ -300,9 +302,7 @@
         <span class="c"># Rogue packet</span>
         <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&quot;^[0-9][15-9]&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">unpacked</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;ROGUE PACKET!!! WHAT IS IT?! TELL US!!! &quot;</span> \
-                                <span class="s">&quot;IN IRC!! COPY THE STUFF FROM BELOW&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">toHex</span><span class="p">(</span><span class="n">unpacked</span><span class="p">))</span>
+            <span class="k">return</span> <span class="bp">False</span>
 
         <span class="c"># Data packet</span>
         <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&quot;^0200(.{6})&quot;</span><span class="p">)</span>
