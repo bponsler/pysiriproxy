@@ -1,0 +1,394 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The commands module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The objects module" href="mod_pysiriproxy_objects.html" />
+    <link rel="next" title="The factory module" href="pysiriproxy_objects_factory.html" />
+    <link rel="prev" title="The actions module" href="pysiriproxy_objects_actions.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_factory.html" title="The factory module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_actions.html" title="The actions module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_objects.html" accesskey="U">The objects module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.objects.commands">
+<span id="the-commands-module"></span><h1>The commands module<a class="headerlink" href="#module-pysiriproxy.objects.commands" title="Permalink to this headline">¶</a></h1>
+<p>The commands module contains classes pertaining to creating objects which
+can be sent to the iPhone or Apple&#8217;s web server which pertain to creating
+commands which are sent from the iPhone to Apple&#8217;s web server.</p>
+<div class="section" id="the-confirmationoptions-class">
+<h2>The _ConfirmationOptions class<a class="headerlink" href="#the-confirmationoptions-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-5d90f9672b845825d0e53b84d7490c62cf561b47.png" alt="Inheritance diagram of pysiriproxy.objects.commands._ConfirmationOptions" usemap="#inheritanced6ff47da9e" class="inheritance"/>
+<map id="inheritanced6ff47da9e" name="inheritanced6ff47da9e">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="44,7,321,33"/>
+<area shape="rect" href="#pysiriproxy.objects.commands._ConfirmationOptions" title="pysiriproxy.objects.commands._ConfirmationOptions" alt="" coords="5,84,360,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.commands._ConfirmationOptions">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.commands.</tt><tt class="descname">_ConfirmationOptions</tt><big>(</big><em>submitCmds=None</em>, <em>cancelCmds=None</em>, <em>denyCmds=None</em>, <em>confirmCmds=None</em>, <em>denyText='Cancel'</em>, <em>cancelLabel='Cancel'</em>, <em>submitLabel='Send'</em>, <em>confirmText='Send'</em>, <em>cancelTrigger='Deny'</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/commands.html#_ConfirmationOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.commands._ConfirmationOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _ConfirmationOptions class provides the ability to create a
+dialog that presents the user with confirmation options such as:
+submit, and cancel buttons that each perform different actions.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-sendcommands-class">
+<h2>The _SendCommands class<a class="headerlink" href="#the-sendcommands-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-80210df42faab232c5014b160a45f852d3e60a2f.png" alt="Inheritance diagram of pysiriproxy.objects.commands._SendCommands" usemap="#inheritancec7b36f4d91" class="inheritance"/>
+<map id="inheritancec7b36f4d91" name="inheritancec7b36f4d91">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="32,7,309,33"/>
+<area shape="rect" href="#pysiriproxy.objects.commands._SendCommands" title="pysiriproxy.objects.commands._SendCommands" alt="" coords="5,84,336,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.commands._SendCommands">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.commands.</tt><tt class="descname">_SendCommands</tt><big>(</big><em>commands=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/commands.html#_SendCommands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.commands._SendCommands" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _SendCommands class creates an object that is able to send a series
+of commands from the iPhone to Apple&#8217;s web server which are to be executed.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-siriobject-class">
+<h2>The SiriObject class<a class="headerlink" href="#the-siriobject-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-ac5cd69fe90718988a53890b2ae26d2b357e8195.png" alt="Inheritance diagram of pysiriproxy.objects.commands.SiriObject" usemap="#inheritance8bf3cce6b3" class="inheritance"/>
+<map id="inheritance8bf3cce6b3" name="inheritance8bf3cce6b3">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="5,7,283,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.commands.SiriObject">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.commands.</tt><tt class="descname">SiriObject</tt><big>(</big><em>className</em>, <em>group</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.commands.SiriObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SiriObject class encapsulates the base functionality for all
+object being sent to the iPhone or to Apple&#8217;s web server.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This class is meant to be subclassed to provide the
+implementation for a specific object.</p>
+</div>
+<dl class="attribute">
+<dt id="pysiriproxy.objects.commands.SiriObject.ProtocolVersion">
+<tt class="descname">ProtocolVersion</tt><a class="headerlink" href="#pysiriproxy.objects.commands.SiriObject.ProtocolVersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>The identifier which indicates the version of the protocol.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.commands.SiriObject.isArgumentList">
+<em class="property">classmethod </em><tt class="descname">isArgumentList</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.commands.SiriObject.isArgumentList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if the given object is a list of arguments, or not.</p>
+<ul class="simple">
+<li>obj &#8211; The object</li>
+</ul>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.commands.SiriObject.isSiriObject">
+<em class="property">classmethod </em><tt class="descname">isSiriObject</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.commands.SiriObject.isSiriObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if the given object is a SiriObject, or not.</p>
+<ul class="simple">
+<li>obj &#8211; The object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.commands.SiriObject.makeRoot">
+<tt class="descname">makeRoot</tt><big>(</big><em>refId=None</em>, <em>aceId=None</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.commands.SiriObject.makeRoot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the SiriObject the root object.</p>
+<ul class="simple">
+<li>refId &#8211; The refId for this object</li>
+<li>aceId &#8211; The aceId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.commands.SiriObject.setAceId">
+<tt class="descname">setAceId</tt><big>(</big><em>aceId=None</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.commands.SiriObject.setAceId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the ace id for this object.</p>
+<ul class="simple">
+<li>aceId &#8211; The aceId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.commands.SiriObject.setNonNoneArguments">
+<tt class="descname">setNonNoneArguments</tt><big>(</big><em>argumentNames</em>, <em>localVars</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.commands.SiriObject.setNonNoneArguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a list of strings which represent names of input variables and
+sets properties of the same name on the current object if the value of
+the argument is not None.</p>
+<ul class="simple">
+<li>argumentNames &#8211; The list of argument names to set</li>
+<li>localVars &#8211; The local variables</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.commands.SiriObject.setRefId">
+<tt class="descname">setRefId</tt><big>(</big><em>refId=None</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.commands.SiriObject.setRefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the ref id for this object.</p>
+<ul class="simple">
+<li>refId &#8211; The refId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.commands.SiriObject.toDict">
+<tt class="descname">toDict</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.objects.commands.SiriObject.toDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert this object into a Python dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-commands-class">
+<h2>The Commands class<a class="headerlink" href="#the-commands-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-e0457aa4525b1f07bcfe715297a3fafea6e9be8f.png" alt="Inheritance diagram of pysiriproxy.objects.commands.Commands" usemap="#inheritancea88b7b12f0" class="inheritance"/>
+<map id="inheritancea88b7b12f0" name="inheritancea88b7b12f0">
+<area shape="rect" href="#pysiriproxy.objects.commands.Commands" title="pysiriproxy.objects.commands.Commands" alt="" coords="5,7,296,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.commands.Commands">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.commands.</tt><tt class="descname">Commands</tt><a class="reference internal" href="../_modules/pysiriproxy/objects/commands.html#Commands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.commands.Commands" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Commands class contains the various types of Commands as well
+as a function for creating Commands of a specific type.</p>
+<p>This class provides a factory method for creating Commands of a specific
+type.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.objects.commands.Commands.CancelRequest">
+<tt class="descname">CancelRequest</tt><a class="headerlink" href="#pysiriproxy.objects.commands.Commands.CancelRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>The CancelRequest command type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.commands.Commands.CancelSnippet">
+<tt class="descname">CancelSnippet</tt><a class="headerlink" href="#pysiriproxy.objects.commands.Commands.CancelSnippet" title="Permalink to this definition">¶</a></dt>
+<dd><p>The CancelSnippet command type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.commands.Commands.ConfirmSnippet">
+<tt class="descname">ConfirmSnippet</tt><a class="headerlink" href="#pysiriproxy.objects.commands.Commands.ConfirmSnippet" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ConfirmSnippet command type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.commands.Commands.ConfirmationOptions">
+<tt class="descname">ConfirmationOptions</tt><a class="headerlink" href="#pysiriproxy.objects.commands.Commands.ConfirmationOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ConfirmationOptions command type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.commands.Commands.ResultCallback">
+<tt class="descname">ResultCallback</tt><a class="headerlink" href="#pysiriproxy.objects.commands.Commands.ResultCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ResultCallback command type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.commands.Commands.SendCommands">
+<tt class="descname">SendCommands</tt><a class="headerlink" href="#pysiriproxy.objects.commands.Commands.SendCommands" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SendCommands command type.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.commands.Commands.create">
+<em class="property">classmethod </em><tt class="descname">create</tt><big>(</big><em>commandType</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/commands.html#Commands.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.commands.Commands.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Command of the specific type.</p>
+<ul class="simple">
+<li>commandType &#8211; The type of Command to create</li>
+<li>args &#8211; The arguments</li>
+<li>kwargs &#8211; THe keyword arguments</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-confirmsnippetcommand-class">
+<h2>The _ConfirmSnippetCommand class<a class="headerlink" href="#the-confirmsnippetcommand-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-3e14ffae4e6594664e3a5ce711598357d827f039.png" alt="Inheritance diagram of pysiriproxy.objects.commands._ConfirmSnippetCommand" usemap="#inheritance0edc9d640e" class="inheritance"/>
+<map id="inheritance0edc9d640e" name="inheritance0edc9d640e">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="61,7,339,33"/>
+<area shape="rect" href="#pysiriproxy.objects.commands._ConfirmSnippetCommand" title="pysiriproxy.objects.commands._ConfirmSnippetCommand" alt="" coords="5,84,395,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.commands._ConfirmSnippetCommand">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.commands.</tt><tt class="descname">_ConfirmSnippetCommand</tt><big>(</big><em>requestId=''</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/commands.html#_ConfirmSnippetCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.commands._ConfirmSnippetCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _ConfirmSnippetCommand class creates a confirmation command.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-resultcallback-class">
+<h2>The _ResultCallback class<a class="headerlink" href="#the-resultcallback-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-a87227f64f6ab37a5730ce365cf9d1de4592dd0e.png" alt="Inheritance diagram of pysiriproxy.objects.commands._ResultCallback" usemap="#inheritancec63e2ee145" class="inheritance"/>
+<map id="inheritancec63e2ee145" name="inheritancec63e2ee145">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="24,7,301,33"/>
+<area shape="rect" href="#pysiriproxy.objects.commands._ResultCallback" title="pysiriproxy.objects.commands._ResultCallback" alt="" coords="5,84,320,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.commands._ResultCallback">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.commands.</tt><tt class="descname">_ResultCallback</tt><big>(</big><em>commands</em>, <em>code=0</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/commands.html#_ResultCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.commands._ResultCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _ResultCallback class creates a result callback Siri object.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-cancelrequest-class">
+<h2>The _CancelRequest class<a class="headerlink" href="#the-cancelrequest-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-fa415724535c34a8d6097ad9d96f99fa70e49f69.png" alt="Inheritance diagram of pysiriproxy.objects.commands._CancelRequest" usemap="#inheritance37c68508a6" class="inheritance"/>
+<map id="inheritance37c68508a6" name="inheritance37c68508a6">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="25,7,303,33"/>
+<area shape="rect" href="#pysiriproxy.objects.commands._CancelRequest" title="pysiriproxy.objects.commands._CancelRequest" alt="" coords="5,84,323,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.commands._CancelRequest">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.commands.</tt><tt class="descname">_CancelRequest</tt><big>(</big><em>requestId</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/commands.html#_CancelRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.commands._CancelRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _CancelRequest class creates an object to cancel the current
+request.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-cancelsnippetcommand-class">
+<h2>The _CancelSnippetCommand class<a class="headerlink" href="#the-cancelsnippetcommand-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-75ba922aaf83930a41405e4c00d018bde1e71dba.png" alt="Inheritance diagram of pysiriproxy.objects.commands._CancelSnippetCommand" usemap="#inheritanceb52443efa1" class="inheritance"/>
+<map id="inheritanceb52443efa1" name="inheritanceb52443efa1">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="59,7,336,33"/>
+<area shape="rect" href="#pysiriproxy.objects.commands._CancelSnippetCommand" title="pysiriproxy.objects.commands._CancelSnippetCommand" alt="" coords="5,84,389,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.commands._CancelSnippetCommand">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.commands.</tt><tt class="descname">_CancelSnippetCommand</tt><big>(</big><em>requestId=''</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/commands.html#_CancelSnippetCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.commands._CancelSnippetCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _CancelSnippetCommand class creates a cancel command.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The commands module</a><ul>
+<li><a class="reference internal" href="#the-confirmationoptions-class">The _ConfirmationOptions class</a></li>
+<li><a class="reference internal" href="#the-sendcommands-class">The _SendCommands class</a></li>
+<li><a class="reference internal" href="#the-siriobject-class">The SiriObject class</a></li>
+<li><a class="reference internal" href="#the-commands-class">The Commands class</a></li>
+<li><a class="reference internal" href="#the-confirmsnippetcommand-class">The _ConfirmSnippetCommand class</a></li>
+<li><a class="reference internal" href="#the-resultcallback-class">The _ResultCallback class</a></li>
+<li><a class="reference internal" href="#the-cancelrequest-class">The _CancelRequest class</a></li>
+<li><a class="reference internal" href="#the-cancelsnippetcommand-class">The _CancelSnippetCommand class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pysiriproxy_objects_actions.html"
+                        title="previous chapter">The actions module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pysiriproxy_objects_factory.html"
+                        title="next chapter">The factory module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/pysiriproxy_objects_commands.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_factory.html" title="The factory module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_actions.html" title="The actions module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_objects.html" >The objects module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

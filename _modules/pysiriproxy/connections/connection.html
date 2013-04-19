@@ -1,0 +1,554 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.connections.connection &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.connections.connection</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The connection module contains the Connection class which provides</span>
+<span class="sd">the base functionality for creating concrete connections between two</span>
+<span class="sd">networked computers.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">zlib</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span>
+<span class="kn">from</span> <span class="nn">binascii</span> <span class="kn">import</span> <span class="n">unhexlify</span>
+<span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="n">unpack</span><span class="p">,</span> <span class="n">pack</span>
+
+<span class="kn">from</span> <span class="nn">twisted.protocols.basic</span> <span class="kn">import</span> <span class="n">LineReceiver</span>
+
+<span class="kn">from</span> <span class="nn">pysiriproxy.plist</span> <span class="kn">import</span> <span class="n">Plist</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.utils</span> <span class="kn">import</span> <span class="n">toHex</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.interpreter</span> <span class="kn">import</span> <span class="n">Interpreter</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.constants</span> <span class="kn">import</span> <span class="n">Modes</span><span class="p">,</span> <span class="n">HeaderKeys</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.plugins.manager</span> <span class="kn">import</span> <span class="n">PluginManager</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.connections.manager</span> <span class="kn">import</span> <span class="n">ConnectionManager</span>
+
+<span class="kn">from</span> <span class="nn">pyamp.logging</span> <span class="kn">import</span> <span class="n">Colors</span><span class="p">,</span> <span class="n">LogData</span>
+
+
+<div class="viewcode-block" id="Connection"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection">[docs]</a><span class="k">class</span> <span class="nc">Connection</span><span class="p">(</span><span class="n">LineReceiver</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The Connection class implements the base functionaltiy for creating</span>
+<span class="sd">    a concrete twisted internet protocol which is able to receive data in</span>
+<span class="sd">    the form of lines.</span>
+
+<span class="sd">    This base class implements the functionality of receiving data from the</span>
+<span class="sd">    iPhone or from Apple&#39;s web server. The iPhone Apple&#39;s web server transmit</span>
+<span class="sd">    plist objects which are compressed using zlib compression. This class</span>
+<span class="sd">    implements the necessary functionality for receiving the data, and</span>
+<span class="sd">    decompressing it to retrieve the plist object data that is being</span>
+<span class="sd">    transmitted.</span>
+
+<span class="sd">    The Connection objects are connected to the</span>
+<span class="sd">    :class:`.connections.ConnectionManager` which provides the ability for</span>
+<span class="sd">    one Connection to forward data to another Connection.</span>
+
+<span class="sd">    .. note:: This class is intended to be subclassed to create a connection</span>
+<span class="sd">              between two specific machines.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span>
+                 <span class="n">logColor</span><span class="o">=</span><span class="n">Colors</span><span class="o">.</span><span class="n">Foreground</span><span class="o">.</span><span class="n">White</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * name -- The name of this Connection</span>
+<span class="sd">        * direction -- The direction of the data coming into this Connection</span>
+<span class="sd">        * logger -- The logger for this Connection</span>
+<span class="sd">        * logColor -- The log color for this Connection</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__direction</span> <span class="o">=</span> <span class="n">direction</span>
+    
+        <span class="c"># Connect this connection to the connection manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__connectionManager</span> <span class="o">=</span> <span class="n">ConnectionManager</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__connectionManager</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="c"># Grab an instance to the plugin manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__pluginManager</span> <span class="o">=</span> <span class="n">PluginManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__connectionManager</span><span class="p">,</span> <span class="n">logger</span><span class="p">)</span>
+
+        <span class="c"># If no logger is given, be sure to create it</span>
+        <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">logger</span> <span class="o">=</span> <span class="n">LogData</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">logColor</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span> <span class="o">=</span> <span class="n">logger</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__compStream</span> <span class="o">=</span> <span class="n">zlib</span><span class="o">.</span><span class="n">compressobj</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__zipStream</span> <span class="o">=</span> <span class="n">zlib</span><span class="o">.</span><span class="n">decompressobj</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__processedHeaders</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__consumedAce</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__inputBuffer</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__outputBuffer</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__unzippedOutput</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ssled</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__lastRefId</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__blockRestOfSession</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">otherConnection</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="c"># Starts in line mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__mode</span> <span class="o">=</span> <span class="n">Modes</span><span class="o">.</span><span class="n">Line</span>
+
+<div class="viewcode-block" id="Connection.reset"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Reset this connection.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__lastRefId</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__blockRestOfSession</span> <span class="o">=</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="Connection.getDirection"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection.getDirection">[docs]</a>    <span class="k">def</span> <span class="nf">getDirection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the direction for this connection.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__direction</span>
+</div>
+<div class="viewcode-block" id="Connection.getMode"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection.getMode">[docs]</a>    <span class="k">def</span> <span class="nf">getMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the current receiving mode the server is in.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mode</span>
+</div>
+<div class="viewcode-block" id="Connection.setLineMode"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection.setLineMode">[docs]</a>    <span class="k">def</span> <span class="nf">setLineMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Set the server to receive lines.&#39;&#39;&#39;</span>
+        <span class="n">LineReceiver</span><span class="o">.</span><span class="n">setLineMode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__mode</span> <span class="o">=</span> <span class="n">Modes</span><span class="o">.</span><span class="n">Line</span>
+</div>
+<div class="viewcode-block" id="Connection.setRawMode"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection.setRawMode">[docs]</a>    <span class="k">def</span> <span class="nf">setRawMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Set the server to receive raw data.&#39;&#39;&#39;</span>
+        <span class="n">LineReceiver</span><span class="o">.</span><span class="n">setRawMode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__mode</span> <span class="o">=</span> <span class="n">Modes</span><span class="o">.</span><span class="n">Raw</span>
+</div>
+<div class="viewcode-block" id="Connection.connectionMade"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection.connectionMade">[docs]</a>    <span class="k">def</span> <span class="nf">connectionMade</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;This function is called when a connection is made.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Connection made.&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Connection.connectionLost"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection.connectionLost">[docs]</a>    <span class="k">def</span> <span class="nf">connectionLost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reason</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;This function is called when a connection is lost.</span>
+
+<span class="sd">        * reason -- The reason the connection was lost</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Connection lost: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">reason</span><span class="p">),</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Connection.connectionFailed"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection.connectionFailed">[docs]</a>    <span class="k">def</span> <span class="nf">connectionFailed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reason</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;This function is called when a connection failed.</span>
+
+<span class="sd">        * reason -- The reason the connection was lost</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Connection failed: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">reason</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Connection.lineReceived"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection.lineReceived">[docs]</a>    <span class="k">def</span> <span class="nf">lineReceived</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;This function is called when a line of data is received.</span>
+
+<span class="sd">        * line -- The line of data</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;[Header]: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">line</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+        <span class="c"># Parse the header if it&#39;s a data/value pair</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;: &quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="c"># Get the tag, and value from the header</span>
+            <span class="n">tag</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;: &quot;</span><span class="p">)</span>
+
+            <span class="c"># Determine if this header contains the expected server hostname</span>
+            <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="n">HeaderKeys</span><span class="o">.</span><span class="n">Host</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;iPhone wants to connect to: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">value</span><span class="p">,</span>
+                               <span class="n">level</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+        <span class="c"># An empty line denotes the end of the headers</span>
+        <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Found end of headers.&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__processedHeaders</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setRawMode</span><span class="p">()</span>
+
+        <span class="c"># Restore the CR-LF to the end of the line</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__outputBuffer</span> <span class="o">+=</span> <span class="n">line</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\x0d\x0a</span><span class="s">&quot;</span>
+    
+        <span class="bp">self</span><span class="o">.</span><span class="n">__flushOutputBuffer</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Connection.rawDataReceived"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection.rawDataReceived">[docs]</a>    <span class="k">def</span> <span class="nf">rawDataReceived</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;This function is called when raw data is received.</span>
+
+<span class="sd">        * data -- The raw data</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Received data: </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">level</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__inputBuffer</span> <span class="o">+=</span> <span class="n">data</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__consumedAce</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Consuming ace&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__outputBuffer</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__inputBuffer</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__inputBuffer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__inputBuffer</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__consumedAce</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__processCompressedData</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__flushOutputBuffer</span><span class="p">()</span>
+</div>
+    <span class="k">def</span> <span class="nf">__processCompressedData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Process compressed data.</span>
+
+<span class="sd">        * data -- The compressed data to process</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># Unzip the input stream</span>
+        <span class="n">decomp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__zipStream</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__inputBuffer</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">decomp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__inputBuffer</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+        <span class="c"># Print the decompressed data for debugging purposes</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;############# Decompressed Data #############&quot;</span><span class="p">,</span>
+                 <span class="n">toHex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;#&quot;</span> <span class="o">*</span> <span class="mi">45</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+        <span class="c"># Continue so long as there are other objects</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hasNextObject</span><span class="p">():</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__readNextObjectFromUnzipped</span><span class="p">()</span>
+
+            <span class="c"># Will be nil if the next object is a ping/pong</span>
+            <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Received object: [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> <span class="n">obj</span><span class="p">[</span><span class="s">&#39;class&#39;</span><span class="p">],</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+                <span class="c"># Print the add views object for debugging purposes</span>
+                <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;class&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;AddViews&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;========== AddViews ==========&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;========== AddViews ==========&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+                <span class="c"># Give the world a chance to mess with folks</span>
+                <span class="n">newObject</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prepReceivedObject</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+                <span class="c"># Might be nil if &quot;the world&quot; decides to rid us of the object</span>
+                <span class="k">if</span> <span class="n">newObject</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">injectObjectToOutputStream</span><span class="p">(</span><span class="n">newObject</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__hasNextObject</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Determine if there is an object waiting to be processed.&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="n">unpacked</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unpackUnzippedInput</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Unpacked: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">unpacked</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+        <span class="c"># Ping or pong packet</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&quot;^0[34]&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">unpacked</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+    
+        <span class="c"># Clear context packet</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&quot;^ff&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">unpacked</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="c"># Rogue packet</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&quot;^[0-9][15-9]&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">unpacked</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;ROGUE PACKET!!! WHAT IS IT?! TELL US!!! &quot;</span> \
+                                <span class="s">&quot;IN IRC!! COPY THE STUFF FROM BELOW&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">toHex</span><span class="p">(</span><span class="n">unpacked</span><span class="p">))</span>
+
+        <span class="c"># Data packet</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&quot;^0200(.{6})&quot;</span><span class="p">)</span>
+        <span class="n">matched</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">unpacked</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">matched</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Error matching packet!&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">toHex</span><span class="p">(</span><span class="n">unpacked</span><span class="p">))</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="n">objectLength</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">matched</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span>
+
+        <span class="c"># Determine if the length of the next object (plus its prefix)</span>
+        <span class="c"># is less than the input buffer</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">objectLength</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__readNextObjectFromUnzipped</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Read, and return, the next object from the unzipped input buffer.&#39;&#39;&#39;</span>
+        <span class="n">unpacked</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unpackUnzippedInput</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
+
+        <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&quot;^(..)(.{8})$&quot;</span><span class="p">)</span>
+        <span class="n">matched</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">unpacked</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+
+        <span class="c"># Ping or pong -- just get these out of the way</span>
+        <span class="c"># (and log them for good measure)</span>
+        <span class="k">if</span> <span class="n">matched</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">matched</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;03&quot;</span> <span class="ow">or</span> <span class="n">matched</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;04&quot;</span><span class="p">):</span>
+            <span class="n">unzippedObject</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__unzippedOutput</span> <span class="o">+=</span> <span class="n">unzippedObject</span>
+      
+            <span class="c"># Determine what type of packet this is</span>
+            <span class="k">if</span> <span class="n">matched</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;03&quot;</span><span class="p">:</span>
+                <span class="n">objectType</span> <span class="o">=</span> <span class="s">&quot;Ping&quot;</span>
+            <span class="k">elif</span> <span class="n">matched</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;04&quot;</span><span class="p">:</span>
+                <span class="n">objectType</span> <span class="o">=</span> <span class="s">&quot;Pong&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">objectType</span> <span class="o">=</span> <span class="s">&quot;ClearContext&quot;</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Received </span><span class="si">%s</span><span class="s"> (</span><span class="si">%d</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">objectType</span><span class="p">,</span>
+                                                 <span class="nb">int</span><span class="p">(</span><span class="n">matched</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">16</span><span class="p">)),</span> <span class="n">level</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span>
+      
+            <span class="bp">self</span><span class="o">.</span><span class="n">__flushUnzippedOutput</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">None</span>
+  
+        <span class="n">objectSize</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">matched</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+        <span class="n">objectData</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="n">objectSize</span> <span class="o">+</span> <span class="mi">5</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unzippedInput</span><span class="p">[</span><span class="n">objectSize</span> <span class="o">+</span> <span class="mi">5</span><span class="p">:]</span>
+
+        <span class="c"># Conver the object to a plist and return it</span>
+        <span class="k">return</span> <span class="n">Plist</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">objectData</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__prepReceivedObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Prep the object that was received.</span>
+
+<span class="sd">        * obj -- The object that was received</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># Grab the ref and ace ids</span>
+        <span class="n">refId</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;refId&quot;</span><span class="p">)</span>
+        <span class="n">aceId</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;aceId&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">refId</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c"># If the refId matches our last ref id and we are expected</span>
+            <span class="c"># to block the rest of the session than this packet should</span>
+            <span class="c"># be dropped</span>
+            <span class="k">if</span> <span class="n">refId</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lastRefId</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__blockRestOfSession</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Dropping object from Server: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> \
+                                   <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;class&quot;</span><span class="p">),</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">elif</span> <span class="n">aceId</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c"># The aceId in the request often refers to the refId in the</span>
+            <span class="c"># response from the server. If there was no refId given in</span>
+            <span class="c"># the request, then use the aceId instead</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__blockRestOfSession</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lastRefId</span> <span class="o">!=</span> <span class="n">aceId</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__blockRestOfSession</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__setRefId</span><span class="p">(</span><span class="n">aceId</span><span class="p">)</span>
+    
+        <span class="c"># Process the object filters for this object, and make sure an</span>
+        <span class="c"># object was returned from the object filters</span>
+        <span class="n">processedObject</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__processObjectFilters</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">processedObject</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Dropping object [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> <span class="n">obj</span><span class="p">[</span><span class="s">&quot;class&quot;</span><span class="p">],</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="c"># Block the rest of the session if a plugin claims ownership</span>
+        <span class="n">speech</span> <span class="o">=</span> <span class="n">Interpreter</span><span class="o">.</span><span class="n">speechRecognized</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">speech</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Speech recognized: [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> <span class="n">speech</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">injectObjectToOutputStream</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+            <span class="c"># Process the speech with all of the known plugin speech rules</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pluginManager</span><span class="o">.</span><span class="n">processSpeechRules</span><span class="p">(</span><span class="n">speech</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__blockRestOfSession</span> <span class="o">=</span> <span class="bp">True</span>
+
+            <span class="k">return</span> <span class="bp">None</span>
+    
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="k">def</span> <span class="nf">__processObjectFilters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Process all of the plugin filters for the given object.</span>
+<span class="sd">        </span>
+<span class="sd">        * obj -- The received object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pluginManager</span><span class="o">.</span><span class="n">processFilters</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__direction</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unpackUnzippedInput</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unzipped</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Unpack the given unzipped object into a hexadecimal string.</span>
+
+<span class="sd">        * unzipped -- The unzipped object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="s">&#39;</span><span class="si">%.2X</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">ord</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">unzipped</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Connection.injectObjectToOutputStream"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection.injectObjectToOutputStream">[docs]</a>    <span class="k">def</span> <span class="nf">injectObjectToOutputStream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Inject the given object into the output stream of this</span>
+<span class="sd">        connection. This effectively sends the object to the foward destination</span>
+<span class="sd">        connection for this connection.</span>
+
+<span class="sd">        * obj -- The object to inject into the output stream</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">refId</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;refId&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">refId</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">refId</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c"># If the refIds have changed than this is a new session</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__blockRestOfSession</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lastRefId</span> <span class="o">!=</span> <span class="n">refId</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__blockRestOfSession</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__setRefId</span><span class="p">(</span><span class="n">refId</span><span class="p">)</span>
+
+        <span class="c"># Convert the object to a binary plist</span>
+        <span class="n">objectData</span> <span class="o">=</span> <span class="n">Plist</span><span class="o">.</span><span class="n">toBinary</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="p">)</span>
+
+        <span class="c"># Recalculate the size in case the object gets modified. If new size is</span>
+        <span class="c"># zero, then remove the object from the stream entirely</span>
+        <span class="n">objLen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">objectData</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Forwarding object [</span><span class="si">%s</span><span class="s">] to </span><span class="si">%s</span><span class="s">, len: </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> \
+                    <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;class&#39;</span><span class="p">),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__connectionManager</span><span class="o">.</span><span class="n">getForwardName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__direction</span><span class="p">),</span>
+                    <span class="n">objLen</span><span class="p">),</span> <span class="n">level</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    
+        <span class="k">if</span> <span class="n">objLen</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c"># Get the header containing the length of the object, and pad</span>
+            <span class="c"># zeros to the left to make it ten digits long</span>
+            <span class="n">hexStr</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%X</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="mh">0x0200000000</span> <span class="o">+</span> <span class="n">objLen</span><span class="p">)</span>
+            <span class="n">hexStr</span> <span class="o">=</span> <span class="n">hexStr</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s">&#39;0&#39;</span><span class="p">)</span>
+
+            <span class="c"># Get the prefix by converting the hex length into binary</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="n">unhexlify</span><span class="p">(</span><span class="n">hexStr</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">__unzippedOutput</span> <span class="o">+=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">objectData</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__flushUnzippedOutput</span><span class="p">()</span>
+</div>
+    <span class="k">def</span> <span class="nf">__flushUnzippedOutput</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Flush the unzipped output buffer.&#39;&#39;&#39;</span>
+        <span class="c"># Compress the unzipped output buffer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__outputBuffer</span> <span class="o">+=</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">__compStream</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__unzippedOutput</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__outputBuffer</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compStream</span><span class="o">.</span><span class="n">flush</span><span class="p">(</span><span class="n">zlib</span><span class="o">.</span><span class="n">Z_SYNC_FLUSH</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__unzippedOutput</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    
+        <span class="bp">self</span><span class="o">.</span><span class="n">__flushOutputBuffer</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__flushOutputBuffer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Flush the output buffer.&#39;&#39;&#39;</span>
+        <span class="c"># Ensure the output buffer has data to flush</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__outputBuffer</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c"># Ensure that this connection is connected to a destination connection</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__connectionManager</span><span class="o">.</span><span class="n">hasConnection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__direction</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__connectionManager</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__direction</span><span class="p">,</span>
+                                             <span class="bp">self</span><span class="o">.</span><span class="n">__outputBuffer</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__outputBuffer</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Buffering some data for later: </span><span class="si">%d</span><span class="s"> bytes &quot;</span> \
+                               <span class="s">&quot;buffered&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__outputBuffer</span><span class="p">),</span> <span class="n">level</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Connection.getConnectionManager"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection.getConnectionManager">[docs]</a>    <span class="k">def</span> <span class="nf">getConnectionManager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the ConnectionManager object for this Connection.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__connectionManager</span>
+</div>
+<div class="viewcode-block" id="Connection.getRefId"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection.getRefId">[docs]</a>    <span class="k">def</span> <span class="nf">getRefId</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the most recently used reference id.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lastRefId</span>
+</div>
+<div class="viewcode-block" id="Connection.setRefId"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection.setRefId">[docs]</a>    <span class="k">def</span> <span class="nf">setRefId</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refId</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Set the reference id.</span>
+
+<span class="sd">        * refId -- The reference id</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__lastRefId</span> <span class="o">=</span> <span class="n">refId</span>
+</div>
+    <span class="k">def</span> <span class="nf">__setRefId</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refId</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Set the ref id for this connection and our forward destination</span>
+<span class="sd">        connection.</span>
+
+<span class="sd">        * refId -- The ref id</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setRefId</span><span class="p">(</span><span class="n">refId</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__connectionManager</span><span class="o">.</span><span class="n">setRefId</span><span class="p">(</span><span class="n">refId</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__direction</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

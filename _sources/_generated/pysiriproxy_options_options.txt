@@ -1,0 +1,81 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.options.options on April 18, 2013
+   This file should not be modified.
+
+===================
+The options module
+===================
+
+.. automodule:: pysiriproxy.options.options
+
+----------------
+The Files class
+----------------
+
+.. inheritance-diagram:: pysiriproxy.options.options.Files
+
+.. autoclass:: pysiriproxy.options.options.Files
+    :members:
+
+-------------------
+The Settings class
+-------------------
+
+.. inheritance-diagram:: pysiriproxy.options.options.Settings
+
+.. autoclass:: pysiriproxy.options.options.Settings
+    :members:
+
+----------------------
+The Directories class
+----------------------
+
+.. inheritance-diagram:: pysiriproxy.options.options.Directories
+
+.. autoclass:: pysiriproxy.options.options.Directories
+    :members:
+
+--------------
+The Ids class
+--------------
+
+.. inheritance-diagram:: pysiriproxy.options.options.Ids
+
+.. autoclass:: pysiriproxy.options.options.Ids
+    :members:
+
+-----------------
+The Values class
+-----------------
+
+.. inheritance-diagram:: pysiriproxy.options.options.Values
+
+.. autoclass:: pysiriproxy.options.options.Values
+    :members:
+
+---------------
+The Vars class
+---------------
+
+.. inheritance-diagram:: pysiriproxy.options.options.Vars
+
+.. autoclass:: pysiriproxy.options.options.Vars
+    :members:
+
+-------------------
+The Sections class
+-------------------
+
+.. inheritance-diagram:: pysiriproxy.options.options.Sections
+
+.. autoclass:: pysiriproxy.options.options.Sections
+    :members:
+
+------------------
+The Options class
+------------------
+
+.. inheritance-diagram:: pysiriproxy.options.options.Options
+
+.. autoclass:: pysiriproxy.options.options.Options
+    :members:

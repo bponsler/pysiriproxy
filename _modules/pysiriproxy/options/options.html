@@ -1,0 +1,318 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.options.options &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.options.options</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The options module contains the Options class which provides the</span>
+<span class="sd">ability to load settings from the pysiriproxy configuration file, as as</span>
+<span class="sd">being able to parse the command line arguments.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.options.config</span> <span class="kn">import</span> <span class="n">Directories</span><span class="p">,</span> <span class="n">Files</span><span class="p">,</span> <span class="n">Ids</span><span class="p">,</span> <span class="n">Sections</span><span class="p">,</span> <span class="n">Vars</span>
+
+<span class="kn">from</span> <span class="nn">pyamp.logging</span> <span class="kn">import</span> <span class="n">Colors</span><span class="p">,</span> <span class="n">LogData</span><span class="p">,</span> <span class="n">LogLevel</span>
+<span class="kn">from</span> <span class="nn">pyamp.config</span> <span class="kn">import</span> <span class="n">conversions</span><span class="p">,</span> <span class="n">OptionsParser</span><span class="p">,</span> <span class="n">Option</span><span class="p">,</span> <span class="n">ClOption</span><span class="p">,</span> \
+    <span class="n">ClBoolOption</span>
+
+
+<span class="c">###########################################################</span>
+<span class="c"># @todo: It would be pretty awesome to provide two things:</span>
+<span class="c"># @todo: A GUI dialog for updating/changing settings, and</span>
+<span class="c"># @todo: A web interface for updating/changing settings</span>
+<span class="c">###########################################################</span>
+
+
+<div class="viewcode-block" id="Values"><a class="viewcode-back" href="../../../_generated/pysiriproxy_options_options.html#pysiriproxy.options.options.Values">[docs]</a><span class="k">class</span> <span class="nc">Values</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The Values class contains definitions of values that are used for</span>
+<span class="sd">    certain command line arguments, or configuration properties.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">IOs5</span> <span class="o">=</span> <span class="s">&quot;ios5&quot;</span>
+    <span class="sd">&#39;&#39;&#39;Configure for iOS version 5.&#39;&#39;&#39;</span>
+
+    <span class="n">IOs6</span> <span class="o">=</span> <span class="s">&quot;ios6&quot;</span>
+    <span class="sd">&#39;&#39;&#39;Configure for iOS version 6.&#39;&#39;&#39;</span>
+
+    <span class="n">IOs5Server</span> <span class="o">=</span> <span class="s">&quot;guzzoni.apple.com&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The server for iOS 5.&#39;&#39;&#39;</span>
+
+    <span class="n">IOs6Server</span> <span class="o">=</span> <span class="s">&quot;kryten.apple.com&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The server for iOS 6.&#39;&#39;&#39;</span>
+
+</div>
+<div class="viewcode-block" id="Settings"><a class="viewcode-back" href="../../../_generated/pysiriproxy_options_options.html#pysiriproxy.options.options.Settings">[docs]</a><span class="k">class</span> <span class="nc">Settings</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The Settings class defines all of the specific configuration settings</span>
+<span class="sd">    that can be used in the pysiriproxy configuration file.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">CertFile</span> <span class="o">=</span> <span class="n">Option</span><span class="p">(</span><span class="n">Ids</span><span class="o">.</span><span class="n">CertFile</span><span class="p">,</span> <span class="n">defaultValue</span><span class="o">=</span><span class="n">Files</span><span class="o">.</span><span class="n">CertFile</span><span class="p">,</span>
+                      <span class="n">typeFn</span><span class="o">=</span><span class="n">conversions</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;This setting should contain the path to the file that is used as</span>
+<span class="sd">    the certification file for connecting to the Apple&#39;s server.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">DebugLevel</span> <span class="o">=</span> <span class="n">Option</span><span class="p">(</span><span class="n">Ids</span><span class="o">.</span><span class="n">DebugLevel</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;This setting should contain the debug level which will be used by the</span>
+<span class="sd">    system.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">ErrorResponse</span> <span class="o">=</span> <span class="n">Option</span><span class="p">(</span><span class="n">Ids</span><span class="o">.</span><span class="n">ErrorResponse</span><span class="p">,</span> <span class="n">typeFn</span><span class="o">=</span><span class="n">conversions</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;This setting should contain a string that will be spoken by Siri in</span>
+<span class="sd">    the event of an Exception while objects are being filtered or speech rules</span>
+<span class="sd">    are being applied.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">ExitOnConnectionLost</span> <span class="o">=</span> <span class="n">Option</span><span class="p">(</span><span class="n">Ids</span><span class="o">.</span><span class="n">ExitOnConnectionLost</span><span class="p">,</span>
+                                  <span class="n">defaultValue</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                  <span class="n">typeFn</span><span class="o">=</span><span class="n">conversions</span><span class="o">.</span><span class="n">boolean</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;This setting should contain be set to True in order to configure the</span>
+<span class="sd">    server such that it exits every time an established connection to the</span>
+<span class="sd">    iPhone is lost. This will allow an external script to restart the server</span>
+<span class="sd">    cleanly each time the connection is lost.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="n">GenCerts</span> <span class="o">=</span> <span class="n">ClBoolOption</span><span class="p">(</span><span class="n">Ids</span><span class="o">.</span><span class="n">GenCerts</span><span class="p">,</span> <span class="n">defaultValue</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                            <span class="n">helpText</span><span class="o">=</span><span class="s">&quot;Generate a certificate for the &quot;</span> \
+                                <span class="s">&quot;iPhone for a specific version of iOS. &quot;</span> \
+                                <span class="s">&quot;Either iOS5, or iOS6.&quot;</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;This setting should contain a boolean indicating whether the pysiriproxy</span>
+<span class="sd">    SSL certificates should be generated or not.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">ServerHost</span> <span class="o">=</span> <span class="n">Option</span><span class="p">(</span><span class="n">Ids</span><span class="o">.</span><span class="n">Host</span><span class="p">,</span> <span class="n">defaultValue</span><span class="o">=</span><span class="n">Values</span><span class="o">.</span><span class="n">IOs5Server</span><span class="p">,</span>
+                        <span class="n">typeFn</span><span class="o">=</span><span class="n">conversions</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;This setting should contain the host name of the Apple&#39;s server.</span>
+<span class="sd">    Defaults to the iOS 5 server.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">ServerPort</span> <span class="o">=</span> <span class="n">Option</span><span class="p">(</span><span class="n">Ids</span><span class="o">.</span><span class="n">Port</span><span class="p">,</span> <span class="n">defaultValue</span><span class="o">=</span><span class="mi">443</span><span class="p">,</span> <span class="n">typeFn</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;This setting should contain the port number used for connecting to</span>
+<span class="sd">    Apple&#39;s web server.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">iPhonePort</span> <span class="o">=</span> <span class="n">Option</span><span class="p">(</span><span class="n">Ids</span><span class="o">.</span><span class="n">Port</span><span class="p">,</span> <span class="n">defaultValue</span><span class="o">=</span><span class="mi">443</span><span class="p">,</span> <span class="n">typeFn</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;This setting should contain the port number that the iPhone uses</span>
+<span class="sd">    for its connection.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">KeyFile</span> <span class="o">=</span> <span class="n">Option</span><span class="p">(</span><span class="n">Ids</span><span class="o">.</span><span class="n">KeyFile</span><span class="p">,</span> <span class="n">defaultValue</span><span class="o">=</span><span class="n">Files</span><span class="o">.</span><span class="n">KeyFile</span><span class="p">,</span>
+                     <span class="n">typeFn</span><span class="o">=</span><span class="n">conversions</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;The setting should contain the path to the file that is used as</span>
+<span class="sd">    the key file for connecting to the Apple&#39;s server.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">LogFile</span> <span class="o">=</span> <span class="n">ClOption</span><span class="p">(</span><span class="n">Ids</span><span class="o">.</span><span class="n">LogFile</span><span class="p">,</span> <span class="n">defaultValue</span><span class="o">=</span><span class="n">Files</span><span class="o">.</span><span class="n">LogFile</span><span class="p">,</span>
+                       <span class="n">optionType</span><span class="o">=</span><span class="s">&quot;string&quot;</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;This setting should contain the path to the log file where pysiriproxy</span>
+<span class="sd">    should log all of its logging messages.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">LogLevel</span> <span class="o">=</span> <span class="n">Option</span><span class="p">(</span><span class="n">Ids</span><span class="o">.</span><span class="n">LogLevel</span><span class="p">,</span> <span class="n">typeFn</span><span class="o">=</span><span class="n">conversions</span><span class="o">.</span><span class="n">logLevel</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;This setting should contain the log level which will used by the system.</span>
+
+<span class="sd">    Here are valid values for this setting:</span>
+
+<span class="sd">        * DEBUG,</span>
+<span class="sd">        * INFO,</span>
+<span class="sd">        * WARN, and</span>
+<span class="sd">        * ERROR</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">PluginsDir</span> <span class="o">=</span> <span class="n">Option</span><span class="p">(</span><span class="n">Ids</span><span class="o">.</span><span class="n">PluginsDir</span><span class="p">,</span> <span class="n">typeFn</span><span class="o">=</span><span class="n">conversions</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;This setting should contain the path to the system directory that</span>
+<span class="sd">    contains the plugins which pysiriproxy should load.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">Timestamp</span> <span class="o">=</span> <span class="n">Option</span><span class="p">(</span><span class="n">Ids</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">,</span> <span class="n">typeFn</span><span class="o">=</span><span class="n">conversions</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;This setting should contain a string which is the format for the</span>
+<span class="sd">    timestamp which will be applied to all logged messages. See the man</span>
+<span class="sd">    page for the date command for more info on the format. If this is</span>
+<span class="sd">    an empty string, no timestamp will be applied to logged messages.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+</div>
+<div class="viewcode-block" id="Options"><a class="viewcode-back" href="../../../_generated/pysiriproxy_options_options.html#pysiriproxy.options.options.Options">[docs]</a><span class="k">class</span> <span class="nc">Options</span><span class="p">(</span><span class="n">OptionsParser</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The Options class is responsible for parsing command line and</span>
+<span class="sd">    configuration file options and providing the ability to get the value of</span>
+<span class="sd">    a given option.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c"># Implement the borg pattern</span>
+    <span class="n">__shared_state</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c"># Define all of the usable configuration variables</span>
+    <span class="n">Variables</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">Vars</span><span class="o">.</span><span class="n">Home</span><span class="p">:</span> <span class="n">Directories</span><span class="o">.</span><span class="n">Home</span><span class="p">,</span>
+        <span class="n">Vars</span><span class="o">.</span><span class="n">Config</span><span class="p">:</span> <span class="n">Directories</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="sd">&#39;&#39;&#39;Define the dictionary of variables that can be used in the pysiriproxy</span>
+<span class="sd">    configuration file.</span>
+
+<span class="sd">    These variables can be used by adding a dollar sign before the variable</span>
+<span class="sd">    name in the configuration file. These variables will be replaced in the</span>
+<span class="sd">    configuration file prior to parsing it.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        # If the following setting is configured in the configuration file,</span>
+<span class="sd">        # the $HOME variable would be replaced by the user&#39;s home directory</span>
+<span class="sd">        # prior to parsing the configuration file</span>
+<span class="sd">        RandomSetting = $HOME/Documents</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">Options</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">Sections</span><span class="o">.</span><span class="n">General</span><span class="p">:</span> <span class="p">[</span>
+            <span class="n">Settings</span><span class="o">.</span><span class="n">PluginsDir</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="n">Sections</span><span class="o">.</span><span class="n">Debug</span><span class="p">:</span> <span class="p">[</span>
+            <span class="n">Settings</span><span class="o">.</span><span class="n">ExitOnConnectionLost</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="n">Sections</span><span class="o">.</span><span class="n">Server</span><span class="p">:</span> <span class="p">[</span>
+            <span class="n">Settings</span><span class="o">.</span><span class="n">ServerHost</span><span class="p">,</span>
+            <span class="n">Settings</span><span class="o">.</span><span class="n">ServerPort</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="n">Sections</span><span class="o">.</span><span class="n">iPhone</span><span class="p">:</span> <span class="p">[</span>
+            <span class="n">Settings</span><span class="o">.</span><span class="n">KeyFile</span><span class="p">,</span>
+            <span class="n">Settings</span><span class="o">.</span><span class="n">CertFile</span><span class="p">,</span>
+            <span class="n">Settings</span><span class="o">.</span><span class="n">iPhonePort</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="n">Sections</span><span class="o">.</span><span class="n">Logging</span><span class="p">:</span> <span class="p">[</span>
+            <span class="n">Settings</span><span class="o">.</span><span class="n">LogLevel</span><span class="p">,</span>
+            <span class="n">Settings</span><span class="o">.</span><span class="n">DebugLevel</span><span class="p">,</span>
+            <span class="n">Settings</span><span class="o">.</span><span class="n">LogFile</span><span class="p">,</span>
+            <span class="n">Settings</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="n">Sections</span><span class="o">.</span><span class="n">Responses</span><span class="p">:</span> <span class="p">[</span>
+            <span class="n">Settings</span><span class="o">.</span><span class="n">ErrorResponse</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">}</span>
+    <span class="sd">&#39;&#39;&#39;Define the dictionary of possible configuration section names mapped to</span>
+<span class="sd">    the list of configuration options available for that section.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">ClOptions</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Settings</span><span class="o">.</span><span class="n">GenCerts</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="sd">&#39;&#39;&#39;Define the list of all of the options which are configurable only via</span>
+<span class="sd">    the command line.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

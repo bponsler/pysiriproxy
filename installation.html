@@ -1,0 +1,268 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installing pysiriproxy &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="index.html" />
+    <link rel="next" title="Configuring pysiriproxy" href="configuration.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="configuration.html" title="Configuring pysiriproxy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installing-pysiriproxy">
+<h1>Installing pysiriproxy<a class="headerlink" href="#installing-pysiriproxy" title="Permalink to this headline">¶</a></h1>
+<p>The following page contains step by step instructions for installing
+pysiriproxy on an Ubuntu system. These instructions have been tested on the
+following Ubuntu versions: 10.04, 11.10, and 12.04.</p>
+<div class="section" id="installing-and-configuring-dnsmasq">
+<span id="dnsmasq-label"></span><h2>Installing and configuring dnsmasq<a class="headerlink" href="#installing-and-configuring-dnsmasq" title="Permalink to this headline">¶</a></h2>
+<p>In order to intercept the commands being sent from the iPhone to Apple&#8217;s server
+you must install a program called <em>dnsmasq</em> onto a machine that will be
+connected to the same network as the iPhone. The following provides instructions
+on properly installing dnsmasq.</p>
+<p>Run the following commands:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> sudo apt-get install dnsmasq
+</pre></div>
+</div>
+<p>Now, open the file <strong>/etc/dnsmasq.conf</strong> with the editor of your choice.</p>
+<p>Search for <strong>#address=/double-click.net/127.0.0.1</strong> (this should be roughly the
+62nd line). Once the line is found, replace that line with the following two
+lines:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">address=/guzzoni.apple.com/(your_machine&#39;s_ip_address).</span>
+<span class="go">address=/kryten.apple.com/(your_machine&#39;s_ip_address).</span>
+</pre></div>
+</div>
+<p>Be sure to replace your machine’s IP address and then save the file. This will
+allow the pysiriproxy server accept connections from devices using either
+iOS 5 or iOS 6.</p>
+<p>Finally, restart dnsmasq for the new IP address to take effect:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> sudo /etc/init.d/dnsmasq restart
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The above installation sequence was taken from
+<a class="reference external" href="http://www.iphonestuffs4u.com/how-to-install-siri-proxy/">How to install Siri Proxy</a>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Once pysiriproxy has been installed and configured you can follow the
+instructions on <a class="reference internal" href="configuration.html#changingdnsmasqip-label"><em>changing the dnsmasq IP address</em></a>
+to easily change the IP address used by dnsmasq.</p>
+</div>
+</div>
+<div class="section" id="installing-subversion-and-git">
+<h2>Installing subversion and git<a class="headerlink" href="#installing-subversion-and-git" title="Permalink to this headline">¶</a></h2>
+<p>Subversion and Git are needed to access the repositories for some of the
+necessary modules to run pysiriproxy.</p>
+<p>Run the following commands to install subversion:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> sudo apt-get install subversion
+</pre></div>
+</div>
+<p>Run the following commands to install Git:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> sudo apt-get install -y aptitude
+<span class="gp">$</span> sudo aptitude build-dep git-core
+<span class="gp">$</span> <span class="nb">cd</span> ~
+<span class="gp">$</span> wget http://git-core.googlecode.com/files/git-1.7.10.tar.gz
+<span class="gp">$</span> tar xzvf git-1.7.10.tar.gz
+<span class="gp">$</span> <span class="nb">cd </span>git-1.7.10
+<span class="gp">$</span> ./configure
+<span class="gp">$</span> make
+<span class="gp">$</span> sudo make install
+
+<span class="gp">$</span> git --version
+
+<span class="gp">$</span> <span class="nb">cd</span> ../ <span class="o">&amp;&amp;</span> rm -rf git-1.7.10*
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-the-cfpropertylist-module">
+<h2>Installing the CFPropertyList module<a class="headerlink" href="#installing-the-cfpropertylist-module" title="Permalink to this headline">¶</a></h2>
+<p>The Python
+<em class="xref std std-ref">CFProperyList</em> module
+is needed the run pysiriproxy. It can be installed by running the following
+commands:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> <span class="nb">cd</span> /opt
+<span class="gp">$</span> sudo git clone https://github.com/bencochran/CFPropertyList.git
+<span class="gp">$</span> sudo chown -R <span class="nv">$USERNAME</span>:<span class="nv">$USERNAME</span> CFPropertyList
+<span class="gp">$</span> <span class="nb">cd </span>CFPropertyList
+<span class="gp">$</span> python setup.py build
+<span class="gp">$</span> sudo python setup.py install
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-the-biplist-module">
+<h2>Installing the biplist module<a class="headerlink" href="#installing-the-biplist-module" title="Permalink to this headline">¶</a></h2>
+<p>The Python
+<em class="xref std std-ref">biplist</em> module
+is needed the run pysiriproxy. It can be installed by running the following
+commands:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> sudo apt-get install python-setuptools
+<span class="gp">$</span> sudo easy_install biplist
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-the-twisted-module">
+<h2>Installing the twisted module<a class="headerlink" href="#installing-the-twisted-module" title="Permalink to this headline">¶</a></h2>
+<p>The Python
+<em class="xref std std-ref">twisted</em> module
+is needed the run pysiriproxy. It can be installed by running the following
+commands:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> sudo apt-get install python2.6-dev
+<span class="gp">$</span> sudo easy_install twisted
+</pre></div>
+</div>
+<p><strong>NOTE</strong>: Replace &#8220;2.6&#8221; with the version of Python you will be using. You can
+get the correct number by typing the following into a Python shell:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">import sys</span>
+<span class="go">sys.version[0:3]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-the-pyamp-module">
+<h2>Installing the pyamp module<a class="headerlink" href="#installing-the-pyamp-module" title="Permalink to this headline">¶</a></h2>
+<p>The Python <em class="xref std std-ref">pyamp</em> module is needed
+to run pysiriproxy. It can be installed by running the following commands:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> <span class="nb">cd</span> /opt
+<span class="gp">$</span> svn checkout http://pyamp.googlecode.com/svn/trunk/pyamp
+<span class="gp">$</span> sudo chown -R <span class="nv">$USERNAME</span>:<span class="nv">$USERNAME</span> pyamp
+<span class="gp">$</span> <span class="nb">cd </span>pyamp
+<span class="gp">$</span> python setup.py build
+<span class="gp">$</span> sudo python setup.py install
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>Installing pysiriproxy<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Run the following commands:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> <span class="nb">cd</span> /opt
+<span class="gp">$</span> svn checkout http://pysiriproxy.googlecode.com/svn/trunk/pysiriproxy
+<span class="gp">$</span> sudo chown -R <span class="nv">$USERNAME</span>:<span class="nv">$USERNAME</span> pysiriproxy
+<span class="gp">$</span> <span class="nb">cd </span>pysiriproxy
+<span class="gp">$</span> python setup.py build
+<span class="gp">$</span> python setup.py install
+<span class="gp">$</span> sudo ./siriproxy
+</pre></div>
+</div>
+<p>You can also install pysiriproxy using Python setuptools as follows:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> sudo apt-get install python-setuptools
+<span class="gp">$</span> sudo easy_install pysiriproxy
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installing pysiriproxy</a><ul>
+<li><a class="reference internal" href="#installing-and-configuring-dnsmasq">Installing and configuring dnsmasq</a></li>
+<li><a class="reference internal" href="#installing-subversion-and-git">Installing subversion and git</a></li>
+<li><a class="reference internal" href="#installing-the-cfpropertylist-module">Installing the CFPropertyList module</a></li>
+<li><a class="reference internal" href="#installing-the-biplist-module">Installing the biplist module</a></li>
+<li><a class="reference internal" href="#installing-the-twisted-module">Installing the twisted module</a></li>
+<li><a class="reference internal" href="#installing-the-pyamp-module">Installing the pyamp module</a></li>
+<li><a class="reference internal" href="#id1">Installing pysiriproxy</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="configuration.html"
+                        title="next chapter">Configuring pysiriproxy</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/installation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="configuration.html" title="Configuring pysiriproxy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             >previous</a> |</li>
+        <li><a href="index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

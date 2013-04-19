@@ -1,0 +1,54 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.objects.actions on April 18, 2013
+   This file should not be modified.
+
+===================
+The actions module
+===================
+
+.. automodule:: pysiriproxy.objects.actions
+
+-------------------
+The Commands class
+-------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.actions.Commands
+
+.. autoclass:: pysiriproxy.objects.actions.Commands
+    :members:
+
+-------------------------
+The _CustomCommand class
+-------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.actions._CustomCommand
+
+.. autoclass:: pysiriproxy.objects.actions._CustomCommand
+    :members:
+
+---------------------
+The SiriObject class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.actions.SiriObject
+
+.. autoclass:: pysiriproxy.objects.actions.SiriObject
+    :members:
+
+---------------------
+The _WebSearch class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.actions._WebSearch
+
+.. autoclass:: pysiriproxy.objects.actions._WebSearch
+    :members:
+
+------------------
+The Actions class
+------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.actions.Actions
+
+.. autoclass:: pysiriproxy.objects.actions.Actions
+    :members:

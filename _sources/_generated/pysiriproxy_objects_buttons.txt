@@ -1,0 +1,63 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.objects.buttons on April 18, 2013
+   This file should not be modified.
+
+===================
+The buttons module
+===================
+
+.. automodule:: pysiriproxy.objects.buttons
+
+------------------
+The _Custom class
+------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.buttons._Custom
+
+.. autoclass:: pysiriproxy.objects.buttons._Custom
+    :members:
+
+---------------------------
+The _WebSearchButton class
+---------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.buttons._WebSearchButton
+
+.. autoclass:: pysiriproxy.objects.buttons._WebSearchButton
+    :members:
+
+---------------------
+The SiriObject class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.buttons.SiriObject
+
+.. autoclass:: pysiriproxy.objects.buttons.SiriObject
+    :members:
+
+------------------
+The Actions class
+------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.buttons.Actions
+
+.. autoclass:: pysiriproxy.objects.buttons.Actions
+    :members:
+
+------------------
+The Buttons class
+------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.buttons.Buttons
+
+.. autoclass:: pysiriproxy.objects.buttons.Buttons
+    :members:
+
+------------------
+The _Button class
+------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.buttons._Button
+
+.. autoclass:: pysiriproxy.objects.buttons._Button
+    :members:

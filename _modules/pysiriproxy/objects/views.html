@@ -1,0 +1,284 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.objects.views &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.objects.views</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The views module contains classes pertaining to creating objects which</span>
+<span class="sd">can be sent to the iPhone or Apple&#39;s web server which pertain to creating</span>
+<span class="sd">views on the iPhone.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.constants</span> <span class="kn">import</span> <span class="n">DirectionTypes</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects.baseObject</span> <span class="kn">import</span> <span class="n">SiriObject</span>
+
+
+<div class="viewcode-block" id="_AddViews"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_views.html#pysiriproxy.objects.views._AddViews">[docs]</a><span class="k">class</span> <span class="nc">_AddViews</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _AddViews class creates an object that can create a series of views</span>
+<span class="sd">    to be displayed on the iPhone.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scrollToTop</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">temporary</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">dialogPhase</span><span class="o">=</span><span class="s">&quot;Completion&quot;</span><span class="p">,</span> <span class="n">views</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * scrollToTop -- True to scroll to the top of the Siri view</span>
+<span class="sd">        * temporary -- True for a temporary view, False otherwise</span>
+<span class="sd">        * dialogPhase -- The dialog phase indicator</span>
+<span class="sd">        * views -- The list of views to display</span>
+<span class="sd">        * callbacks -- The list of callbacks</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;AddViews&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.assistant&quot;</span><span class="p">)</span>
+
+        <span class="c"># Set the default value of all properties</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scrollToTop</span> <span class="o">=</span> <span class="n">scrollToTop</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">views</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">views</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">views</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">temporary</span> <span class="o">=</span> <span class="n">temporary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dialogPhase</span> <span class="o">=</span> <span class="n">dialogPhase</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">callbacks</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">callbacks</span>
+
+</div>
+<div class="viewcode-block" id="_Utterance"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_views.html#pysiriproxy.objects.views._Utterance">[docs]</a><span class="k">class</span> <span class="nc">_Utterance</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _Utterance class creates an object that can display a given piece</span>
+<span class="sd">    of text and have Siri speak another given piece of text (or the same</span>
+<span class="sd">    piece of text).</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">displayText</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">spokenText</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">listenAfterSpeaking</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dialogIdentifier</span><span class="o">=</span><span class="s">&quot;Misc#ident&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * displayText -- The text to be displayed</span>
+<span class="sd">        * spokenText -- The text that Siri will speak, if None is given then</span>
+<span class="sd">                        Siri will speak the text that is displayed</span>
+<span class="sd">         * listenAfterSpeaking -- True to have Siri listen after she is done</span>
+<span class="sd">                                  speaking</span>
+<span class="sd">         * dialogIdentifier -- The identifier for the dialog</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;AssistantUtteranceView&quot;</span><span class="p">,</span>
+                            <span class="s">&quot;com.apple.ace.assistant&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">displayText</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">speakableText</span> <span class="o">=</span> <span class="n">displayText</span> <span class="k">if</span> <span class="n">spokenText</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">spokenText</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dialogIdentifier</span> <span class="o">=</span> <span class="n">dialogIdentifier</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listenAfterSpeaking</span> <span class="o">=</span> <span class="n">listenAfterSpeaking</span>
+
+</div>
+<div class="viewcode-block" id="_MapItemSnippet"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_views.html#pysiriproxy.objects.views._MapItemSnippet">[docs]</a><span class="k">class</span> <span class="nc">_MapItemSnippet</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _MapItemSnippet class creates a map item snippet to be displayed</span>
+<span class="sd">    to the iPhone user.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">useCurrentLocation</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * useCurrentLocation -- True to use the user&#39;s current location</span>
+<span class="sd">        * items -- The list of map items</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;MapItemSnippet&quot;</span><span class="p">,</span>
+                            <span class="s">&quot;com.apple.ace.localsearch&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">useCurrentLocation</span> <span class="o">=</span> <span class="n">useCurrentLocation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">items</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">items</span>
+
+</div>
+<div class="viewcode-block" id="_ShowMapPoints"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_views.html#pysiriproxy.objects.views._ShowMapPoints">[docs]</a><span class="k">class</span> <span class="nc">_ShowMapPoints</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _ShowMapPoints class creates a series of map poitns to be displayed</span>
+<span class="sd">    to the iPhone user.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">showDirections</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">showTraffic</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">directionsType</span><span class="o">=</span><span class="n">DirectionTypes</span><span class="o">.</span><span class="n">Driving</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">source</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * showDirections -- True to show the directions, False otherwise</span>
+<span class="sd">        * showTraffic -- True to show the traffic, False otherwise</span>
+<span class="sd">        * directionsType -- The type of directions to display</span>
+<span class="sd">        * callbacks -- The callbacks to use</span>
+<span class="sd">        * source -- The starting location</span>
+<span class="sd">        * destination -- The ending destination</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;ShowMapPoints&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.localsearch&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">showDirections</span> <span class="o">=</span> <span class="n">showDirections</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">showTraffic</span> <span class="o">=</span> <span class="n">showTraffic</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directionsType</span> <span class="o">=</span> <span class="n">directionsType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">callbacks</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">callbacks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">itemSource</span> <span class="o">=</span> <span class="n">SiriObject</span><span class="p">()</span> <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">itemDestination</span> <span class="o">=</span> <span class="n">SiriObject</span><span class="p">()</span> <span class="k">if</span> <span class="n">destination</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> \
+            <span class="n">destination</span>
+
+</div>
+<div class="viewcode-block" id="_AnswerSnippet"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_views.html#pysiriproxy.objects.views._AnswerSnippet">[docs]</a><span class="k">class</span> <span class="nc">_AnswerSnippet</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _AnswerSnipper class creates an answer snippet to be displayed</span>
+<span class="sd">    to the iPhone user.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">answers</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">confirmationOptions</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * answers -- The list of answers to display</span>
+<span class="sd">        * confirmationOptions -- True to display the confirmation options</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;Snippet&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.answer&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">answers</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">answers</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">answers</span>
+
+        <span class="k">if</span> <span class="n">confirmationOptions</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">confirmationOptions</span> <span class="o">=</span> <span class="n">confirmationOptions</span>
+
+</div>
+<div class="viewcode-block" id="Views"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_views.html#pysiriproxy.objects.views.Views">[docs]</a><span class="k">class</span> <span class="nc">Views</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;Contains the various types of Views as well as a function for</span>
+<span class="sd">    creating Views of a specific type.</span>
+
+<span class="sd">    This class also contains a factory method for creating views of a specific</span>
+<span class="sd">    type.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">AddViews</span> <span class="o">=</span> <span class="s">&quot;AddViews&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The AddViews object type.&#39;&#39;&#39;</span>
+
+    <span class="n">AnswerSnippet</span> <span class="o">=</span> <span class="s">&quot;AnswerSnippet&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The AnswerSnippet object type.&#39;&#39;&#39;</span>
+
+    <span class="n">MapItemSnippet</span> <span class="o">=</span> <span class="s">&quot;MapItemSnippet&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The MapItemSnippet object type.&#39;&#39;&#39;</span>
+
+    <span class="n">MapPoints</span> <span class="o">=</span> <span class="s">&quot;MapPoints&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The ShowMapPoints object type.&#39;&#39;&#39;</span>
+
+    <span class="n">Utterance</span> <span class="o">=</span> <span class="s">&quot;Utterance&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The Utterance object type.&#39;&#39;&#39;</span>
+
+    <span class="c"># Create a dictionary mapping the types to their respective objects</span>
+    <span class="n">__TypeMap</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">AddViews</span><span class="p">:</span> <span class="n">_AddViews</span><span class="p">,</span>
+        <span class="n">AnswerSnippet</span><span class="p">:</span> <span class="n">_AnswerSnippet</span><span class="p">,</span>
+        <span class="n">MapItemSnippet</span><span class="p">:</span> <span class="n">_MapItemSnippet</span><span class="p">,</span>
+        <span class="n">MapPoints</span><span class="p">:</span> <span class="n">_ShowMapPoints</span><span class="p">,</span>
+        <span class="n">Utterance</span><span class="p">:</span> <span class="n">_Utterance</span>
+        <span class="p">}</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Views.create"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_views.html#pysiriproxy.objects.views.Views.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">viewType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a View of the given type.</span>
+
+<span class="sd">        * viewType -- The type of View to create</span>
+<span class="sd">        * args -- The arguments</span>
+<span class="sd">        * kwargs -- The keyword arguments to create</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">view</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="c"># Create the view object if it is found</span>
+        <span class="n">viewClass</span> <span class="o">=</span> <span class="n">Views</span><span class="o">.</span><span class="n">__TypeMap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">viewType</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">viewClass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">view</span> <span class="o">=</span> <span class="n">viewClass</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">view</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

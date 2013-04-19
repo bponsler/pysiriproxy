@@ -1,0 +1,13 @@
+================================================================================
+The plugins module
+================================================================================
+
+.. toctree::
+   :maxdepth: 3
+
+   pysiriproxy_plugins_plugin
+   ../_modified/pysiriproxy_plugins_objectClasses
+   pysiriproxy_plugins_manager
+   ../_modified/pysiriproxy_plugins_speechRules
+   pysiriproxy_plugins_directions
+   pysiriproxy_plugins_responses

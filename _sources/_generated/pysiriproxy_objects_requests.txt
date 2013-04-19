@@ -1,0 +1,63 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.objects.requests on April 18, 2013
+   This file should not be modified.
+
+====================
+The requests module
+====================
+
+.. automodule:: pysiriproxy.objects.requests
+
+----------------------------
+The _RequestCompleted class
+----------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.requests._RequestCompleted
+
+.. autoclass:: pysiriproxy.objects.requests._RequestCompleted
+    :members:
+
+------------------------
+The _StartRequest class
+------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.requests._StartRequest
+
+.. autoclass:: pysiriproxy.objects.requests._StartRequest
+    :members:
+
+----------------------------
+The _GetRequestOrigin class
+----------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.requests._GetRequestOrigin
+
+.. autoclass:: pysiriproxy.objects.requests._GetRequestOrigin
+    :members:
+
+---------------------
+The SiriObject class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.requests.SiriObject
+
+.. autoclass:: pysiriproxy.objects.requests.SiriObject
+    :members:
+
+-------------------
+The Requests class
+-------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.requests.Requests
+
+.. autoclass:: pysiriproxy.objects.requests.Requests
+    :members:
+
+----------------------------
+The _SetRequestOrigin class
+----------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.requests._SetRequestOrigin
+
+.. autoclass:: pysiriproxy.objects.requests._SetRequestOrigin
+    :members:

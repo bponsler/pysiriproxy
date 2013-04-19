@@ -1,0 +1,36 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.connections.iphone on April 18, 2013
+   This file should not be modified.
+
+==================
+The iphone module
+==================
+
+.. automodule:: pysiriproxy.connections.iphone
+
+------------------
+The _iPhone class
+------------------
+
+.. inheritance-diagram:: pysiriproxy.connections.iphone._iPhone
+
+.. autoclass:: pysiriproxy.connections.iphone._iPhone
+    :members:
+
+---------------------
+The Connection class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.connections.iphone.Connection
+
+.. autoclass:: pysiriproxy.connections.iphone.Connection
+    :members:
+
+-------------------
+The _Factory class
+-------------------
+
+.. inheritance-diagram:: pysiriproxy.connections.iphone._Factory
+
+.. autoclass:: pysiriproxy.connections.iphone._Factory
+    :members:

@@ -1,0 +1,36 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.testing.pluginTester on April 18, 2013
+   This file should not be modified.
+
+========================
+The pluginTester module
+========================
+
+.. automodule:: pysiriproxy.testing.pluginTester
+
+-----------------
+The Server class
+-----------------
+
+.. inheritance-diagram:: pysiriproxy.testing.pluginTester.Server
+
+.. autoclass:: pysiriproxy.testing.pluginTester.Server
+    :members:
+
+-----------------
+The iPhone class
+-----------------
+
+.. inheritance-diagram:: pysiriproxy.testing.pluginTester.iPhone
+
+.. autoclass:: pysiriproxy.testing.pluginTester.iPhone
+    :members:
+
+-----------------------
+The PluginTester class
+-----------------------
+
+.. inheritance-diagram:: pysiriproxy.testing.pluginTester.PluginTester
+
+.. autoclass:: pysiriproxy.testing.pluginTester.PluginTester
+    :members:

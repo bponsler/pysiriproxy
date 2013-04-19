@@ -1,0 +1,215 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The responses module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The plugins module" href="mod_pysiriproxy_plugins.html" />
+    <link rel="next" title="The utf module" href="pysiriproxy_utf.html" />
+    <link rel="prev" title="The directions module" href="pysiriproxy_plugins_directions.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_utf.html" title="The utf module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_plugins_directions.html" title="The directions module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_plugins.html" accesskey="U">The plugins module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.plugins.responses">
+<span id="the-responses-module"></span><h1>The responses module<a class="headerlink" href="#module-pysiriproxy.plugins.responses" title="Permalink to this headline">¶</a></h1>
+<p>The responses module contains classes associated with waiting for specific
+types of responses from Siri.</p>
+<div class="section" id="the-responselist-class">
+<h2>The ResponseList class<a class="headerlink" href="#the-responselist-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-2226971eaeb02e1e7803dd1d6c856a10a829d7cf.png" alt="Inheritance diagram of pysiriproxy.plugins.responses.ResponseList" usemap="#inheritance2aaee5d081" class="inheritance"/>
+<map id="inheritance2aaee5d081" name="inheritance2aaee5d081">
+<area shape="rect" href="#pysiriproxy.plugins.responses.Response" title="pysiriproxy.plugins.responses.Response" alt="" coords="16,7,288,33"/>
+<area shape="rect" href="#pysiriproxy.plugins.responses.ResponseList" title="pysiriproxy.plugins.responses.ResponseList" alt="" coords="5,84,299,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.plugins.responses.ResponseList">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.plugins.responses.</tt><tt class="descname">ResponseList</tt><big>(</big><em>responses</em>, <em>question=None</em>, <em>unknown=None</em>, <em>maxAttempts=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/responses.html#ResponseList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.responses.ResponseList" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ResponseList class manages the logic for commanding Siri to ask
+the user for a specific response. Once one of the expected responses is
+received, the callback function will be notified with the response. If
+an unexpected response is received, this class handles the logic of
+commanding Siri to say something to indicate that this was not a valid
+response, and then this class continues to wait for a valid response. This
+class also provides the ability to limit the number of attempts so that it
+does not continue waiting for a valid response forever.</p>
+<p>The callback function using the ResponseList will get notified with a value
+which will either be a string representing the user&#8217;s valid response, or
+it will be None indicating that the maximum number of attempts was reached
+prior to receiving a valid response.</p>
+<dl class="method">
+<dt id="pysiriproxy.plugins.responses.ResponseList.wait">
+<tt class="descname">wait</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/responses.html#ResponseList.wait"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.responses.ResponseList.wait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for the user to respond in a specific way.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-response-class">
+<h2>The Response class<a class="headerlink" href="#the-response-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-174d1761370ff43477a29f90dc90218149bd106e.png" alt="Inheritance diagram of pysiriproxy.plugins.responses.Response" usemap="#inheritance768770b25e" class="inheritance"/>
+<map id="inheritance768770b25e" name="inheritance768770b25e">
+<area shape="rect" href="#pysiriproxy.plugins.responses.Response" title="pysiriproxy.plugins.responses.Response" alt="" coords="5,7,277,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.plugins.responses.Response">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.plugins.responses.</tt><tt class="descname">Response</tt><a class="reference internal" href="../_modules/pysiriproxy/plugins/responses.html#Response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.responses.Response" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Response class encapsulates the logic of waiting for a
+response from the Siri user. It keeps track of the speech rule generator
+function that should be called with the response, and sends the
+response to that function once a response is received.</p>
+<dl class="method">
+<dt id="pysiriproxy.plugins.responses.Response.callback">
+<tt class="descname">callback</tt><big>(</big><em>response</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/responses.html#Response.callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.responses.Response.callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the callback function with the given response.</p>
+<ul class="simple">
+<li>response &#8211; The Siri user&#8217;s response</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.responses.Response.setCallback">
+<tt class="descname">setCallback</tt><big>(</big><em>callback</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/responses.html#Response.setCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.responses.Response.setCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the callback function for this response.</p>
+<ul class="simple">
+<li>callback &#8211; The callback function</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.responses.Response.setManager">
+<tt class="descname">setManager</tt><big>(</big><em>manager</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/responses.html#Response.setManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.responses.Response.setManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the manager object for this Response.</p>
+<ul class="simple">
+<li>response &#8211; The response</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.responses.Response.wait">
+<tt class="descname">wait</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/responses.html#Response.wait"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.responses.Response.wait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for a response from the Siri user.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The responses module</a><ul>
+<li><a class="reference internal" href="#the-responselist-class">The ResponseList class</a></li>
+<li><a class="reference internal" href="#the-response-class">The Response class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pysiriproxy_plugins_directions.html"
+                        title="previous chapter">The directions module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pysiriproxy_utf.html"
+                        title="next chapter">The utf module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/pysiriproxy_plugins_responses.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_utf.html" title="The utf module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_plugins_directions.html" title="The directions module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_plugins.html" >The plugins module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

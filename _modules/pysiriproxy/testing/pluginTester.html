@@ -1,0 +1,224 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.testing.pluginTester &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.testing.pluginTester</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python2.6</span>
+<span class="c"># -*-python-*-</span>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The pluginTester module contains a class that provides the ability</span>
+<span class="sd">to test the object filters and speech rules.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">argv</span><span class="p">,</span> <span class="n">stdout</span>
+
+<span class="kn">from</span> <span class="nn">pysiriproxy.options.config</span> <span class="kn">import</span> <span class="n">Files</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.options.options</span> <span class="kn">import</span> <span class="n">Options</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.plugins.manager</span> <span class="kn">import</span> <span class="n">PluginManager</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.testing.testSupport</span> <span class="kn">import</span> <span class="n">iPhone</span><span class="p">,</span> <span class="n">Server</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.connections.manager</span> <span class="kn">import</span> <span class="n">ConnectionManager</span>
+
+<span class="kn">from</span> <span class="nn">pyamp.logging</span> <span class="kn">import</span> <span class="n">LogData</span><span class="p">,</span> <span class="n">LogLevel</span><span class="p">,</span> <span class="n">Colors</span>
+
+
+<div class="viewcode-block" id="PluginTester"><a class="viewcode-back" href="../../../_generated/pysiriproxy_testing_pluginTester.html#pysiriproxy.testing.pluginTester.PluginTester">[docs]</a><span class="k">class</span> <span class="nc">PluginTester</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The PluginTester class provides the ability to test the configured</span>
+<span class="sd">    plugins for pysiriproxy. The intent is for this class to be subclassed</span>
+<span class="sd">    to preform desired tests. This class provides several callback functions</span>
+<span class="sd">    which can be overridden by the concrete PluginTester subclasses for</span>
+<span class="sd">    specific purposes. These functions are described below:</span>
+
+<span class="sd">      * :func:`iPhoneCallback` -- This function is called in the event that</span>
+<span class="sd">        data is being sent from the iPhone connection to the Server connection,</span>
+<span class="sd">        where **obj** is the specific data being transmitted.</span>
+
+<span class="sd">      * :func:`serverCallback` -- This function is called in the event that</span>
+<span class="sd">        data is being sent from the Server connection to the iPhone connection,</span>
+<span class="sd">        where **obj** is the specific data being transmitted.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logData</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">logColor</span><span class="o">=</span><span class="n">Colors</span><span class="o">.</span><span class="n">Foreground</span><span class="o">.</span><span class="n">Green</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * logData -- The LogData object</span>
+<span class="sd">        * logColor -- The color to use for the Logger</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># Create a logger just for the options loading</span>
+        <span class="k">if</span> <span class="n">logData</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">logData</span> <span class="o">=</span> <span class="n">LogData</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__log</span> <span class="o">=</span> <span class="n">logData</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;PluginTester&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">logColor</span><span class="p">)</span>
+
+        <span class="c"># Parse the siri proxy configuration options object</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="n">Options</span><span class="p">(</span><span class="n">logData</span><span class="p">)</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">argv</span><span class="p">,</span> <span class="n">Files</span><span class="o">.</span><span class="n">ConfigFile</span><span class="p">)</span>
+
+        <span class="c"># Set the callback for the iPhone, and Server connections</span>
+        <span class="n">Server</span><span class="o">.</span><span class="n">Callback</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iPhoneCallback</span>
+        <span class="n">Server</span><span class="o">.</span><span class="n">Callback</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serverCallback</span>
+
+        <span class="c"># Create the connection manager, and connect the iPhone and</span>
+        <span class="c"># Server connections to it</span>
+        <span class="n">connectionManager</span> <span class="o">=</span> <span class="n">ConnectionManager</span><span class="p">(</span><span class="n">logData</span><span class="p">)</span>
+        <span class="n">connectionManager</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">iPhone</span><span class="p">)</span>
+        <span class="n">connectionManager</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">Server</span><span class="p">)</span>
+
+        <span class="c"># Grab an instance to the plugin manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__pluginManager</span> <span class="o">=</span> <span class="n">PluginManager</span><span class="p">(</span><span class="n">connectionManager</span><span class="p">,</span> <span class="n">logData</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PluginTester.testFilters"><a class="viewcode-back" href="../../../_generated/pysiriproxy_testing_pluginTester.html#pysiriproxy.testing.pluginTester.PluginTester.testFilters">[docs]</a>    <span class="k">def</span> <span class="nf">testFilters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Test the object filters for all of the configured Plugins to</span>
+<span class="sd">        determine if any respond to the given object for the given direction.</span>
+<span class="sd">        This function returns None if no filters were applied to this object,</span>
+<span class="sd">        it returns False if this object was dropped, or it returns the object</span>
+<span class="sd">        modified by the object filters.</span>
+
+<span class="sd">        * obj -- The object used to test filters</span>
+<span class="sd">        * direction -- The direction the object was received (either from</span>
+<span class="sd">                       the iPhone or from the Server)</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Testing filters: [</span><span class="si">%s</span><span class="s">], [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">obj</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pluginManager</span><span class="o">.</span><span class="n">processFilters</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="PluginTester.testSpeech"><a class="viewcode-back" href="../../../_generated/pysiriproxy_testing_pluginTester.html#pysiriproxy.testing.pluginTester.PluginTester.testSpeech">[docs]</a>    <span class="k">def</span> <span class="nf">testSpeech</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">speech</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Test the speech rules for all of the configured Plugins to determine</span>
+<span class="sd">        if any respond to the given speech text. This function returns True if</span>
+<span class="sd">        any Plugins had speech rules that matched the given text, otherwise it</span>
+<span class="sd">        returns False.</span>
+
+<span class="sd">        * speech -- The simulated text that was &quot;spoken&quot; by the user</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Testing speech: [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> <span class="n">speech</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pluginManager</span><span class="o">.</span><span class="n">processSpeechRules</span><span class="p">(</span><span class="n">speech</span><span class="p">)</span>
+
+    <span class="c">##### Callback methods #####</span>
+</div>
+<div class="viewcode-block" id="PluginTester.iPhoneCallback"><a class="viewcode-back" href="../../../_generated/pysiriproxy_testing_pluginTester.html#pysiriproxy.testing.pluginTester.PluginTester.iPhoneCallback">[docs]</a>    <span class="k">def</span> <span class="nf">iPhoneCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cls</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;The function called in the event that an object is received from</span>
+<span class="sd">        the iPhone.</span>
+
+<span class="sd">        * obj -- The object that was received</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="PluginTester.serverCallback"><a class="viewcode-back" href="../../../_generated/pysiriproxy_testing_pluginTester.html#pysiriproxy.testing.pluginTester.PluginTester.serverCallback">[docs]</a>    <span class="k">def</span> <span class="nf">serverCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cls</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;The function called in the event that an object is received from</span>
+<span class="sd">        the Server server.</span>
+
+<span class="sd">        * obj -- The object that was received</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+</div></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Syntax: </span><span class="si">%s</span><span class="s"> [the text to test as speech]&quot;</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">PluginTester</span><span class="p">()</span>
+    <span class="n">tester</span><span class="o">.</span><span class="n">testSpeech</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

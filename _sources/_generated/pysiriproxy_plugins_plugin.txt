@@ -1,0 +1,18 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.plugins.plugin on April 18, 2013
+   This file should not be modified.
+
+==================
+The plugin module
+==================
+
+.. automodule:: pysiriproxy.plugins.plugin
+
+---------------------
+The BasePlugin class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.plugins.plugin.BasePlugin
+
+.. autoclass:: pysiriproxy.plugins.plugin.BasePlugin
+    :members:

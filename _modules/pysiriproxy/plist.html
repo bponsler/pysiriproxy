@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.plist &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.plist</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) (c) 2012 Brett Ponsler, Pete Lamonica, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The plist module contains the Plist, and BinaryPlist classes.</span>
+
+<span class="sd">These classes are designed to encapsulate a plist object, and be able</span>
+<span class="sd">to convert a standard plist into a binary formatted plist.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">biplist</span>
+<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">printable</span>
+<span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">CFPropertyList</span> <span class="kn">import</span> <span class="n">CFPropertyList</span><span class="p">,</span> <span class="n">native_types</span>
+
+<span class="kn">from</span> <span class="nn">pysiriproxy.constants</span> <span class="kn">import</span> <span class="n">Keys</span>
+
+<span class="kn">from</span> <span class="nn">pyamp.util</span> <span class="kn">import</span> <span class="n">getStackTrace</span>
+
+
+<div class="viewcode-block" id="BinaryPlist"><a class="viewcode-back" href="../../_generated/pysiriproxy_plist.html#pysiriproxy.plist.BinaryPlist">[docs]</a><span class="k">class</span> <span class="nc">BinaryPlist</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The BinaryPlist class takes in a dictionary containing data and</span>
+<span class="sd">    provides the ability to convert the dictionary into a binary plist.</span>
+
+<span class="sd">    .. note:: This class uses the :mod:`biplist` module to convert a Python</span>
+<span class="sd">              dictionary into a binary plist.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">TtsRegex</span> <span class="o">=</span> <span class="s">&quot;@{tts#.*?}&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The tag that indicates the start of a tts tag. This is a non-greedy</span>
+<span class="sd">    regular expression so that it matches to only the first end curly brace.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">DateKeys</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Keys</span><span class="o">.</span><span class="n">Birthday</span><span class="p">,</span>
+        <span class="n">Keys</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span>
+        <span class="n">Keys</span><span class="o">.</span><span class="n">DueDate</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="sd">&#39;&#39;&#39;The DateKeys property contains the list of object keys that contain</span>
+<span class="sd">    dates that need to be swapped with datetime objects.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">UnicodeKeys</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Keys</span><span class="o">.</span><span class="n">Label</span><span class="p">,</span>
+        <span class="n">Keys</span><span class="o">.</span><span class="n">SelectionResponse</span><span class="p">,</span>
+        <span class="n">Keys</span><span class="o">.</span><span class="n">SpeakableSelectionResponse</span><span class="p">,</span>
+        <span class="n">Keys</span><span class="o">.</span><span class="n">SpeakableText</span><span class="p">,</span>
+        <span class="n">Keys</span><span class="o">.</span><span class="n">Street</span><span class="p">,</span>
+        <span class="n">Keys</span><span class="o">.</span><span class="n">Text</span><span class="p">,</span>
+        <span class="n">Keys</span><span class="o">.</span><span class="n">Title</span>
+        <span class="p">]</span>
+    <span class="sd">&#39;&#39;&#39;The UnicodeKeys property contains a list of the object keys whose</span>
+<span class="sd">    values are strings that may contain hexadecimal characters and need</span>
+<span class="sd">    to be converted to unicode strings.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">logFile</span><span class="o">=</span><span class="s">&quot;/dev/null&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * data -- The data to convert into a binary plist</span>
+<span class="sd">        * logger -- The logger</span>
+<span class="sd">        * logFile -- The file to which output will be logged</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;BinaryPlist&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__logFile</span> <span class="o">=</span> <span class="n">logFile</span>
+
+        <span class="c"># Make sure any non-printable characters are wrapped with the</span>
+        <span class="c"># biplist Data class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fixItems</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Fixed data: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BinaryPlist.toBinary"><a class="viewcode-back" href="../../_generated/pysiriproxy_plist.html#pysiriproxy.plist.BinaryPlist.toBinary">[docs]</a>    <span class="k">def</span> <span class="nf">toBinary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Convert the data into a binary plist.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">biplist</span><span class="o">.</span><span class="n">writePlistToString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__fixItems</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Ensure that any entries in the given dictionary that contain</span>
+<span class="sd">        non-printable characters are wrapped with the biplist Data object.</span>
+
+<span class="sd">        * data -- The data dictionary</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># Traverse all the keys in the dictionary</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="c"># Determine how to handle the current value</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">UnicodeKeys</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c"># Attempt to convert the string to unicode</span>
+                    <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Error translating to unicode: </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> \
+                                         <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">),</span> <span class="n">item</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">getStackTrace</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">DateKeys</span><span class="p">:</span>
+                <span class="c"># @todo: I have still seen this fail to properly determine</span>
+                <span class="c">#        the date. The speakable text date can be different</span>
+                <span class="c">#        than the displayed date.</span>
+
+                <span class="c"># Convert the number of seconds since the epoch into</span>
+                <span class="c"># an actual date</span>
+                <span class="c"># NOTE: This works better than just passing the time to the</span>
+                <span class="c"># fromtimestamp function as that throws exceptions sometimes</span>
+                <span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">item</span><span class="p">)</span>
+
+                <span class="c"># The epoch that these dates use is thirty one years in the</span>
+                <span class="c"># future from the standard epoch date</span>
+                <span class="n">date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">date</span><span class="o">.</span><span class="n">year</span> <span class="o">+</span> <span class="mi">31</span><span class="p">)</span>
+
+                <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fixItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">__fixItem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Ensure that the given item is wrapped by the biplist Data class.</span>
+
+<span class="sd">        * item -- The item that should be wrapped</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># If we found a dictionary, recurse, otherwise wrap the value</span>
+        <span class="c"># if it contains non-printable characters</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="nb">dict</span><span class="p">()):</span>
+            <span class="c"># Fix all the items in the dictionary</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fixItems</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="nb">list</span><span class="p">()):</span>
+            <span class="c"># Fix all items in the list</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__fixItem</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="nb">str</span><span class="p">()):</span>
+            <span class="c"># Fix any unicode or non-printable strings</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__wrapItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">item</span>
+
+    <span class="k">def</span> <span class="nf">__wrapItem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Return the item properly wrapped in the biplist Data class if it</span>
+<span class="sd">        contains any non-printable characters. Otherwise, simply return the</span>
+<span class="sd">        item itself.</span>
+
+<span class="sd">        * item -- The item</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># Wrap any items containing non-printable characters,</span>
+        <span class="c"># otherwise, do nothing</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shouldWrap</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">biplist</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">item</span>
+
+    <span class="k">def</span> <span class="nf">__shouldWrap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Determine if the given string should be wrapped with the biplist</span>
+<span class="sd">        Data class, or not.</span>
+
+<span class="sd">        * string -- The string</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># Determine if our string is a subset of the printable characters</span>
+        <span class="c"># and that it does not contain unicode characters</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">printable</span><span class="p">))</span> \
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">__containsUnicode</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__containsUnicode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Determine if the given string contains unicode characters or not.</span>
+
+<span class="sd">        * string -- The string</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;ascii&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+</div>
+<div class="viewcode-block" id="Plist"><a class="viewcode-back" href="../../_generated/pysiriproxy_plist.html#pysiriproxy.plist.Plist">[docs]</a><span class="k">class</span> <span class="nc">Plist</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The Plist class contains methods pertaining to converting objects</span>
+<span class="sd">    to plist objects and manipulating them.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Plist.convert"><a class="viewcode-back" href="../../_generated/pysiriproxy_plist.html#pysiriproxy.plist.Plist.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">objectData</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Convert the given object into a plist.</span>
+
+<span class="sd">        * objectData -- The data for this object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">objectData</span><span class="p">)</span>
+
+        <span class="n">plist</span> <span class="o">=</span> <span class="n">CFPropertyList</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="n">plist</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">native_types</span><span class="p">(</span><span class="n">plist</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Plist.toBinary"><a class="viewcode-back" href="../../_generated/pysiriproxy_plist.html#pysiriproxy.plist.Plist.toBinary">[docs]</a>    <span class="k">def</span> <span class="nf">toBinary</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">logFile</span><span class="o">=</span><span class="s">&quot;/dev/null&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Convert an object into a binary plist.</span>
+
+<span class="sd">        * data -- The data to convert into a binary plist</span>
+<span class="sd">        * logger -- The logger</span>
+<span class="sd">        * logFile -- The file to which output will be logged</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">BinaryPlist</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">logFile</span><span class="p">)</span><span class="o">.</span><span class="n">toBinary</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

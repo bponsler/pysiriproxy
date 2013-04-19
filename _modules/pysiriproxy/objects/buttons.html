@@ -1,0 +1,202 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.objects.buttons &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.objects.buttons</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The buttons module contains classes pertaining to creating objects which</span>
+<span class="sd">can be sent to the iPhone or Apple&#39;s web server which pertain to creating</span>
+<span class="sd">buttons on the iPhone.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects.actions</span> <span class="kn">import</span> <span class="n">Actions</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects.baseObject</span> <span class="kn">import</span> <span class="n">SiriObject</span>
+
+
+<div class="viewcode-block" id="_Button"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_buttons.html#pysiriproxy.objects.buttons._Button">[docs]</a><span class="k">class</span> <span class="nc">_Button</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _Button class encapsulates the base functionality for creating a</span>
+<span class="sd">    button on the iPhone Siri view.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buttonText</span><span class="p">,</span> <span class="n">commands</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * buttonText -- The text displayed on the button</span>
+<span class="sd">        * commands -- The commands executed by the button when it is pressed</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;Button&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.assistant&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">buttonText</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">commands</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">commands</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">commands</span>
+
+</div>
+<div class="viewcode-block" id="_Custom"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_buttons.html#pysiriproxy.objects.buttons._Custom">[docs]</a><span class="k">class</span> <span class="nc">_Custom</span><span class="p">(</span><span class="n">_Button</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _Custom class creates a button that has the iPhone send a</span>
+<span class="sd">    custom command to the event that it is pressed.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buttonText</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * buttonText -- The text displayed on the button</span>
+<span class="sd">        * command -- The command that is executed when the button is pressed</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">Actions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Actions</span><span class="o">.</span><span class="n">CustomCommand</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+        <span class="n">_Button</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buttonText</span><span class="p">,</span> <span class="p">[</span><span class="n">action</span><span class="p">])</span>
+
+</div>
+<div class="viewcode-block" id="_WebSearchButton"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_buttons.html#pysiriproxy.objects.buttons._WebSearchButton">[docs]</a><span class="k">class</span> <span class="nc">_WebSearchButton</span><span class="p">(</span><span class="n">_Button</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _WebSearchButton creates a button on the iPhone Siri view which will</span>
+<span class="sd">    perform a web search for a specific query in the event that the button is</span>
+<span class="sd">    pressed.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buttonText</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * buttonText -- The text displayed on the button</span>
+<span class="sd">        * query -- The search query to perform</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">Actions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Actions</span><span class="o">.</span><span class="n">WebSearch</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+        <span class="n">_Button</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buttonText</span><span class="p">,</span> <span class="p">[</span><span class="n">action</span><span class="p">])</span>
+
+</div>
+<div class="viewcode-block" id="Buttons"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_buttons.html#pysiriproxy.objects.buttons.Buttons">[docs]</a><span class="k">class</span> <span class="nc">Buttons</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The Buttons class contains the various types of Buttons as well as</span>
+<span class="sd">    a function for creating Buttons of a specific type.</span>
+
+<span class="sd">    This class provides a factory function for creating Buttons of a specific</span>
+<span class="sd">    type.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Custom</span> <span class="o">=</span> <span class="s">&quot;Custom&quot;</span>
+    <span class="sd">&#39;&#39;&#39;A button that executes a custom command when it is pressed.&#39;&#39;&#39;</span>
+
+    <span class="n">WebSearch</span> <span class="o">=</span> <span class="s">&quot;WebSearch&quot;</span>
+    <span class="sd">&#39;&#39;&#39;A button that performs a web search for a specific query when it is</span>
+<span class="sd">    pressed.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">__TypeMap</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">Custom</span><span class="p">:</span> <span class="n">_Custom</span><span class="p">,</span>
+        <span class="n">WebSearch</span><span class="p">:</span> <span class="n">_WebSearchButton</span>
+        <span class="p">}</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Buttons.create"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_buttons.html#pysiriproxy.objects.buttons.Buttons.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">buttonType</span><span class="p">,</span> <span class="n">buttonText</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a Button of the given type.</span>
+
+<span class="sd">        * buttonType -- The type of Button to create</span>
+<span class="sd">        * buttonText -- The text displayed on the button</span>
+<span class="sd">        * args -- The arguments</span>
+<span class="sd">        * kwargs -- The keyword arguments</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">button</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="c"># Create the button object if it is found</span>
+        <span class="n">buttonClass</span> <span class="o">=</span> <span class="n">Buttons</span><span class="o">.</span><span class="n">__TypeMap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">buttonType</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">buttonClass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">button</span> <span class="o">=</span> <span class="n">buttonClass</span><span class="p">(</span><span class="n">buttonText</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">button</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

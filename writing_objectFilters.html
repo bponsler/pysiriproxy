@@ -1,0 +1,264 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Object filters &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="index.html" />
+    <link rel="next" title="Speech rules" href="writing_speechRules.html" />
+    <link rel="prev" title="Changelog" href="changelog.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="writing_speechRules.html" title="Speech rules"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="changelog.html" title="Changelog"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="object-filters">
+<h1>Object filters<a class="headerlink" href="#object-filters" title="Permalink to this headline">¶</a></h1>
+<p>The iPhone communicates the user&#8217;s requests by sending an object containing
+the request data to Apple&#8217;s web server. The web server processes the request
+and send an object containing the response data to the iPhone. All requests and
+responses are transmitted through different types of objects which indicate
+to the web server what request is being made, and indicate to the iPhone how
+to display the response to the user.</p>
+<p>Object filters are specific functions of a plugin that is called in the event
+that a specific object is received from either the iPhone, or from Apple&#8217;s
+web server. The object filter is then able to modify the object, e.g., change
+Siri&#8217;s speech in the response, create an entirely new object, or keep the
+object from reaching its destination.</p>
+<div class="section" id="how-to-define-an-object-filter-function">
+<h2>How to define an object filter function<a class="headerlink" href="#how-to-define-an-object-filter-function" title="Permalink to this headline">¶</a></h2>
+<p>An object filter is defined by using a special function decorator. This
+decorator tags the function to indicate what object type it is filtering.</p>
+<p>Object filter functions can filter objects based on the object type (also
+called the object&#8217;s <em>class</em>), or the origin of the object, i.e., the iPhone
+or Apple&#8217;s web server. These object filters are called class filters,
+and origin filters respectively.</p>
+<p>An origin filter function can be created by applying the following function
+decorators to a plugin function:</p>
+<blockquote>
+<ul class="simple">
+<li><tt class="xref py py-attr docutils literal"><span class="pre">directions.From_iPhone</span></tt></li>
+<li><tt class="xref py py-attr docutils literal"><span class="pre">directions.From_Server</span></tt></li>
+</ul>
+</blockquote>
+<p>A class filter function can be created by applying the any of the following
+function decorators to a plugin function:</p>
+<blockquote>
+<ul class="simple">
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#clearcontext-label"><em>objectClasses.ClearContext</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#anyobject-label"><em>objectClasses.AnyObject</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#speechpacket-label"><em>objectClasses.SpeechPacket</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#setapplicationcontext-label"><em>objectClasses.SetApplicationContext</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#startspeechrequest-label"><em>objectClasses.StartSpeechRequest</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#cancelspeech-label"><em>objectClasses.CancelSpeech</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#commandignored-label"><em>objectClasses.CommandIgnored</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#finishspeech-label"><em>objectClasses.FinishSpeech</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#cancelrequest-label"><em>objectClasses.CancelRequest</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#setrequestorigin-label"><em>objectClasses.SetRequestOrigin</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#setrestrictions-label"><em>objectClasses.SetRestrictions</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#commandfailed-label"><em>objectClasses.CommandFailed</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#loadassistant-label"><em>objectClasses.LoadAssistant</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#requestcompleted-label"><em>objectClasses.RequestCompleted</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#startrequest-label"><em>objectClasses.StartRequest</em></a></li>
+<li><a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#speechrecognized-label"><em>objectClasses.SpeechRecognized</em></a></li>
+</ul>
+</blockquote>
+<p>Multiple object filter decorators can be applied at the same time to allow
+a function to receive various types of classes or directions.</p>
+<p>Here are a few examples of creating object filters:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pysiriproxy.plugins</span> <span class="kn">import</span> <span class="n">BasePlugin</span><span class="p">,</span> <span class="n">From_iPhone</span><span class="p">,</span> <span class="n">From_Server</span><span class="p">,</span> \
+    <span class="n">SpeechPacket</span><span class="p">,</span> <span class="n">StartRequest</span><span class="p">,</span> <span class="n">CancelRequest</span><span class="p">,</span> <span class="n">CancelSpeech</span><span class="p">,</span> <span class="n">ClearContext</span>
+
+
+<span class="k">class</span> <span class="nc">Plugin</span><span class="p">(</span><span class="n">BasePlugin</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Example-Plugin&quot;</span>
+
+    <span class="nd">@From_Server</span>
+    <span class="k">def</span> <span class="nf">filterServer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;This filter is called with objects received from Apple&#39;s</span>
+<span class="sd">        web server.</span>
+
+<span class="sd">        * obj -- The received object</span>
+<span class="sd">        * direction -- The direction of the received data</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="nd">@SpeechPacket</span>
+    <span class="k">def</span> <span class="nf">filterSpeech</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;This filter is called with objects received that have the</span>
+<span class="sd">        SpeechPacket class.</span>
+
+<span class="sd">        * obj -- The received object</span>
+<span class="sd">        * direction -- The direction of the received data</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="nd">@From_iPhone</span>
+    <span class="nd">@StartRequest</span>
+    <span class="k">def</span> <span class="nf">filterSpeech</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;This filter is called with objects received from the iPhone</span>
+<span class="sd">        that have the StartRequest class.</span>
+
+<span class="sd">        * obj -- The received object</span>
+<span class="sd">        * direction -- The direction of the received data</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="nd">@From_iPhone</span>
+    <span class="nd">@ClearContext</span>
+    <span class="nd">@CancelSpeech</span>
+    <span class="nd">@CancelRequest</span>
+    <span class="k">def</span> <span class="nf">filterSpeech</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;This filter is called with objects received from the iPhone</span>
+<span class="sd">        that have either the ClearContext, CancelSpeech, or CancelRequest</span>
+<span class="sd">        classes.</span>
+
+<span class="sd">        * obj -- The received object</span>
+<span class="sd">        * direction -- The direction of the received data</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">obj</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-to-define-a-custom-class-filter-decorator">
+<h2>How to define a custom class filter decorator<a class="headerlink" href="#how-to-define-a-custom-class-filter-decorator" title="Permalink to this headline">¶</a></h2>
+<p>In many instances a developer might find the need to use a class filter that
+is not built into pysiriproxy. In this case, the developer has the ability
+to create a custom class filter by using the
+<a class="reference internal" href="_modified/pysiriproxy_plugins_objectClasses.html#createclassfilter-label"><em>objectClasses.createClassFilter</em></a> function.</p>
+<p>Here is an example of creating and using a custom class filter:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pysiriproxy.plugins</span> <span class="kn">import</span> <span class="n">BasePlugin</span><span class="p">,</span> <span class="n">createClassFilter</span>
+
+
+<span class="c"># Create a class decorator which matches the &quot;SpecialObject&quot; class</span>
+<span class="n">customDecorator</span> <span class="o">=</span> <span class="n">createClassFilter</span><span class="p">(</span><span class="s">&quot;SpecialObject&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Plugin</span><span class="p">(</span><span class="n">BasePlugin</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Example-Plugin&quot;</span>
+
+    <span class="c"># Now this decorator can be used to create a filter function</span>
+    <span class="nd">@customDecorator</span>
+    <span class="k">def</span> <span class="nf">specialFilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;This filter is called with objects received with the</span>
+<span class="sd">        SpecialObject class.</span>
+
+<span class="sd">        * obj -- The received object</span>
+<span class="sd">        * direction -- The direction of the received data</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">obj</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Object filters</a><ul>
+<li><a class="reference internal" href="#how-to-define-an-object-filter-function">How to define an object filter function</a></li>
+<li><a class="reference internal" href="#how-to-define-a-custom-class-filter-decorator">How to define a custom class filter decorator</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="changelog.html"
+                        title="previous chapter">Changelog</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="writing_speechRules.html"
+                        title="next chapter">Speech rules</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/writing_objectFilters.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="writing_speechRules.html" title="Speech rules"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="changelog.html" title="Changelog"
+             >previous</a> |</li>
+        <li><a href="index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

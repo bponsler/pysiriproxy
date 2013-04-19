@@ -1,0 +1,277 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.objects.commands &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.objects.commands</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The commands module contains classes pertaining to creating objects which</span>
+<span class="sd">can be sent to the iPhone or Apple&#39;s web server which pertain to creating</span>
+<span class="sd">commands which are sent from the iPhone to Apple&#39;s web server.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects.baseObject</span> <span class="kn">import</span> <span class="n">SiriObject</span>
+
+
+<div class="viewcode-block" id="_SendCommands"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_commands.html#pysiriproxy.objects.commands._SendCommands">[docs]</a><span class="k">class</span> <span class="nc">_SendCommands</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _SendCommands class creates an object that is able to send a series</span>
+<span class="sd">    of commands from the iPhone to Apple&#39;s web server which are to be executed.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commands</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * commands -- The list of commands to execute</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;SendCommands&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.system&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">commands</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">commands</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">commands</span>
+
+</div>
+<div class="viewcode-block" id="_ConfirmationOptions"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_commands.html#pysiriproxy.objects.commands._ConfirmationOptions">[docs]</a><span class="k">class</span> <span class="nc">_ConfirmationOptions</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _ConfirmationOptions class provides the ability to create a</span>
+<span class="sd">    dialog that presents the user with confirmation options such as:</span>
+<span class="sd">    submit, and cancel buttons that each perform different actions.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">submitCmds</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cancelCmds</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">denyCmds</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">confirmCmds</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">denyText</span><span class="o">=</span><span class="s">&quot;Cancel&quot;</span><span class="p">,</span> <span class="n">cancelLabel</span><span class="o">=</span><span class="s">&quot;Cancel&quot;</span><span class="p">,</span>
+                 <span class="n">submitLabel</span><span class="o">=</span><span class="s">&quot;Send&quot;</span><span class="p">,</span> <span class="n">confirmText</span><span class="o">=</span><span class="s">&quot;Send&quot;</span><span class="p">,</span> <span class="n">cancelTrigger</span><span class="o">=</span><span class="s">&quot;Deny&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * submitCmds -- The list of commands that are executed when the submit</span>
+<span class="sd">                        button is pressed</span>
+<span class="sd">        * cancelCmds -- The list of commands that are executed when the cancel</span>
+<span class="sd">                        button is pressed</span>
+<span class="sd">        * denyCms -- The list of commands that are executed when the deny</span>
+<span class="sd">                     button is pressed</span>
+<span class="sd">        * confirmCmds -- The list of commands that are executed when the confirm</span>
+<span class="sd">                         button is pressed</span>
+<span class="sd">        * denyText -- The text that is displayed on the deny button</span>
+<span class="sd">        * cancelLabel -- The text that is displayed on the cancel button</span>
+<span class="sd">        * submitLabel -- The text that is displayed on the submit button</span>
+<span class="sd">        * confirmText -- The text that is displayed on the confirm button</span>
+<span class="sd">        * cancelTrigger -- The trigger that performs the cancel action</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;ConfirmationOptions&quot;</span><span class="p">,</span>
+                            <span class="s">&quot;com.apple.ace.assistant&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">submitCommands</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">submitCmds</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">submitCmds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cancelCommands</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">cancelCmds</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">cancelCmds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">denyCommands</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">denyCmds</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">denyCmds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">confirmCommands</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">confirmCmds</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">confirmCmds</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">denyText</span> <span class="o">=</span> <span class="n">denyText</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">cancelLabel</span> <span class="o">=</span> <span class="n">cancelLabel</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">submitLabel</span> <span class="o">=</span> <span class="n">submitLabel</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">confirmText</span> <span class="o">=</span> <span class="n">confirmText</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">cancelTrigger</span> <span class="o">=</span> <span class="n">cancelTrigger</span> 
+
+</div>
+<div class="viewcode-block" id="_ConfirmSnippetCommand"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_commands.html#pysiriproxy.objects.commands._ConfirmSnippetCommand">[docs]</a><span class="k">class</span> <span class="nc">_ConfirmSnippetCommand</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _ConfirmSnippetCommand class creates a confirmation command.&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requestId</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * request_id -- The request id for this object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;ConfirmSnippet&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.assistant&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request_id</span> <span class="o">=</span> <span class="n">requestId</span>
+
+</div>
+<div class="viewcode-block" id="_CancelSnippetCommand"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_commands.html#pysiriproxy.objects.commands._CancelSnippetCommand">[docs]</a><span class="k">class</span> <span class="nc">_CancelSnippetCommand</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _CancelSnippetCommand class creates a cancel command.&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requestId</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * request_id -- The request id for this object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;CancelSnippet&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.assistant&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request_id</span> <span class="o">=</span> <span class="n">requestId</span>
+
+</div>
+<div class="viewcode-block" id="_CancelRequest"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_commands.html#pysiriproxy.objects.commands._CancelRequest">[docs]</a><span class="k">class</span> <span class="nc">_CancelRequest</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _CancelRequest class creates an object to cancel the current</span>
+<span class="sd">    request.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requestId</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * request_id -- The request id for this object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;CancelRequest&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.system&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">request_id</span> <span class="o">=</span> <span class="n">refId</span>
+
+</div>
+<div class="viewcode-block" id="_ResultCallback"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_commands.html#pysiriproxy.objects.commands._ResultCallback">[docs]</a><span class="k">class</span> <span class="nc">_ResultCallback</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _ResultCallback class creates a result callback Siri object.&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commands</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * commands -- The commands for the result callback</span>
+<span class="sd">        * code -- The code for the callback</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;ResultCallback&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.system&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">commands</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">commands</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">commands</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
+
+</div>
+<div class="viewcode-block" id="Commands"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_commands.html#pysiriproxy.objects.commands.Commands">[docs]</a><span class="k">class</span> <span class="nc">Commands</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The Commands class contains the various types of Commands as well</span>
+<span class="sd">    as a function for creating Commands of a specific type.</span>
+
+<span class="sd">    This class provides a factory method for creating Commands of a specific</span>
+<span class="sd">    type.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">CancelSnippet</span> <span class="o">=</span> <span class="s">&quot;CancelSnippet&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The CancelSnippet command type.&#39;&#39;&#39;</span>
+
+    <span class="n">CancelRequest</span> <span class="o">=</span> <span class="s">&quot;CancelRequest&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The CancelRequest command type.&#39;&#39;&#39;</span>
+
+    <span class="n">ConfirmationOptions</span> <span class="o">=</span> <span class="s">&quot;ConfirmationOptions&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The ConfirmationOptions command type.&#39;&#39;&#39;</span>
+
+    <span class="n">ConfirmSnippet</span> <span class="o">=</span> <span class="s">&quot;ConfirmSnippet&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The ConfirmSnippet command type.&#39;&#39;&#39;</span>
+
+    <span class="n">SendCommands</span> <span class="o">=</span> <span class="s">&quot;SendCommands&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The SendCommands command type.&#39;&#39;&#39;</span>
+
+    <span class="n">ResultCallback</span> <span class="o">=</span> <span class="s">&quot;ResultCallback&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The ResultCallback command type.&#39;&#39;&#39;</span>
+
+    <span class="c"># Create a dictionary mapping the types to their respective objects</span>
+    <span class="n">__TypeMap</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">CancelSnippet</span><span class="p">:</span> <span class="n">_CancelSnippetCommand</span><span class="p">,</span>
+        <span class="n">CancelRequest</span><span class="p">:</span> <span class="n">_CancelRequest</span><span class="p">,</span>
+        <span class="n">ConfirmationOptions</span><span class="p">:</span> <span class="n">_ConfirmationOptions</span><span class="p">,</span>
+        <span class="n">ConfirmSnippet</span><span class="p">:</span> <span class="n">_ConfirmSnippetCommand</span><span class="p">,</span>
+        <span class="n">SendCommands</span><span class="p">:</span> <span class="n">_SendCommands</span><span class="p">,</span>
+        <span class="n">ResultCallback</span><span class="p">:</span> <span class="n">_ResultCallback</span>
+        <span class="p">}</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Commands.create"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_commands.html#pysiriproxy.objects.commands.Commands.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">commandType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a Command of the specific type.</span>
+
+<span class="sd">        * commandType -- The type of Command to create</span>
+<span class="sd">        * args -- The arguments</span>
+<span class="sd">        * kwargs -- THe keyword arguments</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="c"># Create the command object if it is found</span>
+        <span class="n">commandClass</span> <span class="o">=</span> <span class="n">Commands</span><span class="o">.</span><span class="n">__TypeMap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">commandType</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">commandClass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="n">commandClass</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">command</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

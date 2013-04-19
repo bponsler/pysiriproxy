@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How to control how Siri responds to the user &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="index.html" />
+    <link rel="up" title="Speech rules" href="writing_speechRules.html" />
+    <link rel="prev" title="Speech rules" href="writing_speechRules.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="writing_speechRules.html" title="Speech rules"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="writing_speechRules.html" accesskey="U">Speech rules</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="how-to-control-how-siri-responds-to-the-user">
+<h1>How to control how Siri responds to the user<a class="headerlink" href="#how-to-control-how-siri-responds-to-the-user" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin" title="pysiriproxy.plugins.plugin.BasePlugin"><tt class="xref py py-class docutils literal"><span class="pre">BasePlugin</span></tt></a> class has several functions
+which are responsible creating different types of respones that Siri can
+present to the iPhone user. These functions are as follows:</p>
+<blockquote>
+<ul class="simple">
+<li><a class="reference internal" href="_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.completeRequest" title="pysiriproxy.plugins.plugin.BasePlugin.completeRequest"><tt class="xref py py-func docutils literal"><span class="pre">plugins.plugin.BasePlugin.completeRequest()</span></tt></a></li>
+<li><a class="reference internal" href="_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.say" title="pysiriproxy.plugins.plugin.BasePlugin.say"><tt class="xref py py-func docutils literal"><span class="pre">plugins.plugin.BasePlugin.say()</span></tt></a></li>
+<li><a class="reference internal" href="_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.ask" title="pysiriproxy.plugins.plugin.BasePlugin.ask"><tt class="xref py py-func docutils literal"><span class="pre">plugins.plugin.BasePlugin.ask()</span></tt></a></li>
+<li><a class="reference internal" href="_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.makeView" title="pysiriproxy.plugins.plugin.BasePlugin.makeView"><tt class="xref py py-func docutils literal"><span class="pre">plugins.plugin.BasePlugin.makeView()</span></tt></a></li>
+</ul>
+</blockquote>
+<p>These functions, including examples of using each one, are discussed below.</p>
+<div class="section" id="completing-a-request">
+<h2>Completing a request<a class="headerlink" href="#completing-a-request" title="Permalink to this headline">¶</a></h2>
+<p>Each time the iPhone user asks Siri a question a request is started. The iPhone
+waits until it receives a notification that the request has been completed
+before it displays the response to the user. The iPhone&#8217;s Siri icon continues
+to spin endlessly if the notification is never received.</p>
+<p>In order for a speech rule to work as expected, developers must be sure to
+call the <a class="reference internal" href="_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.completeRequest" title="pysiriproxy.plugins.plugin.BasePlugin.completeRequest"><tt class="xref py py-func docutils literal"><span class="pre">completeRequest()</span></tt></a> function at the
+end of each speech rule. This will notify the iPhone that the request is
+complete and that it should now display the response to the user.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pysiriproxy.plugins</span> <span class="kn">import</span> <span class="n">BasePlugin</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="n">regex</span>
+
+
+<span class="k">class</span> <span class="nc">Plugin</span><span class="p">(</span><span class="n">BasePlugin</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Example-Plugin&quot;</span>
+
+    <span class="nd">@matches</span><span class="p">(</span><span class="s">&quot;Test Example&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">matchesRule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">completeRequest</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="have-siri-say-something-to-the-user">
+<h2>Have Siri say something to the user<a class="headerlink" href="#have-siri-say-something-to-the-user" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.say" title="pysiriproxy.plugins.plugin.BasePlugin.say"><tt class="xref py py-func docutils literal"><span class="pre">say()</span></tt></a> function allows developers to
+have Siri say, and display, a specific piece of text. The function takes
+two parameters which are:</p>
+<blockquote>
+<ul>
+<li><p class="first"><strong>text</strong> &#8211; This is the text that Siri will display</p>
+</li>
+<li><dl class="first docutils">
+<dt><strong>spoken</strong> &#8211; This is the text that Siri will speak. If this is None,</dt>
+<dd><p class="first last">Siri will speak the display text by default. This is
+None by default.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</blockquote>
+<p>Here is an example of how to get Siri to display and speak text:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pysiriproxy.plugins</span> <span class="kn">import</span> <span class="n">BasePlugin</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="n">regex</span>
+
+
+<span class="k">class</span> <span class="nc">Plugin</span><span class="p">(</span><span class="n">BasePlugin</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Example-Plugin&quot;</span>
+
+    <span class="nd">@matches</span><span class="p">(</span><span class="s">&quot;Text speech&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">matchesRule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="c"># This text will be spoken and displayed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="s">&quot;Hi, my name is Siri!&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">completeRequest</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Here is an example of how to get Siri to display one piece of text,
+and speak a different piece of text:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pysiriproxy.plugins</span> <span class="kn">import</span> <span class="n">BasePlugin</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="n">regex</span>
+
+
+<span class="k">class</span> <span class="nc">Plugin</span><span class="p">(</span><span class="n">BasePlugin</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Example-Plugin&quot;</span>
+
+    <span class="nd">@matches</span><span class="p">(</span><span class="s">&quot;Text speech&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">matchesRule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="c"># Siri will display: &quot;How are you today&quot;</span>
+        <span class="c"># Siri will say: &quot;Hi, my name is Siri&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="s">&quot;How are you today?&quot;</span><span class="p">,</span> <span class="n">spoken</span><span class="o">=</span><span class="s">&quot;Hi, my name is Siri!&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">completeRequest</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="have-siri-ask-the-user-a-question">
+<h2>Have Siri ask the user a question<a class="headerlink" href="#have-siri-ask-the-user-a-question" title="Permalink to this headline">¶</a></h2>
+<p>Plugins can also have Siri ask the user a question and wait for the
+user&#8217;s answer. The <a class="reference internal" href="_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.ask" title="pysiriproxy.plugins.plugin.BasePlugin.ask"><tt class="xref py py-func docutils literal"><span class="pre">ask()</span></tt></a> function
+commands Siri to ask the user a question, and allows the Plugin to
+be notified of the user&#8217;s response and continue execution.</p>
+<p>Here is an example of commanding Siri to ask the user a question:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pysiriproxy.plugins</span> <span class="kn">import</span> <span class="n">BasePlugin</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="n">regex</span>
+
+
+<span class="k">class</span> <span class="nc">Plugin</span><span class="p">(</span><span class="n">BasePlugin</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Example-Plugin&quot;</span>
+
+    <span class="nd">@matches</span><span class="p">(</span><span class="s">&quot;Ask me a question&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">testAsk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="c"># Ask the question and wait for the response</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="s">&quot;What is your favorite color?&quot;</span><span class="p">)</span>
+
+        <span class="c"># Wait for the user&#39;s response. If the user responds, the</span>
+        <span class="c"># response variable will be set to a string containing</span>
+        <span class="c"># the user&#39;s speech</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">yield</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="s">&quot;My favorite color is </span><span class="si">%s</span><span class="s"> too!.&quot;</span> <span class="o">%</span> <span class="n">response</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">completeRequest</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The above example commands Siri to ask the user what their favorite
+color is. The <em>yield</em> command stops the execution at this line until
+it is notified of the user&#8217;s response, at which time the <em>response</em>
+variable will contain the user&#8217;s speech. Once the user replies, the
+plugin uses the response to have Siri say that her favorite color is
+the same color they said.</p>
+<p>In the event that the user does not respond, or cancels the request
+before responding, the function execution does not restart.</p>
+<p>Developers also have the ability to ask the user a question and
+wait for the user to answer in a specific way. This is achieved
+through use of the <a class="reference internal" href="_generated/pysiriproxy_plugins_responses.html#pysiriproxy.plugins.responses.ResponseList" title="pysiriproxy.plugins.responses.ResponseList"><tt class="xref py py-class docutils literal"><span class="pre">ResponseList</span></tt></a>
+class. The ResponseList class takes a list of responses to wait for
+the user to say, a question to ask the user, and a response for Siri
+to say in the event that the user says something other than what
+is expected.</p>
+<p>Here is an example of creating and using a ResponseList:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pysiriproxy.plugins</span> <span class="kn">import</span> <span class="n">BasePlugin</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> \
+    <span class="n">ResponseList</span>
+
+
+<span class="k">class</span> <span class="nc">Plugin</span><span class="p">(</span><span class="n">BasePlugin</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Example-Plugin&quot;</span>
+
+    <span class="nd">@regex</span><span class="p">(</span><span class="s">&quot;.*Confirmation.*&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">confirmTest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="c"># The list of valid responses for the user to say</span>
+        <span class="n">responses</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;yes&quot;</span><span class="p">,</span> <span class="s">&quot;no&quot;</span><span class="p">]</span>
+
+        <span class="c"># The question to ask the user</span>
+        <span class="n">question</span> <span class="o">=</span> <span class="s">&quot;Please say &#39;yes&#39; or &#39;no&#39;...&quot;</span>
+
+        <span class="c"># What Siri will say when the user says something that is</span>
+        <span class="c"># not in the list of responses</span>
+        <span class="n">unknown</span> <span class="o">=</span> <span class="s">&quot;Excuse me?&quot;</span>
+
+        <span class="c"># Wait for a valid response to be spoken</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">ResponseList</span><span class="p">(</span><span class="n">responses</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">unknown</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="s">&quot;You said </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">response</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">completeRequest</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-a-view">
+<h2>Creating a view<a class="headerlink" href="#creating-a-view" title="Permalink to this headline">¶</a></h2>
+<p>Developers may also desire to display different types of graphical
+objects to the user, e.g., a button, and the
+<a class="reference internal" href="_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ObjectFactory" title="pysiriproxy.objects.factory.ObjectFactory"><tt class="xref py py-class docutils literal"><span class="pre">ObjectFactory</span></tt></a> class was created.
+The ObjectFactory class provides methods for creating various types
+of objects that can be displayed to the iPhone user.</p>
+<p>Here is an example of creating a view that contains three buttons which
+execute custom commands to which the plugin will respond:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pysiriproxy.plugins</span> <span class="kn">import</span> <span class="n">BasePlugin</span><span class="p">,</span> <span class="n">matches</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects</span> <span class="kn">import</span> <span class="n">ObjectFactory</span><span class="p">,</span> <span class="n">Buttons</span>
+
+
+<span class="k">class</span> <span class="nc">Plugin</span><span class="p">(</span><span class="n">BasePlugin</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;ButtonTest-Plugin&quot;</span>
+
+    <span class="c"># Define a dictionary mapping custom command names, to the plugin</span>
+    <span class="c"># function names that are called when the command is executed</span>
+    <span class="n">customCommandMap</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&quot;Command 1&quot;</span><span class="p">:</span> <span class="s">&quot;callbackOne&quot;</span><span class="p">,</span>
+        <span class="s">&quot;Command 2&quot;</span><span class="p">:</span> <span class="s">&quot;callbackTwo&quot;</span><span class="p">,</span>
+        <span class="s">&quot;Command 3&quot;</span><span class="p">:</span> <span class="s">&quot;callbackThree&quot;</span>
+        <span class="p">}</span>
+
+    <span class="nd">@matches</span><span class="p">(</span><span class="s">&quot;Test buttons&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">testButtons</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="c"># Create a list of tuples pairing the button text to the</span>
+        <span class="c"># commands that are executed when the button is pressed</span>
+        <span class="n">buttonList</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s">&quot;Button 1&quot;</span><span class="p">,</span> <span class="s">&quot;Command 1&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s">&quot;Button 2&quot;</span><span class="p">,</span> <span class="s">&quot;Command 2&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s">&quot;Button 3&quot;</span><span class="p">,</span> <span class="s">&quot;Command 3&quot;</span><span class="p">)</span>
+            <span class="p">]</span>
+
+        <span class="c"># Create the buttons</span>
+        <span class="n">buttons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__createButtons</span><span class="p">(</span><span class="n">buttonList</span><span class="p">)</span>
+
+        <span class="c"># Create an utterance to go along with the buttons</span>
+        <span class="n">utterance</span> <span class="o">=</span> <span class="n">ObjectFactory</span><span class="o">.</span><span class="n">utterance</span><span class="p">(</span><span class="s">&quot;Please press a button&quot;</span><span class="p">)</span>
+
+        <span class="c"># Now create a view which displays the utterance and the buttons</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">makeView</span><span class="p">([</span><span class="n">utterance</span><span class="p">]</span> <span class="o">+</span> <span class="n">buttons</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">completeRequest</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">callbackOne</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Called when the &#39;Command 1&#39; command is executed.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="s">&quot;You pressed the first button!&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">completeRequest</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">callbackTwo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Called when the &#39;Command 2&#39; command is executed.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="s">&quot;You pressed the second button!&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">completeRequest</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">callbackThree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Called when the &#39;Command 3&#39; command is executed.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="s">&quot;You pressed the third button!&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">completeRequest</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__createButtons</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buttonList</span><span class="p">):</span>
+        <span class="n">buttons</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c"># Create buttons to execute custom commands for each of the</span>
+        <span class="c"># buttons in the list of buttons</span>
+        <span class="k">for</span> <span class="n">buttonText</span><span class="p">,</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">buttonList</span><span class="p">:</span>
+            <span class="n">button</span> <span class="o">=</span> <span class="n">ObjectFactory</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">Buttons</span><span class="o">.</span><span class="n">Custom</span><span class="p">,</span> <span class="n">buttonText</span><span class="p">,</span>
+                                          <span class="n">command</span><span class="p">)</span>
+            <span class="n">buttons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">button</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">buttons</span>
+</pre></div>
+</div>
+<p>Please view the documentation for the
+<a class="reference internal" href="_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ObjectFactory" title="pysiriproxy.objects.factory.ObjectFactory"><tt class="xref py py-class docutils literal"><span class="pre">ObjectFactory</span></tt></a> class for more details
+on what objects can be created.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How to control how Siri responds to the user</a><ul>
+<li><a class="reference internal" href="#completing-a-request">Completing a request</a></li>
+<li><a class="reference internal" href="#have-siri-say-something-to-the-user">Have Siri say something to the user</a></li>
+<li><a class="reference internal" href="#have-siri-ask-the-user-a-question">Have Siri ask the user a question</a></li>
+<li><a class="reference internal" href="#creating-a-view">Creating a view</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="writing_speechRules.html"
+                        title="previous chapter">Speech rules</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/writing_responses.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="writing_speechRules.html" title="Speech rules"
+             >previous</a> |</li>
+        <li><a href="index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="writing_speechRules.html" >Speech rules</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

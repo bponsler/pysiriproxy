@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.objects.requests &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.objects.requests</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The request module contains classes pertaining to creating objects which</span>
+<span class="sd">can be sent to the iPhone or Apple&#39;s web server which pertain to creating</span>
+<span class="sd">requests to be sent to the iPhone.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects.baseObject</span> <span class="kn">import</span> <span class="n">SiriObject</span>
+
+
+<div class="viewcode-block" id="_RequestCompleted"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_requests.html#pysiriproxy.objects.requests._RequestCompleted">[docs]</a><span class="k">class</span> <span class="nc">_RequestCompleted</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _RequestCompleted object notifies the iPhone that the current </span>
+<span class="sd">    request can be completed.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * callbacks -- The list of callbacks</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;RequestCompleted&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.system&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">callbacks</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">callbacks</span>
+
+</div>
+<div class="viewcode-block" id="_StartRequest"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_requests.html#pysiriproxy.objects.requests._StartRequest">[docs]</a><span class="k">class</span> <span class="nc">_StartRequest</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _StartRequest object signifies that a request is being started.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="s">&quot;Testing&quot;</span><span class="p">,</span> <span class="n">handsFree</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">proxyOnly</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * utterance -- The utterance to perform</span>
+<span class="sd">        * handsFree -- True if in hands free mode, False otherwise</span>
+<span class="sd">        * proxyOnly -- True if proxy only mode, False otherwise</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;StartRequest&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.system&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">utterance</span> <span class="o">=</span> <span class="n">utterance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">handsFree</span> <span class="o">=</span> <span class="n">handsFree</span>
+        <span class="k">if</span> <span class="n">proxyOnly</span><span class="p">:</span> <span class="c"># dont send local when false since its non standard</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">proxyOnly</span> <span class="o">=</span> <span class="n">proxyOnly</span>
+
+</div>
+<div class="viewcode-block" id="_GetRequestOrigin"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_requests.html#pysiriproxy.objects.requests._GetRequestOrigin">[docs]</a><span class="k">class</span> <span class="nc">_GetRequestOrigin</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _GetRequestOrigin class creates an object that gets the</span>
+<span class="sd">    origin of the request.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desiredAccuracy</span><span class="o">=</span><span class="s">&quot;HundredMeters&quot;</span><span class="p">,</span> <span class="n">searchTimeout</span><span class="o">=</span><span class="mf">8.0</span><span class="p">,</span>
+                 <span class="n">maxAge</span><span class="o">=</span><span class="mi">1800</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * desiredAccuracy -- The desired accuracy for the result</span>
+<span class="sd">        * searchTimeout -- The timeout for the result</span>
+<span class="sd">        * maxAge -- The maximum age for the result</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;GetRequestOrigin&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.system&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">desiredAccuracy</span> <span class="o">=</span> <span class="n">desiredAccuracy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">searchTimeout</span> <span class="o">=</span> <span class="n">searchTimeout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxAge</span> <span class="o">=</span> <span class="n">maxAge</span>
+
+</div>
+<div class="viewcode-block" id="_SetRequestOrigin"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_requests.html#pysiriproxy.objects.requests._SetRequestOrigin">[docs]</a><span class="k">class</span> <span class="nc">_SetRequestOrigin</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _SetRequestOrigin class creates an object to set the origin of</span>
+<span class="sd">    a request.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=-</span><span class="mf">122.030089795589</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">37.3317031860352</span><span class="p">,</span>
+                 <span class="n">desiredAccuracy</span><span class="o">=</span><span class="s">&quot;HundredMeters&quot;</span><span class="p">,</span> <span class="n">altitude</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                 <span class="n">direction</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">horizontalAccuracy</span><span class="o">=</span><span class="mf">50.0</span><span class="p">,</span>
+                 <span class="n">verticalAccuracy</span><span class="o">=</span><span class="mf">10.0</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * longitude -- The longitude for the request</span>
+<span class="sd">        * latitude -- The latitude for the request</span>
+<span class="sd">        * desiredAccuracy -- The desired accuracy for the request</span>
+<span class="sd">        * altitude -- The altitude for the request</span>
+<span class="sd">        * speed -- The speed for the request</span>
+<span class="sd">        * direction -- The direction for the request</span>
+<span class="sd">        * age -- The age for the request</span>
+<span class="sd">        * horizontalAccuracy -- The horizontal accuracy for the request</span>
+<span class="sd">        * verticalAccuracy -- The vertical accuracy for the request</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;SetRequestOrigin&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.system&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">horizontalAccuracy</span> <span class="o">=</span> <span class="n">horizontalAccuracy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">latitude</span> <span class="o">=</span> <span class="n">latitude</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">desiredAccuracy</span> <span class="o">=</span> <span class="n">desiredAccuracy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">altitude</span> <span class="o">=</span> <span class="n">altitude</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">speed</span> <span class="o">=</span> <span class="n">speed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">longitude</span> <span class="o">=</span> <span class="n">longitude</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verticalAccuracy</span> <span class="o">=</span> <span class="n">verticalAccuracy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">direction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+
+</div>
+<div class="viewcode-block" id="Requests"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_requests.html#pysiriproxy.objects.requests.Requests">[docs]</a><span class="k">class</span> <span class="nc">Requests</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The Requests class contains the various types of Requests as well as a</span>
+<span class="sd">    function for creating Requests of a specific type.</span>
+
+<span class="sd">    This class contains a factory method for creating Request object of</span>
+<span class="sd">    a specific type.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">GetRequestOrigin</span> <span class="o">=</span> <span class="s">&quot;GetRequestOrigin&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The GetRequestOrigin object type.&#39;&#39;&#39;</span>
+
+    <span class="n">RequestCompleted</span> <span class="o">=</span> <span class="s">&quot;Completed&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The RequestCompleted object type.&#39;&#39;&#39;</span>
+
+    <span class="n">SetRequestOrigin</span> <span class="o">=</span> <span class="s">&quot;SetRequestOrigin&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The SetRequestOrigin object type.&#39;&#39;&#39;</span>
+
+    <span class="n">StartRequest</span> <span class="o">=</span> <span class="s">&quot;StartRequest&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The StartRequest object type.&#39;&#39;&#39;</span>
+
+
+    <span class="c"># Create a dictionary mapping the types to their respective objects</span>
+    <span class="n">__TypeMap</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">GetRequestOrigin</span><span class="p">:</span> <span class="n">_GetRequestOrigin</span><span class="p">,</span>
+        <span class="n">RequestCompleted</span><span class="p">:</span> <span class="n">_RequestCompleted</span><span class="p">,</span>
+        <span class="n">SetRequestOrigin</span><span class="p">:</span> <span class="n">_SetRequestOrigin</span><span class="p">,</span>
+        <span class="n">StartRequest</span><span class="p">:</span> <span class="n">_StartRequest</span>
+        <span class="p">}</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Requests.create"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_requests.html#pysiriproxy.objects.requests.Requests.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">requestType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a Request of the given type.</span>
+
+<span class="sd">        * requestType -- The request type</span>
+<span class="sd">        * args -- The arguments</span>
+<span class="sd">        * kwargs -- The keyword arguments</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="c"># Create the request object if it is found</span>
+        <span class="n">requestClass</span> <span class="o">=</span> <span class="n">Requests</span><span class="o">.</span><span class="n">__TypeMap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">requestType</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">requestClass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="n">requestClass</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">request</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

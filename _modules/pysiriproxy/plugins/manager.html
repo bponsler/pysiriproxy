@@ -1,0 +1,486 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.plugins.manager &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.plugins.manager</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The manager module contains the PluginManager class which encapsulates</span>
+<span class="sd">the functionality of loading and managing a series of plugins. The</span>
+<span class="sd">PluginManager is also responsible for processing the speech rules and object</span>
+<span class="sd">filters for all the loaded plugins.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">path</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">listdir</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span><span class="p">,</span> <span class="n">split</span><span class="p">,</span> <span class="n">splitext</span>
+
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects</span> <span class="kn">import</span> <span class="n">ResponseFactory</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.options</span> <span class="kn">import</span> <span class="n">Options</span><span class="p">,</span> <span class="n">Ids</span><span class="p">,</span> <span class="n">Sections</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.plugins</span> <span class="kn">import</span> <span class="n">BasePlugin</span><span class="p">,</span> <span class="n">handleResponse</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.constants</span> <span class="kn">import</span> <span class="n">Directions</span><span class="p">,</span> <span class="n">DirectionTypes</span>
+
+<span class="kn">from</span> <span class="nn">pyamp.logging</span> <span class="kn">import</span> <span class="n">LogData</span>
+<span class="kn">from</span> <span class="nn">pyamp.util</span> <span class="kn">import</span> <span class="n">getStackTrace</span>
+
+
+<div class="viewcode-block" id="PluginManager"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_manager.html#pysiriproxy.plugins.manager.PluginManager">[docs]</a><span class="k">class</span> <span class="nc">PluginManager</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The PluginManager is responsible for loading all of the available</span>
+<span class="sd">    plugins as well as processing the object filters and speech rules for</span>
+<span class="sd">    each of the loaded plugins.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c"># Implement the borg pattern</span>
+    <span class="n">__shared_state</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c"># The class name that all plugins must have</span>
+    <span class="n">PluginClassName</span> <span class="o">=</span> <span class="s">&quot;Plugin&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connectionManager</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * connectionManager -- An instance of the ConnectionManager</span>
+<span class="sd">        * logger -- The LogData object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shared_state</span>
+
+        <span class="c"># If plugins have not been loaded, then load them</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;_plugins&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_connectionManager</span> <span class="o">=</span> <span class="n">connectionManager</span>
+
+            <span class="c"># Get data pertaining to the directory containing plugins</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">PluginsDirectory</span> <span class="o">=</span> <span class="n">Options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Sections</span><span class="o">.</span><span class="n">General</span><span class="p">,</span>
+                                                <span class="n">Ids</span><span class="o">.</span><span class="n">PluginsDir</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">PluginsDirectoryName</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PluginsDirectory</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="c"># Create a logger if one was not given</span>
+            <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">logger</span> <span class="o">=</span> <span class="n">LogData</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;PluginManager&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">logger</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pluginMap</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_options</span> <span class="o">=</span> <span class="n">Options</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loadPlugins</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PluginsDirectory</span><span class="p">)</span>
+
+            <span class="c"># The Response object waiting for a response from Siri</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_response</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="c">##### Interacting with Siri #####</span>
+
+<div class="viewcode-block" id="PluginManager.showDirections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_manager.html#pysiriproxy.plugins.manager.PluginManager.showDirections">[docs]</a>    <span class="k">def</span> <span class="nf">showDirections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directionsType</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                       <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Show the given type of directions between the two locations to the</span>
+<span class="sd">        user.</span>
+
+<span class="sd">        * directionsType -- The type of directions</span>
+<span class="sd">        * source -- The source location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to speak</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">server</span> <span class="o">=</span> <span class="n">Directions</span><span class="o">.</span><span class="n">From_Server</span>
+        <span class="n">connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connectionManager</span><span class="o">.</span><span class="n">getConnection</span><span class="p">(</span><span class="n">server</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">connection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Making directions [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> <span class="n">directionsType</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">refId</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">getRefId</span><span class="p">()</span>
+
+            <span class="n">directions</span> <span class="o">=</span> <span class="n">ResponseFactory</span><span class="o">.</span><span class="n">directions</span><span class="p">(</span><span class="n">refId</span><span class="p">,</span> <span class="n">directionsType</span><span class="p">,</span>
+                                                    <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                                                    <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">injectObjectToOutputStream</span><span class="p">(</span><span class="n">directions</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="PluginManager.showDrivingDirections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_manager.html#pysiriproxy.plugins.manager.PluginManager.showDrivingDirections">[docs]</a>    <span class="k">def</span> <span class="nf">showDrivingDirections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Show driving directions between the two locations to the user.</span>
+
+<span class="sd">        * source -- The source location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to speak</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">showDirections</span><span class="p">(</span><span class="n">DirectionTypes</span><span class="o">.</span><span class="n">Driving</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                            <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="PluginManager.showWalkingDirections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_manager.html#pysiriproxy.plugins.manager.PluginManager.showWalkingDirections">[docs]</a>    <span class="k">def</span> <span class="nf">showWalkingDirections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Show walking directions between the two locations to the user.</span>
+
+<span class="sd">        * source -- The source location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to speak</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">showDirections</span><span class="p">(</span><span class="n">DirectionTypes</span><span class="o">.</span><span class="n">Walking</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                            <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="PluginManager.showPublicTransitDirections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_manager.html#pysiriproxy.plugins.manager.PluginManager.showPublicTransitDirections">[docs]</a>    <span class="k">def</span> <span class="nf">showPublicTransitDirections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Show public transportation directions between the two locations to</span>
+<span class="sd">        the user.</span>
+
+<span class="sd">        * source -- The source location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to speak</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">showDirections</span><span class="p">(</span><span class="n">DirectionTypes</span><span class="o">.</span><span class="n">PublicTransit</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                            <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="PluginManager.makeView"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_manager.html#pysiriproxy.plugins.manager.PluginManager.makeView">[docs]</a>    <span class="k">def</span> <span class="nf">makeView</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">views</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a view and send it to the iPhone.</span>
+
+<span class="sd">        * views -- The list of views to create</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">server</span> <span class="o">=</span> <span class="n">Directions</span><span class="o">.</span><span class="n">From_Server</span>
+        <span class="n">connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connectionManager</span><span class="o">.</span><span class="n">getConnection</span><span class="p">(</span><span class="n">server</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">connection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Making view&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">refId</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">getRefId</span><span class="p">()</span>
+
+            <span class="n">view</span> <span class="o">=</span> <span class="n">ResponseFactory</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">refId</span><span class="p">,</span> <span class="n">views</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">injectObjectToOutputStream</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="PluginManager.ask"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_manager.html#pysiriproxy.plugins.manager.PluginManager.ask">[docs]</a>    <span class="k">def</span> <span class="nf">ask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">spoken</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Command Siri to ask the user a question.</span>
+
+<span class="sd">        * question -- The question to ask</span>
+<span class="sd">        * spoken -- The text Siri will say</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">spoken</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+        <span class="c"># Complete the request, otherwise Siri will freeze,</span>
+        <span class="c"># but be sure not to reset the context</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">completeRequest</span><span class="p">(</span><span class="n">resetContext</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="PluginManager.completeRequest"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_manager.html#pysiriproxy.plugins.manager.PluginManager.completeRequest">[docs]</a>    <span class="k">def</span> <span class="nf">completeRequest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refId</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">resetContext</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Complete a request to Siri.</span>
+
+<span class="sd">        * refId -- The reference ID</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">server</span> <span class="o">=</span> <span class="n">Directions</span><span class="o">.</span><span class="n">From_Server</span>
+        <span class="n">connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connectionManager</span><span class="o">.</span><span class="n">getConnection</span><span class="p">(</span><span class="n">server</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">connection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Sending Request Completed&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+            <span class="n">refId</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">getRefId</span><span class="p">()</span> <span class="k">if</span> <span class="n">refId</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">refId</span>
+            <span class="n">completed</span> <span class="o">=</span> <span class="n">ResponseFactory</span><span class="o">.</span><span class="n">requestCompleted</span><span class="p">(</span><span class="n">refId</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">injectObjectToOutputStream</span><span class="p">(</span><span class="n">completed</span><span class="p">)</span>
+
+            <span class="c"># Reset the connection context</span>
+            <span class="k">if</span> <span class="n">resetContext</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_connectionManager</span><span class="o">.</span><span class="n">resetConnections</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="PluginManager.resetContext"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_manager.html#pysiriproxy.plugins.manager.PluginManager.resetContext">[docs]</a>    <span class="k">def</span> <span class="nf">resetContext</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Reset the context.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connectionManager</span><span class="o">.</span><span class="n">resetConnections</span><span class="p">()</span>
+
+        <span class="c"># Clear the current plugin that is waiting for a response</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_response</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_response</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="PluginManager.say"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_manager.html#pysiriproxy.plugins.manager.PluginManager.say">[docs]</a>    <span class="k">def</span> <span class="nf">say</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">spoken</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">refId</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Command Siri to speak a piece of text.</span>
+
+<span class="sd">        * text -- The text that Siri will display</span>
+<span class="sd">        * spoken -- The text that Siri will speak</span>
+<span class="sd">        * prompt -- True to have Siri prompt for a response</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">server</span> <span class="o">=</span> <span class="n">Directions</span><span class="o">.</span><span class="n">From_Server</span>
+        <span class="n">connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connectionManager</span><span class="o">.</span><span class="n">getConnection</span><span class="p">(</span><span class="n">server</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">connection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Saying:&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">spoken</span><span class="o">=</span><span class="n">spoken</span><span class="p">,</span>
+                           <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">)</span>
+
+            <span class="n">refId</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">getRefId</span><span class="p">()</span> <span class="k">if</span> <span class="n">refId</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">refId</span>
+
+            <span class="c"># Create the utterance</span>
+            <span class="n">utterance</span> <span class="o">=</span> <span class="n">ResponseFactory</span><span class="o">.</span><span class="n">utterance</span><span class="p">(</span><span class="n">refId</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span>
+                                                  <span class="n">spoken</span><span class="p">,</span> <span class="n">prompt</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">injectObjectToOutputStream</span><span class="p">(</span><span class="n">utterance</span><span class="p">)</span>
+
+    <span class="c">##### Plugin processing functions #####</span>
+</div>
+<div class="viewcode-block" id="PluginManager.processFilters"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_manager.html#pysiriproxy.plugins.manager.PluginManager.processFilters">[docs]</a>    <span class="k">def</span> <span class="nf">processFilters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Process all the plugin filters for this object and data direction.</span>
+
+<span class="sd">        * obj -- The object</span>
+<span class="sd">        * direction -- The data direction</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__processFilters</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Failed processing filters&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">getStackTrace</span><span class="p">())</span>
+
+        <span class="c"># Determine if the response should be used</span>
+        <span class="k">if</span> <span class="n">response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c"># If the response is False, then the object should be dropped</span>
+            <span class="c"># If the object has the same class as the original object, then</span>
+            <span class="c"># it should be returning</span>
+            <span class="k">if</span> <span class="n">response</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;class&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;class&#39;</span><span class="p">):</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">response</span>
+
+        <span class="k">return</span> <span class="n">obj</span>
+</div>
+<div class="viewcode-block" id="PluginManager.processSpeechRules"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_manager.html#pysiriproxy.plugins.manager.PluginManager.processSpeechRules">[docs]</a>    <span class="k">def</span> <span class="nf">processSpeechRules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Process all the plugin speech rules for this recognized text.</span>
+
+<span class="sd">        * text -- The recognized text</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c"># Speech rules return True to indicate that the response from</span>
+            <span class="c"># Apple&#39;s server should be overriden. The speech rules return</span>
+            <span class="c"># False to indicate that the response from Apple&#39;s server should</span>
+            <span class="c"># be used.</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__processSpeechRules</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Failed processing speech rules&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">getStackTrace</span><span class="p">())</span>
+
+            <span class="c"># Have Siri respond with the the error response</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Sections</span><span class="o">.</span><span class="n">Responses</span><span class="p">,</span> <span class="n">Ids</span><span class="o">.</span><span class="n">ErrorResponse</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">completeRequest</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="PluginManager.loadPlugins"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_manager.html#pysiriproxy.plugins.manager.PluginManager.loadPlugins">[docs]</a>    <span class="k">def</span> <span class="nf">loadPlugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Load all of the plugins from the plugins directory.</span>
+
+<span class="sd">        * directory -- The plugins directory</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__addPluginsToPath</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+
+        <span class="c"># Traverse through all of the plugins</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">listdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;__&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;.py&quot;</span><span class="p">):</span>
+                <span class="c"># Get the module name from the filename by removing the</span>
+                <span class="c"># file extension</span>
+                <span class="n">pluginName</span> <span class="o">=</span> <span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Loading plugin [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> <span class="n">pluginName</span><span class="p">,</span>
+                                   <span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+                    <span class="c"># Get the plugin class, and create the plugin object</span>
+                    <span class="n">pluginClass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__importPlugin</span><span class="p">(</span><span class="n">pluginName</span><span class="p">)</span>
+                    <span class="n">plugin</span> <span class="o">=</span> <span class="n">pluginClass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="p">)</span>
+
+                    <span class="c"># Ensure that all plugins subclass the base plugin</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">BasePlugin</span><span class="p">):</span>
+                        <span class="c"># Force plugins to have unique names</span>
+                        <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pluginMap</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_pluginMap</span><span class="p">[</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">plugin</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Plugin in file [</span><span class="si">%s</span><span class="s">] has name &quot;</span> \
+                                               <span class="s">&quot;[</span><span class="si">%s</span><span class="s">] which already exists!&quot;</span> <span class="o">%</span> \
+                                               <span class="p">(</span><span class="n">pluginName</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Plugin [</span><span class="si">%s</span><span class="s">] must be a subclass of &quot;</span> \
+                                            <span class="s">&quot;the BasePlugin class!&quot;</span> <span class="o">%</span> \
+                                            <span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Failed to load plugin [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> <span class="n">pluginName</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">getStackTrace</span><span class="p">())</span>
+                    <span class="k">continue</span>
+
+    <span class="c">##### Private functions #####</span>
+</div>
+    <span class="k">def</span> <span class="nf">__processFilters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Process all the plugin filters for this object and data direction.</span>
+
+<span class="sd">        * obj -- The object</span>
+<span class="sd">        * direction -- The data direction</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">responses</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pluginMap</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">processFilters</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+
+            <span class="c"># Plugins return False to drop the packet, None to ignore</span>
+            <span class="c"># the packet, or an object to respond to the packet</span>
+            <span class="k">if</span> <span class="n">response</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">elif</span> <span class="n">response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">responses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+        <span class="c"># Now, we need to rank the responses by their corresponding scores</span>
+        <span class="c"># to determine the best response to push forward</span>
+        <span class="c"># @todo: for now return the first response....later rank by score</span>
+        <span class="n">retResponses</span> <span class="o">=</span> <span class="p">(</span><span class="n">responses</span> <span class="o">+</span> <span class="p">[</span><span class="bp">None</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">retResponses</span>
+
+    <span class="k">def</span> <span class="nf">__processSpeechRules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Process all the plugin speech rules for this recognized text.</span>
+
+<span class="sd">        * text -- The recognized text</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># If a response is waiting, pass it the text</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Calling yield response function&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_response</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                <span class="c"># Get rid of the response once it is through yielding</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_response</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pluginMap</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="c"># If any plugin returns True, then one of its speech rules</span>
+            <span class="c"># matched the given text, otherwise it has not been matched yet</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">processSpeechRules</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+            <span class="c"># If the speech rule returned True, then we are done, otherwise</span>
+            <span class="c"># it might have returned a response type</span>
+            <span class="k">if</span> <span class="n">response</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Plugin [</span><span class="si">%s</span><span class="s">] matched the recognized speech.&quot;</span> <span class="o">%</span> 
+                              <span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c"># Create the actual response type from the given response</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_response</span> <span class="o">=</span> <span class="n">handleResponse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+
+                <span class="c"># Stop processing speech rules if one is waiting for a response</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Plugin [</span><span class="si">%s</span><span class="s">] matched the recognized &quot;</span> \
+                                      <span class="s">&quot;speech.&quot;</span> <span class="o">%</span> <span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="k">break</span>
+
+        <span class="c"># None of the plugins had speech rules that applied to this text</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">__addPluginsToPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Add the plugins directory to the path.</span>
+
+<span class="sd">        * directory -- The plugins directory</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">baseDirectory</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">directory</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c"># Only add the base directory (directory which contains the plugins</span>
+        <span class="c"># directory) to the path once</span>
+        <span class="k">if</span> <span class="n">baseDirectory</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">baseDirectory</span><span class="p">)</span>
+            <span class="kn">import</span> <span class="nn">plugins</span>
+
+    <span class="k">def</span> <span class="nf">__importPlugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pluginName</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Import the plugin with the given name and load the given class.</span>
+
+<span class="sd">        * pluginName -- The name of the plugin</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PluginsDirectoryName</span><span class="p">,</span> <span class="n">fromlist</span><span class="o">=</span><span class="p">[</span><span class="n">pluginName</span><span class="p">])</span>
+        <span class="n">pluginModule</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">pluginName</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pluginModule</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PluginClassName</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.testing.testSupport on April 18, 2013
+   This file should not be modified.
+
+=======================
+The testSupport module
+=======================
+
+.. automodule:: pysiriproxy.testing.testSupport
+
+---------------------
+The Connection class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.testing.testSupport.Connection
+
+.. autoclass:: pysiriproxy.testing.testSupport.Connection
+    :members:
+
+-----------------
+The Server class
+-----------------
+
+.. inheritance-diagram:: pysiriproxy.testing.testSupport.Server
+
+.. autoclass:: pysiriproxy.testing.testSupport.Server
+    :members:
+
+-----------------
+The iPhone class
+-----------------
+
+.. inheritance-diagram:: pysiriproxy.testing.testSupport.iPhone
+
+.. autoclass:: pysiriproxy.testing.testSupport.iPhone
+    :members:

@@ -1,0 +1,10 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.connections.guzzoni on April 18, 2013
+   This file should not be modified.
+
+===================
+The guzzoni module
+===================
+
+.. automodule:: pysiriproxy.connections.guzzoni
+

@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.plugins.responses &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.plugins.responses</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The responses module contains classes associated with waiting for specific</span>
+<span class="sd">types of responses from Siri.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">GeneratorType</span>
+
+
+<div class="viewcode-block" id="Response"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_responses.html#pysiriproxy.plugins.responses.Response">[docs]</a><span class="k">class</span> <span class="nc">Response</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The Response class encapsulates the logic of waiting for a</span>
+<span class="sd">    response from the Siri user. It keeps track of the speech rule generator</span>
+<span class="sd">    function that should be called with the response, and sends the</span>
+<span class="sd">    response to that function once a response is received.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create the Response.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__callback</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="Response.setManager"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_responses.html#pysiriproxy.plugins.responses.Response.setManager">[docs]</a>    <span class="k">def</span> <span class="nf">setManager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Set the manager object for this Response.</span>
+
+<span class="sd">        * response -- The response</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">manager</span>
+</div>
+<div class="viewcode-block" id="Response.setCallback"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_responses.html#pysiriproxy.plugins.responses.Response.setCallback">[docs]</a>    <span class="k">def</span> <span class="nf">setCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Set the callback function for this response.</span>
+
+<span class="sd">        * callback -- The callback function</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__callback</span> <span class="o">=</span> <span class="n">callback</span>
+</div>
+<div class="viewcode-block" id="Response.wait"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_responses.html#pysiriproxy.plugins.responses.Response.wait">[docs]</a>    <span class="k">def</span> <span class="nf">wait</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Wait for a response from the Siri user.&#39;&#39;&#39;</span>
+        <span class="n">keepYielding</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="c"># Continue yielding until the callback function is no longer yielding</span>
+        <span class="k">while</span> <span class="n">keepYielding</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="k">yield</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                <span class="c"># The callback function is no longer yielding</span>
+                <span class="n">keepYielding</span> <span class="o">=</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="Response.callback"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_responses.html#pysiriproxy.plugins.responses.Response.callback">[docs]</a>    <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Call the callback function with the given response.</span>
+
+<span class="sd">        * response -- The Siri user&#39;s response</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__callback</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="ResponseList"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_responses.html#pysiriproxy.plugins.responses.ResponseList">[docs]</a><span class="k">class</span> <span class="nc">ResponseList</span><span class="p">(</span><span class="n">Response</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The ResponseList class manages the logic for commanding Siri to ask</span>
+<span class="sd">    the user for a specific response. Once one of the expected responses is</span>
+<span class="sd">    received, the callback function will be notified with the response. If</span>
+<span class="sd">    an unexpected response is received, this class handles the logic of</span>
+<span class="sd">    commanding Siri to say something to indicate that this was not a valid</span>
+<span class="sd">    response, and then this class continues to wait for a valid response. This</span>
+<span class="sd">    class also provides the ability to limit the number of attempts so that it</span>
+<span class="sd">    does not continue waiting for a valid response forever.</span>
+
+<span class="sd">    The callback function using the ResponseList will get notified with a value</span>
+<span class="sd">    which will either be a string representing the user&#39;s valid response, or</span>
+<span class="sd">    it will be None indicating that the maximum number of attempts was reached</span>
+<span class="sd">    prior to receiving a valid response.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">responses</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">unknown</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">maxAttempts</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * responses -- The list of accepted (case insensitive) responses</span>
+<span class="sd">        * question -- The question Siri will ask the user</span>
+<span class="sd">                      (None means nothing will be asked)</span>
+<span class="sd">        * unknown -- What Siri will say when an unexpected response is received</span>
+<span class="sd">                     (None means nothing will be said)</span>
+<span class="sd">        * maxAttempts -- The maximum number of attempts before giving up</span>
+<span class="sd">                         (None indicates an infinite number of tries)</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">Response</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__responses</span> <span class="o">=</span> <span class="n">responses</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__question</span> <span class="o">=</span> <span class="n">question</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__unknown</span> <span class="o">=</span> <span class="n">unknown</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__maxAttempts</span> <span class="o">=</span> <span class="n">maxAttempts</span>
+
+<div class="viewcode-block" id="ResponseList.wait"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_responses.html#pysiriproxy.plugins.responses.ResponseList.wait">[docs]</a>    <span class="k">def</span> <span class="nf">wait</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Wait for the user to respond in a specific way.&#39;&#39;&#39;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">attempt</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c"># Continue until we receive an expected response</span>
+        <span class="k">while</span> <span class="n">response</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__responses</span><span class="p">:</span>
+            <span class="c"># Make sure we have attempts remaining</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__remainingAttempts</span><span class="p">(</span><span class="n">attempt</span><span class="p">):</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="k">break</span>
+
+            <span class="c"># Ask the user the given question</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__askQuestion</span><span class="p">()</span>
+
+            <span class="c"># Wait for the response</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="k">yield</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+            <span class="c"># Command Siri to notify the user of any unexpected responses</span>
+            <span class="k">if</span> <span class="n">response</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__responses</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__sayUnknown</span><span class="p">()</span>
+
+            <span class="c"># Keep track of the number of attempts</span>
+            <span class="n">attempt</span> <span class="o">+=</span><span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__askQuestion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Ask the user the given question.&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__question</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__question</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__sayUnknown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Handle commanding Siri to speak in the event of an</span>
+<span class="sd">        unexpected response.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unknown</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__unknown</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__remainingAttempts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attempt</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Determine if there are attempts remaining.</span>
+
+<span class="sd">        * attempt -- The current attempt number</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__maxAttempts</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">attempt</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__maxAttempts</span>
+
+</div>
+<span class="k">def</span> <span class="nf">_createResponse</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Create a response object from a generator response.</span>
+
+<span class="sd">    * manager -- The PluginManager object</span>
+<span class="sd">    * response -- The received response</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c"># The list of response objects we know how to convert</span>
+    <span class="n">typeList</span> <span class="o">=</span> <span class="p">[</span><span class="n">ResponseList</span><span class="p">]</span>
+
+    <span class="c"># Get the actual return of the generator</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">actualResponse</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+        <span class="c"># No response was given</span>
+        <span class="n">actualResponse</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="c"># Determine if the actual response is a known response object type</span>
+    <span class="n">isResponse</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">for</span> <span class="n">responseType</span> <span class="ow">in</span> <span class="n">typeList</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">actualResponse</span><span class="p">,</span> <span class="n">responseType</span><span class="p">):</span>
+            <span class="n">isResponse</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">break</span>
+
+    <span class="c"># Create a basic response object to wrap the callback, if a response</span>
+    <span class="c"># object was not given</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">isResponse</span><span class="p">:</span>
+        <span class="n">actualResponse</span> <span class="o">=</span> <span class="n">Response</span><span class="p">()</span>
+
+    <span class="c"># Initialize the response callback</span>
+    <span class="n">actualResponse</span><span class="o">.</span><span class="n">setManager</span><span class="p">(</span><span class="n">manager</span><span class="p">)</span>
+    <span class="n">actualResponse</span><span class="o">.</span><span class="n">setCallback</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">actualResponse</span>
+
+<span class="k">def</span> <span class="nf">handleResponse</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Handle the given response.</span>
+
+<span class="sd">    * manager -- The PluginManager object</span>
+<span class="sd">    * response -- The received response</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">actualResponse</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="c"># Handle any responses that are generators</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">response</span><span class="p">)</span> <span class="o">==</span> <span class="n">GeneratorType</span><span class="p">:</span>
+        <span class="c"># Create a response object from the generator</span>
+        <span class="n">responseObj</span> <span class="o">=</span> <span class="n">_createResponse</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+
+        <span class="c"># Tell the response method to start waiting, and initialize it by</span>
+        <span class="c"># calling next</span>
+        <span class="n">actualResponse</span> <span class="o">=</span> <span class="n">responseObj</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="n">actualResponse</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">actualResponse</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

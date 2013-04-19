@@ -1,0 +1,163 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.interpreter &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.interpreter</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) (c) 2012 Brett Ponsler, Pete Lamonica, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The interpreter module contains a class which provides the ability</span>
+<span class="sd">to find the recognized speech from a given object.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.constants</span> <span class="kn">import</span> <span class="n">ClassNames</span><span class="p">,</span> <span class="n">Keys</span>
+
+
+<div class="viewcode-block" id="Interpreter"><a class="viewcode-back" href="../../_generated/pysiriproxy_interpreter.html#pysiriproxy.interpreter.Interpreter">[docs]</a><span class="k">class</span> <span class="nc">Interpreter</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The Interpreter class provides the ability for determining if an</span>
+<span class="sd">    object indicates that speech was recognized.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Interpreter.speechRecognized"><a class="viewcode-back" href="../../_generated/pysiriproxy_interpreter.html#pysiriproxy.interpreter.Interpreter.speechRecognized">[docs]</a>    <span class="k">def</span> <span class="nf">speechRecognized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Determine if this object contains recognized speech.</span>
+
+<span class="sd">        This function returns the speech that was recognized if there was</span>
+<span class="sd">        recognized speech, otherwise it returns None.</span>
+
+<span class="sd">        * obj -- The object to check</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># Ensure that the object exists</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="c"># Make sure the object is a speech recognized object</span>
+        <span class="n">classType</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;class&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">classType</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">classType</span> <span class="o">!=</span> <span class="n">ClassNames</span><span class="o">.</span><span class="n">SpeechRecognized</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="n">phrase</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+      
+        <span class="n">properties</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">Properties</span><span class="p">)</span>
+        <span class="n">recognition</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">Recognition</span><span class="p">)</span>
+        <span class="n">recogProperties</span> <span class="o">=</span> <span class="n">recognition</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">Properties</span><span class="p">)</span>
+        <span class="n">phrases</span> <span class="o">=</span> <span class="n">recogProperties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">Phrases</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">phraseObj</span> <span class="ow">in</span> <span class="n">phrases</span><span class="p">:</span>
+            <span class="n">phraseProperties</span> <span class="o">=</span> <span class="n">phraseObj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">Properties</span><span class="p">)</span>
+            <span class="n">interpretations</span> <span class="o">=</span> <span class="n">phraseProperties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">Interpretations</span><span class="p">)</span>
+            <span class="n">firstProps</span> <span class="o">=</span> <span class="n">interpretations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">Properties</span><span class="p">)</span>
+            <span class="n">tokens</span> <span class="o">=</span> <span class="n">firstProps</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">Tokens</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+                <span class="n">tokenProps</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">Properties</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">tokenProps</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">RemoveSpaceBefore</span><span class="p">):</span>
+                    <span class="n">phrase</span> <span class="o">=</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="n">phrase</span> <span class="o">+=</span> <span class="n">tokenProps</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">Text</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">tokenProps</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">RemoveSpaceAfter</span><span class="p">):</span>
+                    <span class="n">phrase</span> <span class="o">+=</span> <span class="s">&quot; &quot;</span>
+                
+        <span class="k">return</span> <span class="n">phrase</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

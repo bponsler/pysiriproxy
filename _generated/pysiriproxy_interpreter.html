@@ -1,0 +1,525 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The interpreter module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The pysiriproxy module" href="mod_pysiriproxy.html" />
+    <link rel="next" title="The plist module" href="pysiriproxy_plist.html" />
+    <link rel="prev" title="The utf module" href="pysiriproxy_utf.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_plist.html" title="The plist module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_utf.html" title="The utf module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" accesskey="U">The pysiriproxy module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.interpreter">
+<span id="the-interpreter-module"></span><h1>The interpreter module<a class="headerlink" href="#module-pysiriproxy.interpreter" title="Permalink to this headline">¶</a></h1>
+<p>The interpreter module contains a class which provides the ability
+to find the recognized speech from a given object.</p>
+<div class="section" id="the-keys-class">
+<h2>The Keys class<a class="headerlink" href="#the-keys-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-088dcb07fb64a1d91fc8fc967e17f45d1539fafe.png" alt="Inheritance diagram of pysiriproxy.interpreter.Keys" usemap="#inheritance8fe8f70e66" class="inheritance"/>
+<map id="inheritance8fe8f70e66" name="inheritance8fe8f70e66">
+<area shape="rect" href="pysiriproxy_constants.html#pysiriproxy.constants.Keys" title="pysiriproxy.constants.Keys" alt="" coords="5,7,192,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.interpreter.Keys">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.interpreter.</tt><tt class="descname">Keys</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Keys class defines various properties which contain strings which
+are keys to the dictionary objects sent between the iPhone and Apple&#8217;s
+server.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.AceId">
+<tt class="descname">AceId</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.AceId" title="Permalink to this definition">¶</a></dt>
+<dd><p>The aceId key.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.AssistantId">
+<tt class="descname">AssistantId</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.AssistantId" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the AssistantId property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Birthday">
+<tt class="descname">Birthday</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Birthday" title="Permalink to this definition">¶</a></dt>
+<dd><p>The birthday key for an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Class">
+<tt class="descname">Class</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Class" title="Permalink to this definition">¶</a></dt>
+<dd><p>The class name for the object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Data">
+<tt class="descname">Data</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the data property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Date">
+<tt class="descname">Date</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Date" title="Permalink to this definition">¶</a></dt>
+<dd><p>The date key for an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.DateSent">
+<tt class="descname">DateSent</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.DateSent" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the dateSent property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.DisplayText">
+<tt class="descname">DisplayText</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.DisplayText" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the displayText property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.DueDate">
+<tt class="descname">DueDate</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.DueDate" title="Permalink to this definition">¶</a></dt>
+<dd><p>The due date key for an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.FirstName">
+<tt class="descname">FirstName</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.FirstName" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the firstName property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.FullName">
+<tt class="descname">FullName</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.FullName" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the fullName property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Group">
+<tt class="descname">Group</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Group" title="Permalink to this definition">¶</a></dt>
+<dd><p>The group for the object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Identifier">
+<tt class="descname">Identifier</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the identifier property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Interpretations">
+<tt class="descname">Interpretations</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Interpretations" title="Permalink to this definition">¶</a></dt>
+<dd><p>The interpretations key for an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Label">
+<tt class="descname">Label</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Label" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the label property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.LastName">
+<tt class="descname">LastName</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.LastName" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the lastName property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.MsgSender">
+<tt class="descname">MsgSender</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.MsgSender" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the msgSender property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Number">
+<tt class="descname">Number</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Number" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the number property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.OrderedContext">
+<tt class="descname">OrderedContext</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.OrderedContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the orderedContext property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Outgoing">
+<tt class="descname">Outgoing</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Outgoing" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the outgoing property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Phones">
+<tt class="descname">Phones</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Phones" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the phones property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Phrases">
+<tt class="descname">Phrases</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Phrases" title="Permalink to this definition">¶</a></dt>
+<dd><p>The phrases key for an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Properties">
+<tt class="descname">Properties</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>The properties key for the object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Recognition">
+<tt class="descname">Recognition</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Recognition" title="Permalink to this definition">¶</a></dt>
+<dd><p>The recognition key for an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.RefId">
+<tt class="descname">RefId</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.RefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>The refId for the object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.RemoveSpaceAfter">
+<tt class="descname">RemoveSpaceAfter</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.RemoveSpaceAfter" title="Permalink to this definition">¶</a></dt>
+<dd><p>The removeSpaceAfter key for an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.RemoveSpaceBefore">
+<tt class="descname">RemoveSpaceBefore</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.RemoveSpaceBefore" title="Permalink to this definition">¶</a></dt>
+<dd><p>The removeSpaceBefore key for an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.SelectionResponse">
+<tt class="descname">SelectionResponse</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.SelectionResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the selectionResponse property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.SessionValidationData">
+<tt class="descname">SessionValidationData</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.SessionValidationData" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the SessionValidationData property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.SpeakableSelectionResponse">
+<tt class="descname">SpeakableSelectionResponse</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.SpeakableSelectionResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the speakableSelectionResponse property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.SpeakableText">
+<tt class="descname">SpeakableText</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.SpeakableText" title="Permalink to this definition">¶</a></dt>
+<dd><p>The speakable text key for an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.SpeechId">
+<tt class="descname">SpeechId</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.SpeechId" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key for the SpeechId property of an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Street">
+<tt class="descname">Street</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Street" title="Permalink to this definition">¶</a></dt>
+<dd><p>The street value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Text">
+<tt class="descname">Text</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Text" title="Permalink to this definition">¶</a></dt>
+<dd><p>The text key for an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.TheatricalReleaseDate">
+<tt class="descname">TheatricalReleaseDate</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.TheatricalReleaseDate" title="Permalink to this definition">¶</a></dt>
+<dd><p>The theatrical release date.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Title">
+<tt class="descname">Title</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Title" title="Permalink to this definition">¶</a></dt>
+<dd><p>The title key for an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Tokens">
+<tt class="descname">Tokens</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Tokens" title="Permalink to this definition">¶</a></dt>
+<dd><p>The tokens key for an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Utterance">
+<tt class="descname">Utterance</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Utterance" title="Permalink to this definition">¶</a></dt>
+<dd><p>The utterance key for an object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.Keys.Version">
+<tt class="descname">Version</tt><a class="headerlink" href="#pysiriproxy.interpreter.Keys.Version" title="Permalink to this definition">¶</a></dt>
+<dd><p>The version key for an object.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-interpreter-class">
+<h2>The Interpreter class<a class="headerlink" href="#the-interpreter-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-43e14df6701d77ede23382d2fff8a35219577950.png" alt="Inheritance diagram of pysiriproxy.interpreter.Interpreter" usemap="#inheritance21fd6bf9a4" class="inheritance"/>
+<map id="inheritance21fd6bf9a4" name="inheritance21fd6bf9a4">
+<area shape="rect" href="#pysiriproxy.interpreter.Interpreter" title="pysiriproxy.interpreter.Interpreter" alt="" coords="5,7,235,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.interpreter.Interpreter">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.interpreter.</tt><tt class="descname">Interpreter</tt><a class="reference internal" href="../_modules/pysiriproxy/interpreter.html#Interpreter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.interpreter.Interpreter" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Interpreter class provides the ability for determining if an
+object indicates that speech was recognized.</p>
+<dl class="classmethod">
+<dt id="pysiriproxy.interpreter.Interpreter.speechRecognized">
+<em class="property">classmethod </em><tt class="descname">speechRecognized</tt><big>(</big><em>obj</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/interpreter.html#Interpreter.speechRecognized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.interpreter.Interpreter.speechRecognized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if this object contains recognized speech.</p>
+<p>This function returns the speech that was recognized if there was
+recognized speech, otherwise it returns None.</p>
+<ul class="simple">
+<li>obj &#8211; The object to check</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-classnames-class">
+<h2>The ClassNames class<a class="headerlink" href="#the-classnames-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-17aeeea23d330530c950f306b1e5ef6cd21833aa.png" alt="Inheritance diagram of pysiriproxy.interpreter.ClassNames" usemap="#inheritance561735f03c" class="inheritance"/>
+<map id="inheritance561735f03c" name="inheritance561735f03c">
+<area shape="rect" href="pysiriproxy_constants.html#pysiriproxy.constants.ClassNames" title="pysiriproxy.constants.ClassNames" alt="" coords="5,84,243,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.interpreter.ClassNames">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.interpreter.</tt><tt class="descname">ClassNames</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ClassNames class contains properties which define the names of the
+class names of objects sent between the iPhone and Apple&#8217;s server.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.AnyObject">
+<tt class="descname">AnyObject</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.AnyObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>The AnyObject property defined the AnyObject object class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.CancelRequest">
+<tt class="descname">CancelRequest</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.CancelRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>The CancelRequest property defined the CancelRequest object class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.CancelSpeech">
+<tt class="descname">CancelSpeech</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.CancelSpeech" title="Permalink to this definition">¶</a></dt>
+<dd><p>The CancelSpeech property defined the CancelSpeech object class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.ClearContext">
+<tt class="descname">ClearContext</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.ClearContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ClearContext property defined the ClearContext object class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.CommandFailed">
+<tt class="descname">CommandFailed</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.CommandFailed" title="Permalink to this definition">¶</a></dt>
+<dd><p>The CommandFailed property defined the CommandFailed object class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.CommandIgnored">
+<tt class="descname">CommandIgnored</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.CommandIgnored" title="Permalink to this definition">¶</a></dt>
+<dd><p>The CommandIgnored property defined the CommandIgnored object class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.FinishSpeech">
+<tt class="descname">FinishSpeech</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.FinishSpeech" title="Permalink to this definition">¶</a></dt>
+<dd><p>The FinishSpeech property defined the FinishSpeech object class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.LoadAssistant">
+<tt class="descname">LoadAssistant</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.LoadAssistant" title="Permalink to this definition">¶</a></dt>
+<dd><p>The LoadAssistant property defined the LoadAssistant object class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.RequestCompleted">
+<tt class="descname">RequestCompleted</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.RequestCompleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>The RequestCompleted property defined the RequestCompleted object
+class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.SetApplicationContext">
+<tt class="descname">SetApplicationContext</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.SetApplicationContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SetApplicationContext property defined the SetApplicationContext
+object class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.SetRequestOrigin">
+<tt class="descname">SetRequestOrigin</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.SetRequestOrigin" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SetRequestOrigin property defined the SetRequestOrigin object
+class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.SetRestrictions">
+<tt class="descname">SetRestrictions</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.SetRestrictions" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SetRestrictions property defined the SetRestrictions object class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.SpeechPacket">
+<tt class="descname">SpeechPacket</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.SpeechPacket" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SpeechPacket property defined the SpeechPacket object class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.SpeechRecognized">
+<tt class="descname">SpeechRecognized</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.SpeechRecognized" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SpeechRecognized property defined the SpeechRecognized object
+class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.StartRequest">
+<tt class="descname">StartRequest</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.StartRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>The StartRequest property defined the StartRequest object class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.interpreter.ClassNames.StartSpeechRequest">
+<tt class="descname">StartSpeechRequest</tt><a class="headerlink" href="#pysiriproxy.interpreter.ClassNames.StartSpeechRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>The StartSpeechRequest property defined the StartSpeechRequest
+object class.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The interpreter module</a><ul>
+<li><a class="reference internal" href="#the-keys-class">The Keys class</a></li>
+<li><a class="reference internal" href="#the-interpreter-class">The Interpreter class</a></li>
+<li><a class="reference internal" href="#the-classnames-class">The ClassNames class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pysiriproxy_utf.html"
+                        title="previous chapter">The utf module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pysiriproxy_plist.html"
+                        title="next chapter">The plist module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/pysiriproxy_interpreter.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_plist.html" title="The plist module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_utf.html" title="The utf module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

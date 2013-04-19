@@ -1,0 +1,198 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The packetPlayer module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The pysiriproxy module" href="mod_pysiriproxy.html" />
+    <link rel="next" title="The utils module" href="pysiriproxy_utils.html" />
+    <link rel="prev" title="The constants module" href="pysiriproxy_constants.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_utils.html" title="The utils module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_constants.html" title="The constants module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" accesskey="U">The pysiriproxy module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.packetPlayer">
+<span id="the-packetplayer-module"></span><h1>The packetPlayer module<a class="headerlink" href="#module-pysiriproxy.packetPlayer" title="Permalink to this headline">¶</a></h1>
+<p>Contains the Player class.</p>
+<div class="section" id="the-player-class">
+<h2>The Player class<a class="headerlink" href="#the-player-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-cf6e2bb84c5a6d4d08d8ec4a6e128412f71435d0.png" alt="Inheritance diagram of pysiriproxy.packetPlayer.Player" usemap="#inheritance9ed41790c2" class="inheritance"/>
+<map id="inheritance9ed41790c2" name="inheritance9ed41790c2">
+<area shape="rect" href="#pysiriproxy.packetPlayer.Player" title="pysiriproxy.packetPlayer.Player" alt="" coords="72,239,288,265"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.packetPlayer.Player">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.packetPlayer.</tt><tt class="descname">Player</tt><big>(</big><em>protocol</em>, <em>filename</em>, <em>logger</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/packetPlayer.html#Player"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.packetPlayer.Player" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Player class loads a file containing data which it proceeds
+to send to the given protocol class using the same interface used
+to handle connections to the server. This allows us to save incoming
+data to the server and replay it for testing purposes.</p>
+<dl class="method">
+<dt id="pysiriproxy.packetPlayer.Player.onCycle">
+<tt class="descname">onCycle</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/packetPlayer.html#Player.onCycle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.packetPlayer.Player.onCycle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called during each cycle of the thread.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.packetPlayer.Player.onException">
+<tt class="descname">onException</tt><big>(</big><em>e</em>, <em>traceback</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/packetPlayer.html#Player.onException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.packetPlayer.Player.onException" title="Permalink to this definition">¶</a></dt>
+<dd><p>An exception occurred.</p>
+<ul class="simple">
+<li>e &#8211; The exception</li>
+<li>traceback &#8211; The traceback</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.packetPlayer.Player.onShutdown">
+<tt class="descname">onShutdown</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/packetPlayer.html#Player.onShutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.packetPlayer.Player.onShutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called in the event that the thread is shutdown.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-modes-class">
+<h2>The Modes class<a class="headerlink" href="#the-modes-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-1b7fb33206a5e40a5009e4507798e94251b73f2e.png" alt="Inheritance diagram of pysiriproxy.packetPlayer.Modes" usemap="#inheritance2f4097f0d6" class="inheritance"/>
+<map id="inheritance2f4097f0d6" name="inheritance2f4097f0d6">
+<area shape="rect" href="pysiriproxy_constants.html#pysiriproxy.constants.Modes" title="pysiriproxy.constants.Modes" alt="" coords="5,7,205,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.packetPlayer.Modes">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.packetPlayer.</tt><tt class="descname">Modes</tt><a class="headerlink" href="#pysiriproxy.packetPlayer.Modes" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Modes class contains properties which define different types of
+data receiving modes.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.packetPlayer.Modes.Line">
+<tt class="descname">Line</tt><a class="headerlink" href="#pysiriproxy.packetPlayer.Modes.Line" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Line property indicates the mode in which lines of data is
+sent and received.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.packetPlayer.Modes.Raw">
+<tt class="descname">Raw</tt><a class="headerlink" href="#pysiriproxy.packetPlayer.Modes.Raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Raw property indicates the mode in which raw data is sent
+and received.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The packetPlayer module</a><ul>
+<li><a class="reference internal" href="#the-player-class">The Player class</a></li>
+<li><a class="reference internal" href="#the-modes-class">The Modes class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pysiriproxy_constants.html"
+                        title="previous chapter">The constants module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pysiriproxy_utils.html"
+                        title="next chapter">The utils module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/pysiriproxy_packetPlayer.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_utils.html" title="The utils module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_constants.html" title="The constants module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

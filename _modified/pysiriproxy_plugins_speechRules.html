@@ -1,0 +1,249 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The speechRules module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The plugins module" href="../_generated/mod_pysiriproxy_plugins.html" />
+    <link rel="next" title="The directions module" href="../_generated/pysiriproxy_plugins_directions.html" />
+    <link rel="prev" title="The manager module" href="../_generated/pysiriproxy_plugins_manager.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../_generated/pysiriproxy_plugins_directions.html" title="The directions module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../_generated/pysiriproxy_plugins_manager.html" title="The manager module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../_generated/mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="../_generated/mod_pysiriproxy_plugins.html" accesskey="U">The plugins module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.plugins.speechRules">
+<span id="the-speechrules-module"></span><h1>The speechRules module<a class="headerlink" href="#module-pysiriproxy.plugins.speechRules" title="Permalink to this headline">¶</a></h1>
+<p>The speechRules module contains classes pertaining to creating
+speech rules.</p>
+<span class="target" id="createspeechrule-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.speechRules.pysiriproxy.plugins.speechRules.createSpeechRule">
+<tt class="descclassname">pysiriproxy.plugins.speechRules.</tt><tt class="descname">createSpeechRule</tt><big>(</big><em>ruleClass</em><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.speechRules.pysiriproxy.plugins.speechRules.createSpeechRule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a function decorator which acts as an spech rule filter. When
+used this decorator will filter any object that does match the given
+<a class="reference internal" href="#pysiriproxy.plugins.speechRules.SpeechRule" title="pysiriproxy.plugins.speechRules.SpeechRule"><tt class="xref py py-class docutils literal"><span class="pre">SpeechRule</span></tt></a> object.</p>
+<ul class="simple">
+<li><strong>ruleClass</strong>: The <a class="reference internal" href="#pysiriproxy.plugins.speechRules.SpeechRule" title="pysiriproxy.plugins.speechRules.SpeechRule"><tt class="xref py py-class docutils literal"><span class="pre">SpeechRule</span></tt></a> object</li>
+</ul>
+</dd></dl>
+
+<span class="target" id="matches-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.speechRules.pysiriproxy.plugins.speechRules.matches">
+<tt class="descclassname">pysiriproxy.plugins.speechRules.</tt><tt class="descname">matches</tt><big>(</big><em>text</em><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.speechRules.pysiriproxy.plugins.speechRules.matches" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function decorator used to match recognized speech exactly (not
+case sensitive).</p>
+<ul class="simple">
+<li><strong>text</strong> &#8211; The text used to match the recognized speech</li>
+</ul>
+</dd></dl>
+
+<span class="target" id="regex-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.speechRules.pysiriproxy.plugins.speechRules.regex">
+<tt class="descclassname">pysiriproxy.plugins.speechRules.</tt><tt class="descname">regex</tt><big>(</big><em>exp</em><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.speechRules.pysiriproxy.plugins.speechRules.regex" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function decorator used to match recognized speech using a
+regular expression (not case sensitive).</p>
+<ul class="simple">
+<li><strong>exp</strong> &#8211; The regular expression used to match the speech</li>
+</ul>
+</dd></dl>
+
+<div class="section" id="the-speechrule-class">
+<h2>The SpeechRule class<a class="headerlink" href="#the-speechrule-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysiriproxy.plugins.speechRules.SpeechRule">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.plugins.speechRules.</tt><tt class="descname">SpeechRule</tt><big>(</big><em>text</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/speechRules.html#SpeechRule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.speechRules.SpeechRule" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SpeechRule class encapsulates a speech rule and provides the ability
+to test the recognized speech against expected text to determine if
+this SpeechRule applies to the recognized speech.</p>
+<dl class="method">
+<dt id="pysiriproxy.plugins.speechRules.SpeechRule.test">
+<tt class="descname">test</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/speechRules.html#SpeechRule.test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.speechRules.SpeechRule.test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the text to see if it matches our expected text.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function should return True if the SpeechRule applies
+to the recognized speech, otherwise it should return False.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function should be overriden by concrete SpeechRules.</p>
+</div>
+<ul class="simple">
+<li>text &#8211; The recogized speech to test</li>
+</ul>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.plugins.speechRules.SpeechRule.text">
+<tt class="descname">text</tt><a class="reference internal" href="../_modules/pysiriproxy/plugins/speechRules.html#SpeechRule.text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.speechRules.SpeechRule.text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the text for this SpeechRule.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-matchspeechrule-class">
+<h2>The MatchSpeechRule class<a class="headerlink" href="#the-matchspeechrule-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-f334648a27293eee9077be7f2ff84e11ea9d495c.png" alt="Inheritance diagram of pysiriproxy.plugins.speechRules.MatchSpeechRule" usemap="#inheritancefe5ebec816" class="inheritance"/>
+<map id="inheritancefe5ebec816" name="inheritancefe5ebec816">
+<area shape="rect" href="#pysiriproxy.plugins.speechRules.SpeechRule" title="pysiriproxy.plugins.speechRules.SpeechRule" alt="" coords="25,7,321,33"/>
+<area shape="rect" href="#pysiriproxy.plugins.speechRules.MatchSpeechRule" title="pysiriproxy.plugins.speechRules.MatchSpeechRule" alt="" coords="5,84,341,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.plugins.speechRules.MatchSpeechRule">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.plugins.speechRules.</tt><tt class="descname">MatchSpeechRule</tt><big>(</big><em>text</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/speechRules.html#MatchSpeechRule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.speechRules.MatchSpeechRule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a <a class="reference internal" href="#pysiriproxy.plugins.speechRules.SpeechRule" title="pysiriproxy.plugins.speechRules.SpeechRule"><tt class="xref py py-class docutils literal"><span class="pre">SpeechRule</span></tt></a> to match text exactly.</p>
+<dl class="method">
+<dt id="pysiriproxy.plugins.speechRules.MatchSpeechRule.test">
+<tt class="descname">test</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/speechRules.html#MatchSpeechRule.test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.speechRules.MatchSpeechRule.test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the text to see if it matches our expected text.</p>
+<ul class="simple">
+<li>text &#8211; The recogized speech to test</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-regexspeechrule-class">
+<h2>The RegexSpeechRule class<a class="headerlink" href="#the-regexspeechrule-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-1f7a069e73dbabc972071f20de21153926eca4f9.png" alt="Inheritance diagram of pysiriproxy.plugins.speechRules.RegexSpeechRule" usemap="#inheritance76aa8e8fc7" class="inheritance"/>
+<map id="inheritance76aa8e8fc7" name="inheritance76aa8e8fc7">
+<area shape="rect" href="#pysiriproxy.plugins.speechRules.SpeechRule" title="pysiriproxy.plugins.speechRules.SpeechRule" alt="" coords="25,7,321,33"/>
+<area shape="rect" href="#pysiriproxy.plugins.speechRules.RegexSpeechRule" title="pysiriproxy.plugins.speechRules.RegexSpeechRule" alt="" coords="5,84,341,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.plugins.speechRules.RegexSpeechRule">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.plugins.speechRules.</tt><tt class="descname">RegexSpeechRule</tt><big>(</big><em>regex</em>, <em>ignoreCase=True</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/speechRules.html#RegexSpeechRule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.speechRules.RegexSpeechRule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a <a class="reference internal" href="#pysiriproxy.plugins.speechRules.SpeechRule" title="pysiriproxy.plugins.speechRules.SpeechRule"><tt class="xref py py-class docutils literal"><span class="pre">SpeechRule</span></tt></a> to match text using a regular
+expression.</p>
+<dl class="method">
+<dt id="pysiriproxy.plugins.speechRules.RegexSpeechRule.test">
+<tt class="descname">test</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/speechRules.html#RegexSpeechRule.test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.speechRules.RegexSpeechRule.test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the text to see if it matches our expected text.</p>
+<ul class="simple">
+<li>text &#8211; The recogized speech to test</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The speechRules module</a><ul>
+<li><a class="reference internal" href="#the-speechrule-class">The SpeechRule class</a></li>
+<li><a class="reference internal" href="#the-matchspeechrule-class">The MatchSpeechRule class</a></li>
+<li><a class="reference internal" href="#the-regexspeechrule-class">The RegexSpeechRule class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../_generated/pysiriproxy_plugins_manager.html"
+                        title="previous chapter">The manager module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../_generated/pysiriproxy_plugins_directions.html"
+                        title="next chapter">The directions module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_modified/pysiriproxy_plugins_speechRules.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../_generated/pysiriproxy_plugins_directions.html" title="The directions module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../_generated/pysiriproxy_plugins_manager.html" title="The manager module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../_generated/mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="../_generated/mod_pysiriproxy_plugins.html" >The plugins module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

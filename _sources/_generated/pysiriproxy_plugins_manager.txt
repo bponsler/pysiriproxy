@@ -1,0 +1,27 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.plugins.manager on April 18, 2013
+   This file should not be modified.
+
+===================
+The manager module
+===================
+
+.. automodule:: pysiriproxy.plugins.manager
+
+---------------------
+The BasePlugin class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.plugins.manager.BasePlugin
+
+.. autoclass:: pysiriproxy.plugins.manager.BasePlugin
+    :members:
+
+------------------------
+The PluginManager class
+------------------------
+
+.. inheritance-diagram:: pysiriproxy.plugins.manager.PluginManager
+
+.. autoclass:: pysiriproxy.plugins.manager.PluginManager
+    :members:

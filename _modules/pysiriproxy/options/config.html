@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.options.config &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.options.config</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The config module contains constants pertaining to configuration of</span>
+<span class="sd">pysiriproxy.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">version</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">join</span><span class="p">,</span> <span class="n">sep</span>
+
+
+<div class="viewcode-block" id="_Directory"><a class="viewcode-back" href="../../../_generated/pysiriproxy_options_config.html#pysiriproxy.options.config._Directory">[docs]</a><span class="k">class</span> <span class="nc">_Directory</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _Directory class extends the string class to encapsulate the concept</span>
+<span class="sd">    of a directory. In addition, this class provides a function for retrieving</span>
+<span class="sd">    a file located within the current directory.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="_Directory.getFile"><a class="viewcode-back" href="../../../_generated/pysiriproxy_options_config.html#pysiriproxy.options.config._Directory.getFile">[docs]</a>    <span class="k">def</span> <span class="nf">getFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Return the _Directory object found by joining this _Directory</span>
+<span class="sd">        with the given filename.</span>
+
+<span class="sd">        * filename -- The filename</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">_Directory</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+
+</div></div>
+<div class="viewcode-block" id="Directories"><a class="viewcode-back" href="../../../_generated/pysiriproxy_options_config.html#pysiriproxy.options.config.Directories">[docs]</a><span class="k">class</span> <span class="nc">Directories</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The Directories class contains various properties which define</span>
+<span class="sd">    directories that contain pysiriproxy data.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Home</span> <span class="o">=</span> <span class="n">_Directory</span><span class="p">(</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;HOME&quot;</span><span class="p">))</span>
+    <span class="sd">&#39;&#39;&#39;The Home property contains the user&#39;s home directory.&#39;&#39;&#39;</span>
+
+    <span class="n">Config</span> <span class="o">=</span> <span class="n">Home</span><span class="o">.</span><span class="n">getFile</span><span class="p">(</span><span class="s">&quot;.pysiriproxy&quot;</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;The Config directory contains the user&#39;s siri proxy configuration</span>
+<span class="sd">    directory.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">Etc</span> <span class="o">=</span> <span class="n">_Directory</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="s">&quot;etc&quot;</span><span class="p">))</span>
+    <span class="sd">&#39;&#39;&#39;The Etc property contains the path to the system etc directory.&#39;&#39;&#39;</span>
+
+    <span class="n">Scripts</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">getFile</span><span class="p">(</span><span class="s">&quot;scripts&quot;</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;The Scripts property contains the scripts directory within the user&#39;s</span>
+<span class="sd">    siri proxy configuration directory.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c"># Get the path of this file, and pop up two directories to reach the</span>
+    <span class="c"># top level directory for pysiriproxy</span>
+    <span class="n">SiriInstall</span> <span class="o">=</span> <span class="n">_Directory</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="o">*</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">))[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="sd">&#39;&#39;&#39;The SiriInstall property contains the system installation directory</span>
+<span class="sd">    for pysiriproxy.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">SystemDefaultConfig</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">SiriInstall</span><span class="p">,</span> <span class="s">&quot;pysiriproxy&quot;</span><span class="p">,</span> <span class="s">&quot;config&quot;</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;The SystemDefaultConfig property contains the path to the system</span>
+<span class="sd">    directory which contains the default configuration files created when</span>
+<span class="sd">    pysiriproxy is installed on the system.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+</div>
+<div class="viewcode-block" id="Files"><a class="viewcode-back" href="../../../_generated/pysiriproxy_options_config.html#pysiriproxy.options.config.Files">[docs]</a><span class="k">class</span> <span class="nc">Files</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The Files class contains definitions of various file paths that pertain</span>
+<span class="sd">    to pysiriproxy configuration.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">GenCerts</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">Directories</span><span class="o">.</span><span class="n">Scripts</span><span class="p">,</span> <span class="s">&quot;gen_certs.sh&quot;</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;The GenCerts property contains the path to the bash script that</span>
+<span class="sd">    generates certificates for pysiriproxy.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">ConfigFile</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">Directories</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="s">&quot;pysiriproxy.cfg&quot;</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;The ConfigFile property contains the path to the configuration file for</span>
+<span class="sd">    pysiriproxy.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">CertFile</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">Directories</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="s">&quot;server.passless.crt&quot;</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;The CertFile property contains the path to the certification file for</span>
+<span class="sd">    pysiriproxy.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">EtcHosts</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">Directories</span><span class="o">.</span><span class="n">Etc</span><span class="p">,</span> <span class="s">&quot;hosts&quot;</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;The EtcHosts property contains the path to the system hosts file.&#39;&#39;&#39;</span>
+
+    <span class="n">LogFile</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">Directories</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="s">&quot;pysiriproxy.log&quot;</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;The LogFile property contains the path to the log file to use for</span>
+<span class="sd">    pysiriproxy.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">KeyFile</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">Directories</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="s">&quot;server.passless.key&quot;</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;The KeyFile property contains the path to the key file to use for</span>
+<span class="sd">    pysiriproxy.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+</div>
+<div class="viewcode-block" id="Ids"><a class="viewcode-back" href="../../../_generated/pysiriproxy_options_config.html#pysiriproxy.options.config.Ids">[docs]</a><span class="k">class</span> <span class="nc">Ids</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The Ids class defines various configuration settings.</span>
+
+<span class="sd">    .. note:: :mod:`ConfigParser` converts all properties to lower case</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">CertFile</span> <span class="o">=</span> <span class="s">&quot;certfile&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the configuration property that stores the certification</span>
+<span class="sd">    file.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">DebugLevel</span> <span class="o">=</span> <span class="s">&quot;debuglevel&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the configuration property that stores the debug level for</span>
+<span class="sd">    the system.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">ErrorResponse</span> <span class="o">=</span> <span class="s">&quot;error&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the configuration property that stores the string which</span>
+<span class="sd">    Siri will respond with in the event that an Exception is encountered while</span>
+<span class="sd">    processing an object filter, or a speech rule.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">ExitOnConnectionLost</span> <span class="o">=</span> <span class="s">&quot;exitonconnectionlost&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the configuration property that determines whether the</span>
+<span class="sd">    server application will exit in the event that the connection to the</span>
+<span class="sd">    iPhone is lost. This will allow an external script to restart the</span>
+<span class="sd">    server cleanly each time the connection is lost.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">GenCerts</span> <span class="o">=</span> <span class="s">&quot;gencerts&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the command line property that determines if the SSL</span>
+<span class="sd">    certificates should be generated.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">Host</span> <span class="o">=</span> <span class="s">&quot;host&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the configuration property that stores a particular host</span>
+<span class="sd">    name.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">IOsVersion</span> <span class="o">=</span> <span class="s">&quot;ios&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the configuration property that stores the version of iOS</span>
+<span class="sd">    that pysiriproxy should be configured for.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">KeyFile</span> <span class="o">=</span> <span class="s">&quot;keyfile&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the configuration property that stores the path to the key</span>
+<span class="sd">    file to use for the system.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">LogFile</span> <span class="o">=</span> <span class="s">&quot;logFile&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the configuration property that stores the path to the log</span>
+<span class="sd">    file to use for the system.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">LogLevel</span> <span class="o">=</span> <span class="s">&quot;loglevel&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the configuration property that stores the log level to use</span>
+<span class="sd">    for the system.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">PluginsDir</span> <span class="o">=</span> <span class="s">&quot;pluginsdir&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the configuration property that stores the path to the</span>
+<span class="sd">    directory containing the plugin scripts.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">Port</span> <span class="o">=</span> <span class="s">&quot;port&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the configuration property that stores the port number</span>
+<span class="sd">    to use.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">Timestamp</span> <span class="o">=</span> <span class="s">&quot;timestamp&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the configuration property that stores the boolean</span>
+<span class="sd">    indicating whether logged messages should be timestamped or not.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+</div>
+<div class="viewcode-block" id="Sections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_options_config.html#pysiriproxy.options.config.Sections">[docs]</a><span class="k">class</span> <span class="nc">Sections</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The Sections class defines the names of the sections that can be</span>
+<span class="sd">    used within the configuration file.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Debug</span> <span class="o">=</span> <span class="s">&quot;Debug&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The section containing debugging configuration settings.&#39;&#39;&#39;</span>
+
+    <span class="n">General</span> <span class="o">=</span> <span class="s">&quot;General&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The section containing general configuration settings.&#39;&#39;&#39;</span>
+
+    <span class="n">Server</span> <span class="o">=</span> <span class="s">&quot;Server&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The section containing settings pertaining to Apple&#39;s web server.&#39;&#39;&#39;</span>
+
+    <span class="n">iPhone</span> <span class="o">=</span> <span class="s">&quot;iPhone&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The section containing settings pertaining to the iPhone connection.&#39;&#39;&#39;</span>
+
+    <span class="n">Logging</span> <span class="o">=</span> <span class="s">&quot;Logging&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The section containing settings pertaining to logging the system.&#39;&#39;&#39;</span>
+
+    <span class="n">Responses</span> <span class="o">=</span> <span class="s">&quot;Responses&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The section containing settings pertaining to creating responses.&#39;&#39;&#39;</span>
+
+
+</div>
+<div class="viewcode-block" id="Vars"><a class="viewcode-back" href="../../../_generated/pysiriproxy_options_config.html#pysiriproxy.options.config.Vars">[docs]</a><span class="k">class</span> <span class="nc">Vars</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;Define various variables that can be used within the</span>
+<span class="sd">    configuration file.</span>
+
+<span class="sd">    .. note:: Variables should be all caps</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Config</span> <span class="o">=</span> <span class="s">&quot;PYSIRIPROXY&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the variable which stores the path to the configuration</span>
+<span class="sd">    file.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">Home</span> <span class="o">=</span> <span class="s">&quot;HOME&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The name of the variable which stores the path to the user&#39;s home</span>
+<span class="sd">    directory.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The objectClasses module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The plugins module" href="../_generated/mod_pysiriproxy_plugins.html" />
+    <link rel="next" title="The manager module" href="../_generated/pysiriproxy_plugins_manager.html" />
+    <link rel="prev" title="The plugin module" href="../_generated/pysiriproxy_plugins_plugin.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../_generated/pysiriproxy_plugins_manager.html" title="The manager module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../_generated/pysiriproxy_plugins_plugin.html" title="The plugin module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../_generated/mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="../_generated/mod_pysiriproxy_plugins.html" accesskey="U">The plugins module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.plugins.objectClasses">
+<span id="the-objectclasses-module"></span><h1>The objectClasses module<a class="headerlink" href="#module-pysiriproxy.plugins.objectClasses" title="Permalink to this headline">¶</a></h1>
+<p>The objectClasses module contains functions and attributes which are
+used to create object class filters for plugins.</p>
+<p>An object class filter is a plugin function which will be notified in the
+event that pysiriproxy receives an object of a specific type (or class).</p>
+<span class="target" id="createclassfilter-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.createClassFilter">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">createClassFilter</tt><big>(</big><em>className</em><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.createClassFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an function decorator which acts as an object class filter. When
+used this decorator will filter any object that does not have the
+same class name as the given class name. Plugins can use the decorator
+to create object filter functions.</p>
+<ul class="simple">
+<li><strong>className</strong>: The name of the object class which this decorator will filter</li>
+</ul>
+</dd></dl>
+
+<span class="target" id="clearcontext-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.ClearContext">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">ClearContext</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.ClearContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the ClearContext class.</p>
+</dd></dl>
+
+<span class="target" id="anyobject-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.AnyObject">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">AnyObject</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.AnyObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the AnyObject class.</p>
+</dd></dl>
+
+<span class="target" id="speechpacket-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.SpeechPacket">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">SpeechPacket</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.SpeechPacket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the SpeechPacket class.</p>
+</dd></dl>
+
+<span class="target" id="setapplicationcontext-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.SetApplicationContext">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">SetApplicationContext</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.SetApplicationContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the SetApplicationContext class.</p>
+</dd></dl>
+
+<span class="target" id="startspeechrequest-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.StartSpeechRequest">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">StartSpeechRequest</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.StartSpeechRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the StartSpeechRequest class.</p>
+</dd></dl>
+
+<span class="target" id="cancelspeech-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.CancelSpeech">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">CancelSpeech</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.CancelSpeech" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the CancelSpeech class.</p>
+</dd></dl>
+
+<span class="target" id="commandignored-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.CommandIgnored">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">CommandIgnored</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.CommandIgnored" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the CommandIgnored class.</p>
+</dd></dl>
+
+<span class="target" id="finishspeech-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.FinishSpeech">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">FinishSpeech</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.FinishSpeech" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the FinishSpeech class.</p>
+</dd></dl>
+
+<span class="target" id="cancelrequest-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.CancelRequest">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">CancelRequest</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.CancelRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the CancelRequest class.</p>
+</dd></dl>
+
+<span class="target" id="setrequestorigin-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.SetRequestOrigin">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">SetRequestOrigin</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.SetRequestOrigin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the SetRequestOrigin class.</p>
+</dd></dl>
+
+<span class="target" id="setrestrictions-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.SetRestrictions">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">SetRestrictions</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.SetRestrictions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the SetRestrictions class.</p>
+</dd></dl>
+
+<span class="target" id="commandfailed-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.CommandFailed">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">CommandFailed</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.CommandFailed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the CommandFailed class.</p>
+</dd></dl>
+
+<span class="target" id="loadassistant-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.LoadAssistant">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">LoadAssistant</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.LoadAssistant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the LoadAssistant class.</p>
+</dd></dl>
+
+<span class="target" id="requestcompleted-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.RequestCompleted">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">RequestCompleted</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.RequestCompleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the RequestCompleted class.</p>
+</dd></dl>
+
+<span class="target" id="startrequest-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.StartRequest">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">StartRequest</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.StartRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the StartRequest class.</p>
+</dd></dl>
+
+<span class="target" id="speechrecognized-label"></span><dl class="function">
+<dt id="pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.SpeechRecognized">
+<tt class="descclassname">pysiriproxy.plugins.objectClasses.</tt><tt class="descname">SpeechRecognized</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.plugins.objectClasses.pysiriproxy.plugins.objectClasses.SpeechRecognized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter received objects for those with the SpeechRecognized class.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../_generated/pysiriproxy_plugins_plugin.html"
+                        title="previous chapter">The plugin module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../_generated/pysiriproxy_plugins_manager.html"
+                        title="next chapter">The manager module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_modified/pysiriproxy_plugins_objectClasses.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../_generated/pysiriproxy_plugins_manager.html" title="The manager module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../_generated/pysiriproxy_plugins_plugin.html" title="The plugin module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../_generated/mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="../_generated/mod_pysiriproxy_plugins.html" >The plugins module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

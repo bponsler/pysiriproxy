@@ -1,0 +1,63 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.options.config on April 18, 2013
+   This file should not be modified.
+
+==================
+The config module
+==================
+
+.. automodule:: pysiriproxy.options.config
+
+----------------
+The Files class
+----------------
+
+.. inheritance-diagram:: pysiriproxy.options.config.Files
+
+.. autoclass:: pysiriproxy.options.config.Files
+    :members:
+
+---------------
+The Vars class
+---------------
+
+.. inheritance-diagram:: pysiriproxy.options.config.Vars
+
+.. autoclass:: pysiriproxy.options.config.Vars
+    :members:
+
+----------------------
+The Directories class
+----------------------
+
+.. inheritance-diagram:: pysiriproxy.options.config.Directories
+
+.. autoclass:: pysiriproxy.options.config.Directories
+    :members:
+
+--------------
+The Ids class
+--------------
+
+.. inheritance-diagram:: pysiriproxy.options.config.Ids
+
+.. autoclass:: pysiriproxy.options.config.Ids
+    :members:
+
+-------------------
+The Sections class
+-------------------
+
+.. inheritance-diagram:: pysiriproxy.options.config.Sections
+
+.. autoclass:: pysiriproxy.options.config.Sections
+    :members:
+
+---------------------
+The _Directory class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.options.config._Directory
+
+.. autoclass:: pysiriproxy.options.config._Directory
+    :members:

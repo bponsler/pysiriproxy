@@ -1,0 +1,63 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.constants on April 18, 2013
+   This file should not be modified.
+
+=====================
+The constants module
+=====================
+
+.. automodule:: pysiriproxy.constants
+
+---------------------
+The HeaderKeys class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.constants.HeaderKeys
+
+.. autoclass:: pysiriproxy.constants.HeaderKeys
+    :members:
+
+---------------
+The Keys class
+---------------
+
+.. inheritance-diagram:: pysiriproxy.constants.Keys
+
+.. autoclass:: pysiriproxy.constants.Keys
+    :members:
+
+---------------------
+The ClassNames class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.constants.ClassNames
+
+.. autoclass:: pysiriproxy.constants.ClassNames
+    :members:
+
+-------------------------
+The DirectionTypes class
+-------------------------
+
+.. inheritance-diagram:: pysiriproxy.constants.DirectionTypes
+
+.. autoclass:: pysiriproxy.constants.DirectionTypes
+    :members:
+
+---------------------
+The Directions class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.constants.Directions
+
+.. autoclass:: pysiriproxy.constants.Directions
+    :members:
+
+----------------
+The Modes class
+----------------
+
+.. inheritance-diagram:: pysiriproxy.constants.Modes
+
+.. autoclass:: pysiriproxy.constants.Modes
+    :members:

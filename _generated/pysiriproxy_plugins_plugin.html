@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The plugin module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The plugins module" href="mod_pysiriproxy_plugins.html" />
+    <link rel="next" title="The objectClasses module" href="../_modified/pysiriproxy_plugins_objectClasses.html" />
+    <link rel="prev" title="The plugins module" href="mod_pysiriproxy_plugins.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../_modified/pysiriproxy_plugins_objectClasses.html" title="The objectClasses module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_plugins.html" title="The plugins module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_plugins.html" accesskey="U">The plugins module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.plugins.plugin">
+<span id="the-plugin-module"></span><h1>The plugin module<a class="headerlink" href="#module-pysiriproxy.plugins.plugin" title="Permalink to this headline">¶</a></h1>
+<p>The plugin module contains the BasePlugin class which provides the base
+functionality from which all plugins will inherit.</p>
+<div class="section" id="the-baseplugin-class">
+<h2>The BasePlugin class<a class="headerlink" href="#the-baseplugin-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-4e536e13013b8d62e976b5994e4869ff1645768c.png" alt="Inheritance diagram of pysiriproxy.plugins.plugin.BasePlugin" usemap="#inheritance86718367ea" class="inheritance"/>
+<map id="inheritance86718367ea" name="inheritance86718367ea">
+<area shape="rect" href="#pysiriproxy.plugins.plugin.BasePlugin" title="pysiriproxy.plugins.plugin.BasePlugin" alt="" coords="5,7,256,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.plugins.plugin.</tt><tt class="descname">BasePlugin</tt><big>(</big><em>manager</em>, <em>logger</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>The BasePlugin class encapsulates the basic features of a plugin.
+This class provides the ability to load the set of filter functions,
+and then process them with a received object and an received direction.</p>
+<p>A filter function is created by decorating a class function with either
+the From_iPhone decorator, or the From_Server decorator. These filters
+will be processed in the event that an object is received from the given
+decorated direction. These functions can have any publicly visible name
+(i.e., do not start with __).</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">Plugin</span><span class="p">(</span><span class="n">BasePlugin</span><span class="p">):</span>
+    <span class="nd">@From_iPhone</span>
+    <span class="k">def</span> <span class="nf">exampleFilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;This will process all iPhone objects!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Filter functions can also be created to catch a specific object type by
+using specific object class decorators. The object class decorators are
+defined in the <tt class="xref py py-mod docutils literal"><span class="pre">objectClasses</span></tt> module.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">Plugin</span><span class="p">(</span><span class="n">BasePlugin</span><span class="p">):</span>
+    <span class="nd">@StartRequest</span>
+    <span class="nd">@From_iPhone</span>
+    <span class="k">def</span> <span class="nf">exampleFilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;This will process iPhone StartRequest objects!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the above example, the <em>exampleFilter</em> function will be called in the
+event that a StartRequest object is received from the iPhone. Custom
+decorators can be created by calling the
+<tt class="xref py py-func docutils literal"><span class="pre">objectClasses.createDecorator()</span></tt> function.</p>
+<p>Speech rules are created in a similar manner to object filters. Two
+decorators exist which allow a speech rule function to be called in the
+event that a given string matches the recognized speech, or if a regular
+expression matches the recognized speech.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">Plugin</span><span class="p">(</span><span class="n">BasePlugin</span><span class="p">):</span>
+    <span class="nd">@matches</span><span class="p">(</span><span class="s">&quot;Test Siri Proxy&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">testMatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Matched the recognized speech!&quot;</span>
+
+    <span class="nd">@regex</span><span class="p">(</span><span class="s">&quot;.*Siri Proxy.*&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">testRegex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Matched a regular expression!&quot;</span>
+</pre></div>
+</div>
+<p>The <em>&#64;matches</em> decorator takes a string which it will compare to the
+recognized speech. A function using this decorator will be called in the
+event that the recognized speech matches the given string (it is case
+insensitive).</p>
+<p>The <em>&#64;regex</em> decorator takes a regular expression which will use to
+match the recognized speech. A function using this decorator will be
+called in the event that the regular expression matches the recognized
+speech (it is case insensitive).</p>
+<p>Custom speech rule decorators can be created by creating a subclass of the
+<tt class="xref py py-class docutils literal"><span class="pre">speechRules.Rule</span></tt> class, and then calling the
+<tt class="xref py py-func docutils literal"><span class="pre">speechRules.createDecorator()</span></tt> function with the 
+<tt class="xref py py-class docutils literal"><span class="pre">speechRules.Rule</span></tt> subclass.</p>
+<dl class="method">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.ask">
+<tt class="descname">ask</tt><big>(</big><em>question</em>, <em>spoken=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin.ask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.ask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Command Siri to ask the user a question.</p>
+<ul class="simple">
+<li>question &#8211; The question to ask</li>
+<li>spoken &#8211; The text Siri will say</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.completeRequest">
+<tt class="descname">completeRequest</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin.completeRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.completeRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complete a request to Siri.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function should always be called by speech rules
+otherwise Siri will continue to spin.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.customCommand">
+<tt class="descname">customCommand</tt><big>(</big><em>obj</em>, <em>direction</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin.customCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.customCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a default object filter for the start request command
+received from the iPhone. This allows the plugins to define a set
+of custom command names and map them to specific callback functions.</p>
+<ul class="simple">
+<li>commandName &#8211; The name of the object</li>
+<li>direction &#8211; The direction the object traveled to be received</li>
+</ul>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.customCommandMap">
+<tt class="descname">customCommandMap</tt><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.customCommandMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>The customCommandMap property defines a dictionary of custom command
+names mapped to the concrete plugin class function names that get called
+when the custom command is received from the iPhone.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.getName">
+<tt class="descname">getName</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin.getName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.getName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the name of this Plugin.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.init">
+<tt class="descname">init</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called after the BasePlugin is created.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function can be overridden by concrete plugins.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.makeView">
+<tt class="descname">makeView</tt><big>(</big><em>views</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin.makeView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.makeView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a view and send it to the iPhone user.</p>
+<ul class="simple">
+<li>views &#8211; The list of views to create</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.processFilters">
+<tt class="descname">processFilters</tt><big>(</big><em>obj</em>, <em>direction</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin.processFilters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.processFilters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process the filters for this Plugin.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function should return False if the object should be
+dropped, return None if the object is ignored by this
+filter, or return the new object corresponding to the
+response.</p>
+</div>
+<ul class="simple">
+<li>commandName &#8211; The name of the object</li>
+<li>direction &#8211; The direction the object traveled to be received</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.processSpeechRules">
+<tt class="descname">processSpeechRules</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin.processSpeechRules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.processSpeechRules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process all of the speech rules for the recognized speech text.</p>
+<ul class="simple">
+<li>text &#8211; The recognized speech text</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.resetContext">
+<tt class="descname">resetContext</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin.resetContext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.resetContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the context.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.say">
+<tt class="descname">say</tt><big>(</big><em>text</em>, <em>spoken=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin.say"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.say" title="Permalink to this definition">¶</a></dt>
+<dd><p>Command Siri to speak a piece of text.</p>
+<ul class="simple">
+<li>text &#8211; The text that Siri will display</li>
+<li>spoken &#8211; The text that Siri will speak</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.showDirections">
+<tt class="descname">showDirections</tt><big>(</big><em>directionsType</em>, <em>source</em>, <em>destination</em>, <em>utterance=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin.showDirections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.showDirections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a directions object and display it to the iPhone user.</p>
+<ul class="simple">
+<li>directionsType &#8211; The type of directions to show</li>
+<li>source &#8211; The starting location</li>
+<li>destination &#8211; The destination location</li>
+<li>utterance &#8211; The utterance to include</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.showDrivingDirections">
+<tt class="descname">showDrivingDirections</tt><big>(</big><em>source</em>, <em>destination</em>, <em>utterance=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin.showDrivingDirections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.showDrivingDirections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create driving directions object and display it to the iPhone user.</p>
+<ul class="simple">
+<li>source &#8211; The starting location</li>
+<li>destination &#8211; The destination location</li>
+<li>utterance &#8211; The utterance to include</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.showPublicTransitDirections">
+<tt class="descname">showPublicTransitDirections</tt><big>(</big><em>source</em>, <em>destination</em>, <em>utterance=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin.showPublicTransitDirections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.showPublicTransitDirections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create public tranportation directions object and display it to
+the iPhone user.</p>
+<ul class="simple">
+<li>source &#8211; The starting location</li>
+<li>destination &#8211; The destination location</li>
+<li>utterance &#8211; The utterance to include</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.plugins.plugin.BasePlugin.showWalkingDirections">
+<tt class="descname">showWalkingDirections</tt><big>(</big><em>source</em>, <em>destination</em>, <em>utterance=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/plugins/plugin.html#BasePlugin.showWalkingDirections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.plugins.plugin.BasePlugin.showWalkingDirections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create walking directions object and display it to the iPhone user.</p>
+<ul class="simple">
+<li>source &#8211; The starting location</li>
+<li>destination &#8211; The destination location</li>
+<li>utterance &#8211; The utterance to include</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The plugin module</a><ul>
+<li><a class="reference internal" href="#the-baseplugin-class">The BasePlugin class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="mod_pysiriproxy_plugins.html"
+                        title="previous chapter">The plugins module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../_modified/pysiriproxy_plugins_objectClasses.html"
+                        title="next chapter">The objectClasses module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/pysiriproxy_plugins_plugin.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../_modified/pysiriproxy_plugins_objectClasses.html" title="The objectClasses module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_plugins.html" title="The plugins module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_plugins.html" >The plugins module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

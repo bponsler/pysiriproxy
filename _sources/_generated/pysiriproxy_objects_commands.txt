@@ -1,0 +1,81 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.objects.commands on April 18, 2013
+   This file should not be modified.
+
+====================
+The commands module
+====================
+
+.. automodule:: pysiriproxy.objects.commands
+
+-------------------------------
+The _ConfirmationOptions class
+-------------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.commands._ConfirmationOptions
+
+.. autoclass:: pysiriproxy.objects.commands._ConfirmationOptions
+    :members:
+
+------------------------
+The _SendCommands class
+------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.commands._SendCommands
+
+.. autoclass:: pysiriproxy.objects.commands._SendCommands
+    :members:
+
+---------------------
+The SiriObject class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.commands.SiriObject
+
+.. autoclass:: pysiriproxy.objects.commands.SiriObject
+    :members:
+
+-------------------
+The Commands class
+-------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.commands.Commands
+
+.. autoclass:: pysiriproxy.objects.commands.Commands
+    :members:
+
+---------------------------------
+The _ConfirmSnippetCommand class
+---------------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.commands._ConfirmSnippetCommand
+
+.. autoclass:: pysiriproxy.objects.commands._ConfirmSnippetCommand
+    :members:
+
+--------------------------
+The _ResultCallback class
+--------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.commands._ResultCallback
+
+.. autoclass:: pysiriproxy.objects.commands._ResultCallback
+    :members:
+
+-------------------------
+The _CancelRequest class
+-------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.commands._CancelRequest
+
+.. autoclass:: pysiriproxy.objects.commands._CancelRequest
+    :members:
+
+--------------------------------
+The _CancelSnippetCommand class
+--------------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.commands._CancelSnippetCommand
+
+.. autoclass:: pysiriproxy.objects.commands._CancelSnippetCommand
+    :members:

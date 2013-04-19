@@ -1,0 +1,533 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.plugins.plugin &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.plugins.plugin</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The plugin module contains the BasePlugin class which provides the base</span>
+<span class="sd">functionality from which all plugins will inherit.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">GeneratorType</span>
+
+<span class="kn">from</span> <span class="nn">pysiriproxy.constants</span> <span class="kn">import</span> <span class="n">Keys</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.plugins.speechRules</span> <span class="kn">import</span> <span class="n">isSpeechRule</span><span class="p">,</span> <span class="n">speechRuleMatches</span><span class="p">,</span> \
+    <span class="n">matches</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.plugins.directions</span> <span class="kn">import</span> <span class="n">isDirectionFilter</span><span class="p">,</span> \
+    <span class="n">directionsMatch</span><span class="p">,</span> <span class="n">From_iPhone</span><span class="p">,</span> <span class="n">From_Server</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.plugins.objectClasses</span> <span class="kn">import</span> <span class="n">isObjectClassFilter</span><span class="p">,</span> \
+    <span class="n">objectClassesMatch</span><span class="p">,</span> <span class="n">SpeechPacket</span><span class="p">,</span> <span class="n">SpeechRecognized</span><span class="p">,</span> <span class="n">StartRequest</span>
+
+<span class="kn">from</span> <span class="nn">pyamp.logging</span> <span class="kn">import</span> <span class="n">Colors</span>
+<span class="kn">from</span> <span class="nn">pyamp.util</span> <span class="kn">import</span> <span class="n">getStackTrace</span>
+
+
+<div class="viewcode-block" id="BasePlugin"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin">[docs]</a><span class="k">class</span> <span class="nc">BasePlugin</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The BasePlugin class encapsulates the basic features of a plugin.</span>
+<span class="sd">    This class provides the ability to load the set of filter functions,</span>
+<span class="sd">    and then process them with a received object and an received direction.</span>
+
+<span class="sd">    A filter function is created by decorating a class function with either</span>
+<span class="sd">    the From_iPhone decorator, or the From_Server decorator. These filters</span>
+<span class="sd">    will be processed in the event that an object is received from the given</span>
+<span class="sd">    decorated direction. These functions can have any publicly visible name</span>
+<span class="sd">    (i.e., do not start with __).</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        def Plugin(BasePlugin):</span>
+<span class="sd">            @From_iPhone</span>
+<span class="sd">            def exampleFilter(self, obj):</span>
+<span class="sd">                self.log.debug(&quot;This will process all iPhone objects!&quot;)</span>
+
+<span class="sd">    Filter functions can also be created to catch a specific object type by</span>
+<span class="sd">    using specific object class decorators. The object class decorators are</span>
+<span class="sd">    defined in the :mod:`.objectClasses` module.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        def Plugin(BasePlugin):</span>
+<span class="sd">            @StartRequest</span>
+<span class="sd">            @From_iPhone</span>
+<span class="sd">            def exampleFilter(self, obj):</span>
+<span class="sd">                self.log.debug(&quot;This will process iPhone StartRequest objects!&quot;)</span>
+
+<span class="sd">    In the above example, the *exampleFilter* function will be called in the</span>
+<span class="sd">    event that a StartRequest object is received from the iPhone. Custom</span>
+<span class="sd">    decorators can be created by calling the</span>
+<span class="sd">    :func:`.objectClasses.createDecorator` function.</span>
+
+<span class="sd">    Speech rules are created in a similar manner to object filters. Two</span>
+<span class="sd">    decorators exist which allow a speech rule function to be called in the</span>
+<span class="sd">    event that a given string matches the recognized speech, or if a regular</span>
+<span class="sd">    expression matches the recognized speech.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        def Plugin(BasePlugin):</span>
+<span class="sd">            @matches(&quot;Test Siri Proxy&quot;)</span>
+<span class="sd">            def testMatch(self, text):</span>
+<span class="sd">                print &quot;Matched the recognized speech!&quot;</span>
+
+<span class="sd">            @regex(&quot;.*Siri Proxy.*&quot;)</span>
+<span class="sd">            def testRegex(self, text):</span>
+<span class="sd">                print &quot;Matched a regular expression!&quot;</span>
+
+<span class="sd">    The *@matches* decorator takes a string which it will compare to the</span>
+<span class="sd">    recognized speech. A function using this decorator will be called in the</span>
+<span class="sd">    event that the recognized speech matches the given string (it is case</span>
+<span class="sd">    insensitive).</span>
+
+<span class="sd">    The *@regex* decorator takes a regular expression which will use to</span>
+<span class="sd">    match the recognized speech. A function using this decorator will be</span>
+<span class="sd">    called in the event that the regular expression matches the recognized</span>
+<span class="sd">    speech (it is case insensitive).</span>
+
+<span class="sd">    Custom speech rule decorators can be created by creating a subclass of the</span>
+<span class="sd">    :class:`.speechRules.Rule` class, and then calling the</span>
+<span class="sd">    :func:`.speechRules.createDecorator` function with the </span>
+<span class="sd">    :class:`.speechRules.Rule` subclass.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">customCommandMap</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="sd">&#39;&#39;&#39;The customCommandMap property defines a dictionary of custom command</span>
+<span class="sd">    names mapped to the concrete plugin class function names that get called</span>
+<span class="sd">    when the custom command is received from the iPhone.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c"># Store the names of various properties that concrete plugins can override</span>
+    <span class="n">__NameProp</span> <span class="o">=</span> <span class="s">&quot;name&quot;</span>
+    <span class="n">__LogColorProp</span> <span class="o">=</span> <span class="s">&quot;logColor&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">,</span> <span class="n">logger</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * manager -- The PluginManager object</span>
+<span class="sd">        * logger -- The logger</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__manager</span> <span class="o">=</span> <span class="n">manager</span>
+
+        <span class="c"># Force the name property to exist</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__forceProperty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__NameProp</span><span class="p">)</span>
+
+        <span class="c"># Get the logColor property which is optional</span>
+        <span class="n">logColor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getProperty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__LogColorProp</span><span class="p">,</span>
+                                      <span class="n">Colors</span><span class="o">.</span><span class="n">Foreground</span><span class="o">.</span><span class="n">White</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">logColor</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__clearFilters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__clearSpeechRules</span><span class="p">()</span>
+
+        <span class="c"># Load the filters and speech rules for this plugin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__loadFiltersAndRules</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<div class="viewcode-block" id="BasePlugin.getName"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.getName">[docs]</a>    <span class="k">def</span> <span class="nf">getName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the name of this Plugin.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getProperty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__NameProp</span><span class="p">)</span>
+
+    <span class="c">##### Functions concrete plugins should override #####</span>
+</div>
+<div class="viewcode-block" id="BasePlugin.init"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Called after the BasePlugin is created.</span>
+
+<span class="sd">        .. note:: This function can be overridden by concrete plugins.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">pass</span>
+
+    <span class="c">##### Process filters for this plugin #####</span>
+</div>
+<div class="viewcode-block" id="BasePlugin.processFilters"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.processFilters">[docs]</a>    <span class="k">def</span> <span class="nf">processFilters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Process the filters for this Plugin.</span>
+
+<span class="sd">        .. note:: This function should return False if the object should be</span>
+<span class="sd">                  dropped, return None if the object is ignored by this</span>
+<span class="sd">                  filter, or return the new object corresponding to the</span>
+<span class="sd">                  response.</span>
+
+<span class="sd">        * commandName -- The name of the object</span>
+<span class="sd">        * direction -- The direction the object traveled to be received</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Processing </span><span class="si">%d</span><span class="s"> filters&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__filters</span><span class="p">),</span> <span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+        <span class="c"># Process all of the filters for this plugin</span>
+        <span class="k">for</span> <span class="n">filterFunction</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filters</span><span class="p">:</span>
+            <span class="c"># Determine if this filter function applies to the current</span>
+            <span class="c"># object or direction</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filterApplies</span><span class="p">(</span><span class="n">filterFunction</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+                <span class="c"># Filters return None when they ignore the object, otherwise</span>
+                <span class="c"># they have some effect on the current object</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">filterName</span> <span class="o">=</span> <span class="n">filterFunction</span><span class="o">.</span><span class="n">__name__</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Processing filter: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">filterName</span><span class="p">,</span>
+                                   <span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">filterFunction</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">response</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Error in filter [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> \
+                                       <span class="n">filterFunction</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">getStackTrace</span><span class="p">())</span>
+
+        <span class="c"># Object is ignored by this plugin</span>
+        <span class="k">return</span> <span class="bp">None</span>
+</div>
+    <span class="nd">@From_iPhone</span>
+    <span class="nd">@StartRequest</span>
+<div class="viewcode-block" id="BasePlugin.customCommand"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.customCommand">[docs]</a>    <span class="k">def</span> <span class="nf">customCommand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a default object filter for the start request command</span>
+<span class="sd">        received from the iPhone. This allows the plugins to define a set</span>
+<span class="sd">        of custom command names and map them to specific callback functions.</span>
+
+<span class="sd">        * commandName -- The name of the object</span>
+<span class="sd">        * direction -- The direction the object traveled to be received</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># Get the command name from the start request object</span>
+        <span class="n">commandName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getStartRequestCommand</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+        <span class="n">functionName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">customCommandMap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">commandName</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">functionName</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">customFn</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">functionName</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">customFn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">customFn</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="c">##### Functions for processing speech rules #####</span>
+</div>
+<div class="viewcode-block" id="BasePlugin.processSpeechRules"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.processSpeechRules">[docs]</a>    <span class="k">def</span> <span class="nf">processSpeechRules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Process all of the speech rules for the recognized speech text.</span>
+
+<span class="sd">        * text -- The recognized speech text</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Processing </span><span class="si">%d</span><span class="s"> speech rules for [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> \
+                           <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__speechRules</span><span class="p">),</span> <span class="n">text</span><span class="p">),</span> <span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+        <span class="c"># Process all of the speech rules for this plugin</span>
+        <span class="k">for</span> <span class="n">ruleFunction</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__speechRules</span><span class="p">:</span>
+            <span class="c"># If the given speech rule applies, then apply</span>
+            <span class="c"># it to the given text</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__speechRuleApplies</span><span class="p">(</span><span class="n">ruleFunction</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Processing speech rule: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> \
+                                       <span class="n">ruleFunction</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+                    <span class="c"># Speech rule functions have no return value, make sure</span>
+                    <span class="c"># to pass it the lowercase version of the text</span>
+                    <span class="n">resp</span> <span class="o">=</span> <span class="n">ruleFunction</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+
+                    <span class="c"># Only apply the first matched speech rule</span>
+                    <span class="k">return</span> <span class="bp">True</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span> <span class="o">!=</span> <span class="n">GeneratorType</span> <span class="k">else</span> <span class="n">resp</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Error in speech rule [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> \
+                                       <span class="n">ruleFunction</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">getStackTrace</span><span class="p">())</span>
+
+        <span class="c"># The text was not matched by any speech rules</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="c">##### Functions passed through to the PluginManager #####</span>
+</div>
+<div class="viewcode-block" id="BasePlugin.showDirections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.showDirections">[docs]</a>    <span class="k">def</span> <span class="nf">showDirections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directionsType</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                       <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a directions object and display it to the iPhone user.</span>
+
+<span class="sd">        * directionsType -- The type of directions to show</span>
+<span class="sd">        * source -- The starting location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to include</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__manager</span><span class="o">.</span><span class="n">showDirections</span><span class="p">(</span><span class="n">directionsType</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                                      <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BasePlugin.showDrivingDirections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.showDrivingDirections">[docs]</a>    <span class="k">def</span> <span class="nf">showDrivingDirections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create driving directions object and display it to the iPhone user.</span>
+
+<span class="sd">        * source -- The starting location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to include</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__manager</span><span class="o">.</span><span class="n">showDrivingDirections</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                                             <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BasePlugin.showWalkingDirections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.showWalkingDirections">[docs]</a>    <span class="k">def</span> <span class="nf">showWalkingDirections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create walking directions object and display it to the iPhone user.</span>
+
+<span class="sd">        * source -- The starting location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to include</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__manager</span><span class="o">.</span><span class="n">showWalkingDirections</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                                             <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BasePlugin.showPublicTransitDirections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.showPublicTransitDirections">[docs]</a>    <span class="k">def</span> <span class="nf">showPublicTransitDirections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create public tranportation directions object and display it to</span>
+<span class="sd">        the iPhone user.</span>
+
+<span class="sd">        * source -- The starting location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to include</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__manager</span><span class="o">.</span><span class="n">showPublicTransitDirections</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                                                   <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BasePlugin.makeView"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.makeView">[docs]</a>    <span class="k">def</span> <span class="nf">makeView</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">views</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a view and send it to the iPhone user.</span>
+
+<span class="sd">        * views -- The list of views to create</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__manager</span><span class="o">.</span><span class="n">makeView</span><span class="p">(</span><span class="n">views</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BasePlugin.ask"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.ask">[docs]</a>    <span class="k">def</span> <span class="nf">ask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">spoken</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Command Siri to ask the user a question.</span>
+
+<span class="sd">        * question -- The question to ask</span>
+<span class="sd">        * spoken -- The text Siri will say</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__manager</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">spoken</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BasePlugin.resetContext"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.resetContext">[docs]</a>    <span class="k">def</span> <span class="nf">resetContext</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Reset the context.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__manager</span><span class="o">.</span><span class="n">resetContext</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="BasePlugin.say"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.say">[docs]</a>    <span class="k">def</span> <span class="nf">say</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">spoken</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Command Siri to speak a piece of text.</span>
+
+<span class="sd">        * text -- The text that Siri will display</span>
+<span class="sd">        * spoken -- The text that Siri will speak</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__manager</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">spoken</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BasePlugin.completeRequest"><a class="viewcode-back" href="../../../_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin.completeRequest">[docs]</a>    <span class="k">def</span> <span class="nf">completeRequest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Complete a request to Siri.</span>
+
+<span class="sd">        .. note:: This function should always be called by speech rules</span>
+<span class="sd">                  otherwise Siri will continue to spin.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__manager</span><span class="o">.</span><span class="n">completeRequest</span><span class="p">()</span>
+
+    <span class="c">##### Private functions for loading filters #####</span>
+</div>
+    <span class="k">def</span> <span class="nf">__clearFilters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Clear the filters for this plugin.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__filters</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">__clearSpeechRules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Clear the speech rules for this plugin.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__speechRules</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">__loadFiltersAndRules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Load all of the filters and speech rules for this Plugin.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__clearFilters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__clearSpeechRules</span><span class="p">()</span>
+
+        <span class="c"># Traverse all of our functions</span>
+        <span class="k">for</span> <span class="n">function</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getFunctions</span><span class="p">():</span>
+            <span class="c"># Handle a filter, or speech rule function accordingly</span>
+            <span class="k">if</span> <span class="n">isDirectionFilter</span><span class="p">(</span><span class="n">function</span><span class="p">)</span> <span class="ow">or</span> <span class="n">isObjectClassFilter</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Added filter [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> <span class="n">function</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span>
+                               <span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">isSpeechRule</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Added speech rule [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> <span class="n">function</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span>
+                               <span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__speechRules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+
+    <span class="c">##### Other private functions #####</span>
+
+    <span class="k">def</span> <span class="nf">__getFunctions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Return all of the functions for this class.&#39;&#39;&#39;</span>
+        <span class="c"># Filter out any builtin, and private functions</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__isNotPrivateOrBuiltin</span><span class="p">,</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+        <span class="c"># Get the objects for all of the class attributes</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span> <span class="n">attrs</span><span class="p">)</span>
+
+        <span class="c"># Filter out any non-existing attributes</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">,</span> <span class="n">objs</span><span class="p">)</span>
+
+        <span class="c"># Now return only those that are functions</span>
+        <span class="k">return</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s">&quot;__call__&quot;</span><span class="p">),</span> <span class="n">objs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__isNotPrivateOrBuiltin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Determine if the given attribute is a private or builtin</span>
+<span class="sd">        attribute name.</span>
+
+<span class="sd">        * attr -- The name of the attribute</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">attr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;_&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">attr</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;__&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">__forceProperty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">propName</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Force the given property to exist.</span>
+
+<span class="sd">        * propName -- The name of the property</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">propValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getProperty</span><span class="p">(</span><span class="n">propName</span><span class="p">)</span>
+
+        <span class="c"># Check that the name property exists</span>
+        <span class="k">if</span> <span class="n">propValue</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Plugins must have a &#39;</span><span class="si">%s</span><span class="s">&#39; property!&quot;</span> <span class="o">%</span> <span class="n">propName</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">propValue</span>
+
+    <span class="k">def</span> <span class="nf">__getProperty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">propName</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the value of the given property.</span>
+<span class="sd">        </span>
+<span class="sd">        * default -- The default value</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">propName</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__filterApplies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Determine if the given filter function applies to either the</span>
+<span class="sd">        given direction or the class of the given object.</span>
+
+<span class="sd">        * direction -- The direction</span>
+<span class="sd">        * obj -- The object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">objectClass</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;class&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">directionsMatch</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span> <span class="ow">and</span> \
+            <span class="n">objectClassesMatch</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">objectClass</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__speechRuleApplies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Determine if the given speech rule function applies to</span>
+<span class="sd">        the recognized text.</span>
+
+<span class="sd">        * function -- The speech rule function</span>
+<span class="sd">        * text -- The recognized text</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">speechRuleMatches</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getStartRequestCommand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the command name from the start request object.</span>
+
+<span class="sd">        * obj -- The start request object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">utterance</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">Properties</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">properties</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">utterance</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">Utterance</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">utterance</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

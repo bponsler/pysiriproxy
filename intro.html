@@ -1,0 +1,193 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="index.html" />
+    <link rel="next" title="Installing pysiriproxy" href="installation.html" />
+    <link rel="prev" title="pysiriproxy" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installing pysiriproxy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="pysiriproxy"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>pysiriproxy is a porting of the
+<a class="reference external" href="https://github.com/plamoni/SiriProxy">SiriProxy</a> project from Ruby to
+Python. Siri Proxy was created by Pete Lamonica.</p>
+<p>Siri Proxy is a proxy server for Apple&#8217;s Siri &#8220;assistant.&#8221; The idea is to allow
+for the creation of custom handlers for different actions. This can allow
+developers to easily add functionality to Siri.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You may also be interested in the
+<em class="xref std std-ref">siriviewer</em> project which
+provides a graphical interface for easily testing pysiriproxy plugins.</p>
+</div>
+<div class="section" id="about">
+<h2>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h2>
+<p>pysiriproxy is a port of <a class="reference external" href="https://github.com/plamoni/SiriProxy">Siri Proxy</a>
+from Ruby to Python.</p>
+<p>From the About description of Siri Proxy:</p>
+<blockquote>
+&#8220;Siri Proxy is a proxy server for Apple&#8217;s Siri &#8220;assistant.&#8221; The idea is to
+allow for the creation of custom handlers for different actions. This can
+allow developers to easily add functionality to Siri.&#8221;</blockquote>
+<p>pysiriproxy is very much in its early stages and is a work in progress. Users
+will likely encounter many issues during use and are advised to submit their
+issues so that siriproxy can be improved.</p>
+</div>
+<div class="section" id="acknowledgements">
+<h2>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/plamoni/SiriProxy">Siri Proxy</a> is the foundation of
+pysiriproxy and as such this project would not exist without the work by
+Pete Lamonica and all the developers working to create and improve Siri Proxy.</p>
+<p>I&#8217;d also like to thank the following people for their work in debugging and
+improving the project:</p>
+<ul class="simple">
+<li>Aaron (meluvalli): has discovered and reported countless issues with
+all aspects of the project and also deduced how to configure the server
+to work with the new server for iOS 6.</li>
+<li>Matt Parmett: sole investigator of how to get the pysiriproxy server
+running on a jailbroken iPhone and through this process helped find and
+test many speed/implementation improvements to the system.</li>
+</ul>
+<p>All of the help improving pysiriproxy is much appreciated!</p>
+</div>
+<div class="section" id="licensing">
+<h2>Licensing<a class="headerlink" href="#licensing" title="Permalink to this headline">¶</a></h2>
+<p>Just as <a class="reference external" href="https://github.com/plamoni/SiriProxy">Siri Proxy</a> is covered by
+the <cite>GNU General Public License v3.0 &lt;https://www.gnu.org/licenses/&gt;</cite>, so is
+pysiriproxy. Below is the license:</p>
+<blockquote>
+<p>pysiriproxy. Copyright 2012 Brett Ponsler, Pete Lamonica</p>
+<p>pysiriproxy is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+<p>pysiriproxy is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with pysiriproxy.  If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+</blockquote>
+</div>
+<div class="section" id="disclaimer">
+<h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Permalink to this headline">¶</a></h2>
+<p>I am in no way affiliated with Apple. This program is by no means
+endorsed by Apple.</p>
+<p>Please refrain from using this software for anything malicious.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#about">About</a></li>
+<li><a class="reference internal" href="#acknowledgements">Acknowledgements</a></li>
+<li><a class="reference internal" href="#licensing">Licensing</a></li>
+<li><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">pysiriproxy</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="next chapter">Installing pysiriproxy</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/intro.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installing pysiriproxy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="pysiriproxy"
+             >previous</a> |</li>
+        <li><a href="index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.connections.connection on April 18, 2013
+   This file should not be modified.
+
+======================
+The connection module
+======================
+
+.. automodule:: pysiriproxy.connections.connection
+
+----------------------------
+The ConnectionManager class
+----------------------------
+
+.. inheritance-diagram:: pysiriproxy.connections.connection.ConnectionManager
+
+.. autoclass:: pysiriproxy.connections.connection.ConnectionManager
+    :members:
+
+---------------------
+The Connection class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.connections.connection.Connection
+
+.. autoclass:: pysiriproxy.connections.connection.Connection
+    :members:

@@ -1,0 +1,12 @@
+================================================================================
+The connections module
+================================================================================
+
+.. toctree::
+   :maxdepth: 3
+
+   pysiriproxy_connections_iphone
+   pysiriproxy_connections_manager
+   pysiriproxy_connections_guzzoni
+   pysiriproxy_connections_connection
+   pysiriproxy_connections_server

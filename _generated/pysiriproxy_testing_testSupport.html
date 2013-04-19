@@ -1,0 +1,251 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The testSupport module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The testing module" href="mod_pysiriproxy_testing.html" />
+    <link rel="next" title="The connections module" href="mod_pysiriproxy_connections.html" />
+    <link rel="prev" title="The pluginTester module" href="pysiriproxy_testing_pluginTester.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_connections.html" title="The connections module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_testing_pluginTester.html" title="The pluginTester module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_testing.html" accesskey="U">The testing module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.testing.testSupport">
+<span id="the-testsupport-module"></span><h1>The testSupport module<a class="headerlink" href="#module-pysiriproxy.testing.testSupport" title="Permalink to this headline">¶</a></h1>
+<p>The testSupport class contains classes and utility functions designed
+to aid the process of writing test modules for pysiriproxy.</p>
+<div class="section" id="the-connection-class">
+<h2>The Connection class<a class="headerlink" href="#the-connection-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-261f6c162238b192b5375b3fd379e0e39685f2b5.png" alt="Inheritance diagram of pysiriproxy.testing.testSupport.Connection" usemap="#inheritance6ff97e8e18" class="inheritance"/>
+<map id="inheritance6ff97e8e18" name="inheritance6ff97e8e18">
+<area shape="rect" href="#pysiriproxy.testing.testSupport.Connection" title="pysiriproxy.testing.testSupport.Connection" alt="" coords="5,7,296,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.testing.testSupport.Connection">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.testing.testSupport.</tt><tt class="descname">Connection</tt><a class="reference internal" href="../_modules/pysiriproxy/testing/testSupport.html#Connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.testing.testSupport.Connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Connection class implements the basic functionality of a
+<tt class="xref py py-class docutils literal"><span class="pre">connections.Connection</span></tt> which is used in responding to a
+request from Siri. This Connection class is compatible with
+the <tt class="xref py py-class docutils literal"><span class="pre">connections.ConnectionManager</span></tt> and the <a class="reference internal" href="pysiriproxy_plugins_manager.html#pysiriproxy.plugins.manager.PluginManager" title="pysiriproxy.plugins.manager.PluginManager"><tt class="xref py py-class docutils literal"><span class="pre">PluginManager</span></tt></a>
+and is used for testing purposes.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.testing.testSupport.Connection.Callback">
+<tt class="descname">Callback</tt><a class="headerlink" href="#pysiriproxy.testing.testSupport.Connection.Callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Callback property defines the callback function that is called
+in the event that an object is injected into the output stream of a
+connection.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.testing.testSupport.Connection.Direction">
+<tt class="descname">Direction</tt><a class="headerlink" href="#pysiriproxy.testing.testSupport.Connection.Direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Direction property defines the direction that data is traveling for
+this Connection.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.testing.testSupport.Connection.RefId">
+<tt class="descname">RefId</tt><a class="headerlink" href="#pysiriproxy.testing.testSupport.Connection.RefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>The RefId property defines the reference ID for this Connection.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.testing.testSupport.Connection.getDirection">
+<em class="property">classmethod </em><tt class="descname">getDirection</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/testing/testSupport.html#Connection.getDirection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.testing.testSupport.Connection.getDirection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the data direction for this Connection.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.testing.testSupport.Connection.getRefId">
+<em class="property">classmethod </em><tt class="descname">getRefId</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/testing/testSupport.html#Connection.getRefId"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.testing.testSupport.Connection.getRefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the RefId for this Connection.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.testing.testSupport.Connection.injectObjectToOutputStream">
+<em class="property">classmethod </em><tt class="descname">injectObjectToOutputStream</tt><big>(</big><em>obj</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/testing/testSupport.html#Connection.injectObjectToOutputStream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.testing.testSupport.Connection.injectObjectToOutputStream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inject the given object to the output stream.</p>
+<ul class="simple">
+<li>obj &#8211; The object to inject to the output stream</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-server-class">
+<h2>The Server class<a class="headerlink" href="#the-server-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-73fc078ea57884d751685b427edf4deab59f12be.png" alt="Inheritance diagram of pysiriproxy.testing.testSupport.Server" usemap="#inheritance9a57859906" class="inheritance"/>
+<map id="inheritance9a57859906" name="inheritance9a57859906">
+<area shape="rect" href="#pysiriproxy.testing.testSupport.Connection" title="pysiriproxy.testing.testSupport.Connection" alt="" coords="5,7,296,33"/>
+<area shape="rect" href="#pysiriproxy.testing.testSupport.Server" title="pysiriproxy.testing.testSupport.Server" alt="" coords="20,84,281,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.testing.testSupport.Server">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.testing.testSupport.</tt><tt class="descname">Server</tt><a class="reference internal" href="../_modules/pysiriproxy/testing/testSupport.html#Server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.testing.testSupport.Server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Server Connection for testing.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.testing.testSupport.Server.Direction">
+<tt class="descname">Direction</tt><a class="headerlink" href="#pysiriproxy.testing.testSupport.Server.Direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the direction for this Connection to indicate that it is from
+Apple&#8217;s web server.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.testing.testSupport.Server.RefId">
+<tt class="descname">RefId</tt><a class="headerlink" href="#pysiriproxy.testing.testSupport.Server.RefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the reference ID for the server Connection.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-iphone-class">
+<h2>The iPhone class<a class="headerlink" href="#the-iphone-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-5ecc4570b9122f74f5835d55ae7545beee642a64.png" alt="Inheritance diagram of pysiriproxy.testing.testSupport.iPhone" usemap="#inheritance1e773bbf83" class="inheritance"/>
+<map id="inheritance1e773bbf83" name="inheritance1e773bbf83">
+<area shape="rect" href="#pysiriproxy.testing.testSupport.Connection" title="pysiriproxy.testing.testSupport.Connection" alt="" coords="5,7,296,33"/>
+<area shape="rect" href="#pysiriproxy.testing.testSupport.iPhone" title="pysiriproxy.testing.testSupport.iPhone" alt="" coords="20,84,281,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.testing.testSupport.iPhone">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.testing.testSupport.</tt><tt class="descname">iPhone</tt><a class="reference internal" href="../_modules/pysiriproxy/testing/testSupport.html#iPhone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.testing.testSupport.iPhone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an iPhone Connection for testing.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.testing.testSupport.iPhone.Direction">
+<tt class="descname">Direction</tt><a class="headerlink" href="#pysiriproxy.testing.testSupport.iPhone.Direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the direction for this Connection to indicate that it is from
+the iPhone.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.testing.testSupport.iPhone.RefId">
+<tt class="descname">RefId</tt><a class="headerlink" href="#pysiriproxy.testing.testSupport.iPhone.RefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the reference ID for the iPhone Connection.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The testSupport module</a><ul>
+<li><a class="reference internal" href="#the-connection-class">The Connection class</a></li>
+<li><a class="reference internal" href="#the-server-class">The Server class</a></li>
+<li><a class="reference internal" href="#the-iphone-class">The iPhone class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pysiriproxy_testing_pluginTester.html"
+                        title="previous chapter">The pluginTester module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mod_pysiriproxy_connections.html"
+                        title="next chapter">The connections module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/pysiriproxy_testing_testSupport.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_connections.html" title="The connections module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_testing_pluginTester.html" title="The pluginTester module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_testing.html" >The testing module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,313 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The pysiriproxy module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="next" title="The testing module" href="mod_pysiriproxy_testing.html" />
+    <link rel="prev" title="How to control how Siri responds to the user" href="../writing_responses.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_testing.html" title="The testing module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../writing_responses.html" title="How to control how Siri responds to the user"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-pysiriproxy-module">
+<h1>The pysiriproxy module<a class="headerlink" href="#the-pysiriproxy-module" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mod_pysiriproxy_testing.html">The testing module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_testing_pluginTester.html">The pluginTester module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_testing_pluginTester.html#the-server-class">The Server class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_testing_pluginTester.html#the-iphone-class">The iPhone class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_testing_pluginTester.html#the-plugintester-class">The PluginTester class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_testing_testSupport.html">The testSupport module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_testing_testSupport.html#the-connection-class">The Connection class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_testing_testSupport.html#the-server-class">The Server class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_testing_testSupport.html#the-iphone-class">The iPhone class</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mod_pysiriproxy_connections.html">The connections module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_connections_iphone.html">The iphone module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_connections_iphone.html#the-iphone-class">The _iPhone class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_connections_iphone.html#the-connection-class">The Connection class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_connections_iphone.html#the-factory-class">The _Factory class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_connections_manager.html">The manager module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_connections_manager.html#the-connectionmanager-class">The ConnectionManager class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_connections_guzzoni.html">The guzzoni module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_connections_connection.html">The connection module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_connections_connection.html#the-connectionmanager-class">The ConnectionManager class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_connections_connection.html#the-connection-class">The Connection class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_connections_server.html">The server module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_connections_server.html#the-clienttlscontext-class">The ClientTLSContext class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_connections_server.html#the-connectionmanager-class">The ConnectionManager class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_connections_server.html#the-connection-class">The Connection class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_connections_server.html#the-server-class">The _Server class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_connections_server.html#the-factory-class">The _Factory class</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mod_pysiriproxy_options.html">The options module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_options_options.html">The options module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_options_options.html#the-files-class">The Files class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_options_options.html#the-settings-class">The Settings class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_options_options.html#the-directories-class">The Directories class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_options_options.html#the-ids-class">The Ids class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_options_options.html#the-values-class">The Values class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_options_options.html#the-vars-class">The Vars class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_options_options.html#the-sections-class">The Sections class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_options_options.html#the-options-class">The Options class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_options_config.html">The config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_options_config.html#the-files-class">The Files class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_options_config.html#the-vars-class">The Vars class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_options_config.html#the-directories-class">The Directories class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_options_config.html#the-ids-class">The Ids class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_options_config.html#the-sections-class">The Sections class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_options_config.html#the-directory-class">The _Directory class</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mod_pysiriproxy_objects.html">The objects module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_objects_requests.html">The requests module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_requests.html#the-requestcompleted-class">The _RequestCompleted class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_requests.html#the-startrequest-class">The _StartRequest class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_requests.html#the-getrequestorigin-class">The _GetRequestOrigin class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_requests.html#the-siriobject-class">The SiriObject class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_requests.html#the-requests-class">The Requests class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_requests.html#the-setrequestorigin-class">The _SetRequestOrigin class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_objects_baseObject.html">The baseObject module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_baseObject.html#the-siriobject-class">The SiriObject class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_objects_views.html">The views module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_views.html#the-showmappoints-class">The _ShowMapPoints class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_views.html#the-mapitemsnippet-class">The _MapItemSnippet class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_views.html#the-views-class">The Views class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_views.html#the-answersnippet-class">The _AnswerSnippet class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_views.html#the-siriobject-class">The SiriObject class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_views.html#the-utterance-class">The _Utterance class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_views.html#the-addviews-class">The _AddViews class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_objects_actions.html">The actions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_actions.html#the-commands-class">The Commands class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_actions.html#the-customcommand-class">The _CustomCommand class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_actions.html#the-siriobject-class">The SiriObject class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_actions.html#the-websearch-class">The _WebSearch class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_actions.html#the-actions-class">The Actions class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_objects_commands.html">The commands module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_commands.html#the-confirmationoptions-class">The _ConfirmationOptions class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_commands.html#the-sendcommands-class">The _SendCommands class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_commands.html#the-siriobject-class">The SiriObject class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_commands.html#the-commands-class">The Commands class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_commands.html#the-confirmsnippetcommand-class">The _ConfirmSnippetCommand class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_commands.html#the-resultcallback-class">The _ResultCallback class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_commands.html#the-cancelrequest-class">The _CancelRequest class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_commands.html#the-cancelsnippetcommand-class">The _CancelSnippetCommand class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_objects_factory.html">The factory module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_factory.html#the-commands-class">The Commands class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_factory.html#the-views-class">The Views class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_factory.html#the-siriobject-class">The SiriObject class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_factory.html#the-objectfactory-class">The ObjectFactory class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_factory.html#the-actions-class">The Actions class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_factory.html#the-buttons-class">The Buttons class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_factory.html#the-responsefactory-class">The ResponseFactory class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_factory.html#the-dataobjects-class">The DataObjects class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_factory.html#the-requests-class">The Requests class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_objects_buttons.html">The buttons module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_buttons.html#the-custom-class">The _Custom class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_buttons.html#the-websearchbutton-class">The _WebSearchButton class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_buttons.html#the-siriobject-class">The SiriObject class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_buttons.html#the-actions-class">The Actions class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_buttons.html#the-buttons-class">The Buttons class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_buttons.html#the-button-class">The _Button class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_objects_dataObjects.html">The dataObjects module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_dataObjects.html#the-location-class">The _Location class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_dataObjects.html#the-currentlocation-class">The _CurrentLocation class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_dataObjects.html#the-siriobject-class">The SiriObject class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_dataObjects.html#the-mapitem-class">The _MapItem class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_dataObjects.html#the-dataobjects-class">The DataObjects class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_dataObjects.html#the-answer-class">The _Answer class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_objects_dataObjects.html#the-answerline-class">The _AnswerLine class</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mod_pysiriproxy_plugins.html">The plugins module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_plugins_plugin.html">The plugin module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_plugins_plugin.html#the-baseplugin-class">The BasePlugin class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_modified/pysiriproxy_plugins_objectClasses.html">The objectClasses module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_plugins_manager.html">The manager module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_plugins_manager.html#the-baseplugin-class">The BasePlugin class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_plugins_manager.html#the-pluginmanager-class">The PluginManager class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_modified/pysiriproxy_plugins_speechRules.html">The speechRules module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_modified/pysiriproxy_plugins_speechRules.html#the-speechrule-class">The SpeechRule class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_modified/pysiriproxy_plugins_speechRules.html#the-matchspeechrule-class">The MatchSpeechRule class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_modified/pysiriproxy_plugins_speechRules.html#the-regexspeechrule-class">The RegexSpeechRule class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_plugins_directions.html">The directions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_plugins_responses.html">The responses module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_plugins_responses.html#the-responselist-class">The ResponseList class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysiriproxy_plugins_responses.html#the-response-class">The Response class</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pysiriproxy_utf.html">The utf module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pysiriproxy_interpreter.html">The interpreter module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_interpreter.html#the-keys-class">The Keys class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_interpreter.html#the-interpreter-class">The Interpreter class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_interpreter.html#the-classnames-class">The ClassNames class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pysiriproxy_plist.html">The plist module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_plist.html#the-binaryplist-class">The BinaryPlist class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_plist.html#the-keys-class">The Keys class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_plist.html#the-plist-class">The Plist class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pysiriproxy_constants.html">The constants module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_constants.html#the-headerkeys-class">The HeaderKeys class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_constants.html#the-keys-class">The Keys class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_constants.html#the-classnames-class">The ClassNames class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_constants.html#the-directiontypes-class">The DirectionTypes class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_constants.html#the-directions-class">The Directions class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_constants.html#the-modes-class">The Modes class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pysiriproxy_packetPlayer.html">The packetPlayer module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_packetPlayer.html#the-player-class">The Player class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysiriproxy_packetPlayer.html#the-modes-class">The Modes class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pysiriproxy_utils.html">The utils module</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../writing_responses.html"
+                        title="previous chapter">How to control how Siri responds to the user</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mod_pysiriproxy_testing.html"
+                        title="next chapter">The testing module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/mod_pysiriproxy.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_testing.html" title="The testing module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../writing_responses.html" title="How to control how Siri responds to the user"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

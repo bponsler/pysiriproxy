@@ -1,0 +1,402 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.objects.factory &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.objects.factory</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The factory module contains classes which provide factory functions</span>
+<span class="sd">for creating concrete :class:`.SiriObjects` for specific purposes.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.constants</span> <span class="kn">import</span> <span class="n">DirectionTypes</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects.baseObject</span> <span class="kn">import</span> <span class="n">SiriObject</span>
+
+<span class="c"># Include all the various types of objects we can create</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects.views</span> <span class="kn">import</span> <span class="n">Views</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects.actions</span> <span class="kn">import</span> <span class="n">Actions</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects.buttons</span> <span class="kn">import</span> <span class="n">Buttons</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects.commands</span> <span class="kn">import</span> <span class="n">Commands</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects.requests</span> <span class="kn">import</span> <span class="n">Requests</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects.dataObjects</span> <span class="kn">import</span> <span class="n">DataObjects</span>
+
+
+<div class="viewcode-block" id="ObjectFactory"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ObjectFactory">[docs]</a><span class="k">class</span> <span class="nc">ObjectFactory</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The ObjectFactory provides factory methods for constructing concrete</span>
+<span class="sd">    :class:`.SiriObject` objects of specific types.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ObjectFactory.action"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ObjectFactory.action">[docs]</a>    <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">actionType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a :class:`.SiriObject` :class:`.Action` of the specific type.</span>
+
+<span class="sd">        * actionType -- The type of action to create</span>
+<span class="sd">        * args -- The arguments</span>
+<span class="sd">        * kwargs -- The keyword arguments</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">Actions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">actionType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ObjectFactory.button"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ObjectFactory.button">[docs]</a>    <span class="k">def</span> <span class="nf">button</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">buttonType</span><span class="p">,</span> <span class="n">buttonText</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a :class:`.SiriObject` :class:`.Button` of the specific type.</span>
+
+<span class="sd">        * buttonType -- The type of Button to create</span>
+<span class="sd">        * buttonText -- The button text</span>
+<span class="sd">        * args -- The argumnets</span>
+<span class="sd">        * kwargs -- The keyword arguments</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">Buttons</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">buttonType</span><span class="p">,</span> <span class="n">buttonText</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ObjectFactory.utterance"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ObjectFactory.utterance">[docs]</a>    <span class="k">def</span> <span class="nf">utterance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">displayText</span><span class="p">,</span> <span class="n">spokenText</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">listenAfterSpeaking</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                  <span class="n">identifier</span><span class="o">=</span><span class="s">&quot;Misc#ident&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a :class:`.SiriObject` utterance.</span>
+
+<span class="sd">        * displayText -- The text to display</span>
+<span class="sd">        * spokenText -- The text that Siri will speak</span>
+<span class="sd">        * listenAfterSpeaking -- True for Siri to listen for a response</span>
+<span class="sd">        * identifier -- The identifier for the utterance</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">Views</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Views</span><span class="o">.</span><span class="n">Utterance</span><span class="p">,</span> <span class="n">displayText</span><span class="o">=</span><span class="n">displayText</span><span class="p">,</span>
+                            <span class="n">spokenText</span><span class="o">=</span><span class="n">spokenText</span><span class="p">,</span>
+                            <span class="n">listenAfterSpeaking</span><span class="o">=</span><span class="n">listenAfterSpeaking</span><span class="p">,</span>
+                            <span class="n">dialogIdentifier</span><span class="o">=</span><span class="n">identifier</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ObjectFactory.location"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ObjectFactory.location">[docs]</a>    <span class="k">def</span> <span class="nf">location</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">street</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">stateCode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">countryCode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">postalCode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a :class:`.SiriObject` location.</span>
+
+<span class="sd">        * street -- The string containing the street for the location</span>
+<span class="sd">        * city -- The string containing the city for the location</span>
+<span class="sd">        * stateCode -- The string containing the state code for the location</span>
+<span class="sd">        * countryCode -- The string containing the country code for the</span>
+<span class="sd">                         location</span>
+<span class="sd">        * postalCode -- The string containing the postal code for the location</span>
+<span class="sd">        * latitude -- The string containing the latitude for the location</span>
+<span class="sd">        * longitude -- The string containing the longitude for the location</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">DataObjects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">DataObjects</span><span class="o">.</span><span class="n">Location</span><span class="p">,</span> <span class="n">street</span><span class="o">=</span><span class="n">street</span><span class="p">,</span>
+               <span class="n">city</span><span class="o">=</span><span class="n">city</span><span class="p">,</span> <span class="n">stateCode</span><span class="o">=</span><span class="n">stateCode</span><span class="p">,</span> <span class="n">countryCode</span><span class="o">=</span><span class="n">countryCode</span><span class="p">,</span>
+               <span class="n">postalCode</span><span class="o">=</span><span class="n">postalCode</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="n">longitude</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ObjectFactory.currentLocation"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ObjectFactory.currentLocation">[docs]</a>    <span class="k">def</span> <span class="nf">currentLocation</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a :class:`.SiriObject` for the current location.</span>
+
+<span class="sd">        * label -- The label to display on the map pin</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">DataObjects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">DataObjects</span><span class="o">.</span><span class="n">CurrentLocation</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ObjectFactory.mapItem"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ObjectFactory.mapItem">[docs]</a>    <span class="k">def</span> <span class="nf">mapItem</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">locations</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a :class:`.SiriObject` map item.</span>
+
+<span class="sd">        * locations -- The list of locations to display on the map</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c"># Create locations for all of the locations in the given list</span>
+        <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">location</span> <span class="ow">in</span> <span class="n">locations</span><span class="p">:</span>
+            <span class="n">mapItem</span> <span class="o">=</span> <span class="n">DataObjects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">DataObjects</span><span class="o">.</span><span class="n">MapItem</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                                         <span class="n">location</span><span class="o">=</span><span class="n">location</span><span class="p">)</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mapItem</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Views</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Views</span><span class="o">.</span><span class="n">MapItemSnippet</span><span class="p">,</span> <span class="n">useCurrentLocation</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                            <span class="n">items</span><span class="o">=</span><span class="n">items</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ObjectFactory.directions"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ObjectFactory.directions">[docs]</a>    <span class="k">def</span> <span class="nf">directions</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">directionsType</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a :class:`.SiriObject` to display directions between two</span>
+<span class="sd">        locations.</span>
+
+<span class="sd">        * directionsType -- The type of directions to provide</span>
+<span class="sd">        * source -- The source location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to speak</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># @todo: Allow source and destination to be passed as</span>
+        <span class="c">#        Locations, OR MapItems, and convert the Locations</span>
+        <span class="c">#        to MapItems accordingly.</span>
+        <span class="n">mapPoints</span> <span class="o">=</span> <span class="n">Views</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Views</span><span class="o">.</span><span class="n">MapPoints</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span>
+                                 <span class="n">destination</span><span class="o">=</span><span class="n">destination</span><span class="p">,</span>
+                                 <span class="n">directionsType</span><span class="o">=</span><span class="n">directionsType</span><span class="p">)</span>
+
+        <span class="n">commands</span> <span class="o">=</span> <span class="p">[</span><span class="n">mapPoints</span><span class="p">]</span>
+        <span class="n">resultCallback</span> <span class="o">=</span> <span class="n">Commands</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Commands</span><span class="o">.</span><span class="n">ResultCallback</span><span class="p">,</span>
+                                         <span class="n">commands</span><span class="o">=</span><span class="n">commands</span><span class="p">)</span>
+
+        <span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span><span class="n">resultCallback</span><span class="p">]</span>
+
+        <span class="n">views</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c"># Add the utternace to the views, if an utterance is given</span>
+        <span class="k">if</span> <span class="n">utterance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">views</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">utterance</span><span class="p">)</span>
+
+        <span class="n">addViews</span> <span class="o">=</span> <span class="n">Views</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Views</span><span class="o">.</span><span class="n">AddViews</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">,</span>
+                                <span class="n">views</span><span class="o">=</span><span class="n">views</span><span class="p">)</span>
+
+        <span class="c"># Note: Adding the ace id makes the map points work properly</span>
+        <span class="n">addViews</span><span class="o">.</span><span class="n">setAceId</span><span class="p">()</span>
+
+        <span class="n">commands</span> <span class="o">=</span> <span class="p">[</span><span class="n">addViews</span><span class="p">]</span>
+        <span class="n">resultCallback</span> <span class="o">=</span> <span class="n">Commands</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Commands</span><span class="o">.</span><span class="n">ResultCallback</span><span class="p">,</span>
+                                         <span class="n">commands</span><span class="o">=</span><span class="n">commands</span><span class="p">)</span>
+        <span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span><span class="n">resultCallback</span><span class="p">]</span>
+        <span class="n">completed</span> <span class="o">=</span> <span class="n">Requests</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Requests</span><span class="o">.</span><span class="n">RequestCompleted</span><span class="p">,</span>
+                                    <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">completed</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ObjectFactory.drivingDirections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ObjectFactory.drivingDirections">[docs]</a>    <span class="k">def</span> <span class="nf">drivingDirections</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create driving directions between the two locations.</span>
+
+<span class="sd">        * source -- The source location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to speak</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">direction</span><span class="p">(</span><span class="n">DirectionTypes</span><span class="o">.</span><span class="n">Driving</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                             <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ObjectFactory.walkingDirections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ObjectFactory.walkingDirections">[docs]</a>    <span class="k">def</span> <span class="nf">walkingDirections</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create walking directions between the two locations.</span>
+
+<span class="sd">        * source -- The source location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to speak</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">direction</span><span class="p">(</span><span class="n">DirectionTypes</span><span class="o">.</span><span class="n">Walking</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                             <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ObjectFactory.publicTransitDirections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ObjectFactory.publicTransitDirections">[docs]</a>    <span class="k">def</span> <span class="nf">publicTransitDirections</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create public transportation directions between the two locations.</span>
+
+<span class="sd">        * source -- The source location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to speak</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">direction</span><span class="p">(</span><span class="n">DirectionTypes</span><span class="o">.</span><span class="n">PublicTransit</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                             <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="ResponseFactory"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ResponseFactory">[docs]</a><span class="k">class</span> <span class="nc">ResponseFactory</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The ResponseFactory is responsible for creating specific</span>
+<span class="sd">    :class:`.SiriObject` responses to be sent from pysiriproxy to the iPhone</span>
+<span class="sd">    user. These responses include things such as, creating a view composed of</span>
+<span class="sd">    :class:`.SiriObjects`, sending a request completed object, and others.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResponseFactory.directions"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ResponseFactory.directions">[docs]</a>    <span class="k">def</span> <span class="nf">directions</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">refId</span><span class="p">,</span> <span class="n">directionsType</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                   <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create directions to be sent to the iPhone.</span>
+
+<span class="sd">        * refId -- The reference id</span>
+<span class="sd">        * directionsType -- The type of directions to provide</span>
+<span class="sd">        * source -- The source location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to speak</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">directions</span> <span class="o">=</span> <span class="n">ObjectFactory</span><span class="o">.</span><span class="n">directions</span><span class="p">(</span><span class="n">directionsType</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span>
+                                              <span class="n">destination</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+        <span class="n">directions</span><span class="o">.</span><span class="n">makeRoot</span><span class="p">(</span><span class="n">refId</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">directions</span><span class="o">.</span><span class="n">toDict</span><span class="p">()</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResponseFactory.drivingDirections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ResponseFactory.drivingDirections">[docs]</a>    <span class="k">def</span> <span class="nf">drivingDirections</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">refId</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create driving directions to be sent to the iPhone.</span>
+
+<span class="sd">        * refId -- The reference id</span>
+<span class="sd">        * source -- The source location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to speak</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">directions</span><span class="p">(</span><span class="n">DirectionTypes</span><span class="o">.</span><span class="n">Driving</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                              <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResponseFactory.walkingDirections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ResponseFactory.walkingDirections">[docs]</a>    <span class="k">def</span> <span class="nf">walkingDirections</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">refId</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create walking directions to be sent to the iPhone.</span>
+
+<span class="sd">        * refId -- The reference id</span>
+<span class="sd">        * source -- The source location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to speak</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">directions</span><span class="p">(</span><span class="n">DirectionTypes</span><span class="o">.</span><span class="n">Walking</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                              <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResponseFactory.publicTransitDirections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ResponseFactory.publicTransitDirections">[docs]</a>    <span class="k">def</span> <span class="nf">publicTransitDirections</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">refId</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                                <span class="n">utterance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create public transportation directions to be sent to the iPhone.</span>
+
+<span class="sd">        * refId -- The reference id</span>
+<span class="sd">        * source -- The source location</span>
+<span class="sd">        * destination -- The destination location</span>
+<span class="sd">        * utterance -- The utterance to speak</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">directions</span><span class="p">(</span><span class="n">DirectionTypes</span><span class="o">.</span><span class="n">PublicTransit</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span>
+                              <span class="n">destination</span><span class="p">,</span> <span class="n">utterance</span><span class="o">=</span><span class="n">utterance</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResponseFactory.view"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ResponseFactory.view">[docs]</a>    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">refId</span><span class="p">,</span> <span class="n">subObjects</span><span class="p">,</span> <span class="n">dialogPhase</span><span class="o">=</span><span class="s">&quot;Completion&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create an utterance view composed of several sub objects.</span>
+
+<span class="sd">        * refId -- The reference id</span>
+<span class="sd">        * subObjects -- The list of SiriObjects the view will be composed of</span>
+<span class="sd">                        or a list of tuple arguments to create SiriObjects</span>
+<span class="sd">        * dialogPhase -- The dialogPhase</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">addViews</span> <span class="o">=</span> <span class="n">Views</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Views</span><span class="o">.</span><span class="n">AddViews</span><span class="p">,</span> <span class="n">dialogPhase</span><span class="o">=</span><span class="n">dialogPhase</span><span class="p">,</span>
+                                <span class="n">views</span><span class="o">=</span><span class="n">subObjects</span><span class="p">)</span>
+        <span class="n">addViews</span><span class="o">.</span><span class="n">makeRoot</span><span class="p">(</span><span class="n">refId</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">addViews</span><span class="o">.</span><span class="n">toDict</span><span class="p">()</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResponseFactory.utterance"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ResponseFactory.utterance">[docs]</a>    <span class="k">def</span> <span class="nf">utterance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">refId</span><span class="p">,</span> <span class="n">displayText</span><span class="p">,</span> <span class="n">spokenText</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                  <span class="n">listenAfterSpeaking</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="s">&quot;Misc#ident&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create an utterance with the given display text, and spoken text.</span>
+
+<span class="sd">        * refId -- The reference id</span>
+<span class="sd">        * displayText -- The text to be displayed</span>
+<span class="sd">        * spokenText -- The text to be spoken by Siri</span>
+<span class="sd">        * listenAfterSpeaking -- True for Siri to listen for a response</span>
+<span class="sd">                                 after speaking, False otherwise</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">utterance</span> <span class="o">=</span> <span class="n">ObjectFactory</span><span class="o">.</span><span class="n">utterance</span><span class="p">(</span><span class="n">displayText</span><span class="p">,</span> <span class="n">spokenText</span><span class="p">,</span>
+                                            <span class="n">listenAfterSpeaking</span><span class="p">,</span> <span class="n">identifier</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ResponseFactory</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">refId</span><span class="p">,</span> <span class="p">[</span><span class="n">utterance</span><span class="p">])</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResponseFactory.requestCompleted"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_factory.html#pysiriproxy.objects.factory.ResponseFactory.requestCompleted">[docs]</a>    <span class="k">def</span> <span class="nf">requestCompleted</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">refId</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a request completed object.</span>
+
+<span class="sd">        * refId -- The reference id</span>
+<span class="sd">        * callbacks -- The list of callbacks</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">completed</span> <span class="o">=</span> <span class="n">Requests</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Requests</span><span class="o">.</span><span class="n">RequestCompleted</span><span class="p">,</span>
+                                    <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)</span>
+        <span class="n">completed</span><span class="o">.</span><span class="n">makeRoot</span><span class="p">(</span><span class="n">refId</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">completed</span><span class="o">.</span><span class="n">toDict</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

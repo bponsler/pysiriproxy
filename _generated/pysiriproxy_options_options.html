@@ -1,0 +1,658 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The options module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The options module" href="mod_pysiriproxy_options.html" />
+    <link rel="next" title="The config module" href="pysiriproxy_options_config.html" />
+    <link rel="prev" title="The options module" href="mod_pysiriproxy_options.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_options_config.html" title="The config module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_options.html" title="The options module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_options.html" accesskey="U">The options module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.options.options">
+<span id="the-options-module"></span><h1>The options module<a class="headerlink" href="#module-pysiriproxy.options.options" title="Permalink to this headline">¶</a></h1>
+<p>The options module contains the Options class which provides the
+ability to load settings from the pysiriproxy configuration file, as as
+being able to parse the command line arguments.</p>
+<div class="section" id="the-files-class">
+<h2>The Files class<a class="headerlink" href="#the-files-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-3e782f53ed06b0920f13babf487d54afcd0f9fa3.png" alt="Inheritance diagram of pysiriproxy.options.options.Files" usemap="#inheritancef102871c00" class="inheritance"/>
+<map id="inheritancef102871c00" name="inheritancef102871c00">
+<area shape="rect" href="pysiriproxy_options_config.html#pysiriproxy.options.config.Files" title="pysiriproxy.options.config.Files" alt="" coords="5,7,216,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.options.options.Files">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.options.options.</tt><tt class="descname">Files</tt><a class="headerlink" href="#pysiriproxy.options.options.Files" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Files class contains definitions of various file paths that pertain
+to pysiriproxy configuration.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Files.CertFile">
+<tt class="descname">CertFile</tt><a class="headerlink" href="#pysiriproxy.options.options.Files.CertFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>The CertFile property contains the path to the certification file for
+pysiriproxy.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Files.ConfigFile">
+<tt class="descname">ConfigFile</tt><a class="headerlink" href="#pysiriproxy.options.options.Files.ConfigFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ConfigFile property contains the path to the configuration file for
+pysiriproxy.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Files.EtcHosts">
+<tt class="descname">EtcHosts</tt><a class="headerlink" href="#pysiriproxy.options.options.Files.EtcHosts" title="Permalink to this definition">¶</a></dt>
+<dd><p>The EtcHosts property contains the path to the system hosts file.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Files.GenCerts">
+<tt class="descname">GenCerts</tt><a class="headerlink" href="#pysiriproxy.options.options.Files.GenCerts" title="Permalink to this definition">¶</a></dt>
+<dd><p>The GenCerts property contains the path to the bash script that
+generates certificates for pysiriproxy.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Files.KeyFile">
+<tt class="descname">KeyFile</tt><a class="headerlink" href="#pysiriproxy.options.options.Files.KeyFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>The KeyFile property contains the path to the key file to use for
+pysiriproxy.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Files.LogFile">
+<tt class="descname">LogFile</tt><a class="headerlink" href="#pysiriproxy.options.options.Files.LogFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>The LogFile property contains the path to the log file to use for
+pysiriproxy.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-settings-class">
+<h2>The Settings class<a class="headerlink" href="#the-settings-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-3fbbafcef35705b013e75cca99360fd52d577c9e.png" alt="Inheritance diagram of pysiriproxy.options.options.Settings" usemap="#inheritance819a6cf068" class="inheritance"/>
+<map id="inheritance819a6cf068" name="inheritance819a6cf068">
+<area shape="rect" href="#pysiriproxy.options.options.Settings" title="pysiriproxy.options.options.Settings" alt="" coords="5,7,251,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.options.options.Settings">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.options.options.</tt><tt class="descname">Settings</tt><a class="reference internal" href="../_modules/pysiriproxy/options/options.html#Settings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.options.options.Settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Settings class defines all of the specific configuration settings
+that can be used in the pysiriproxy configuration file.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Settings.CertFile">
+<tt class="descname">CertFile</tt><a class="headerlink" href="#pysiriproxy.options.options.Settings.CertFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>This setting should contain the path to the file that is used as
+the certification file for connecting to the Apple&#8217;s server.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Settings.DebugLevel">
+<tt class="descname">DebugLevel</tt><a class="headerlink" href="#pysiriproxy.options.options.Settings.DebugLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>This setting should contain the debug level which will be used by the
+system.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Settings.ErrorResponse">
+<tt class="descname">ErrorResponse</tt><a class="headerlink" href="#pysiriproxy.options.options.Settings.ErrorResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>This setting should contain a string that will be spoken by Siri in
+the event of an Exception while objects are being filtered or speech rules
+are being applied.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Settings.ExitOnConnectionLost">
+<tt class="descname">ExitOnConnectionLost</tt><a class="headerlink" href="#pysiriproxy.options.options.Settings.ExitOnConnectionLost" title="Permalink to this definition">¶</a></dt>
+<dd><p>This setting should contain be set to True in order to configure the
+server such that it exits every time an established connection to the
+iPhone is lost. This will allow an external script to restart the server
+cleanly each time the connection is lost.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Settings.GenCerts">
+<tt class="descname">GenCerts</tt><a class="headerlink" href="#pysiriproxy.options.options.Settings.GenCerts" title="Permalink to this definition">¶</a></dt>
+<dd><p>This setting should contain a boolean indicating whether the pysiriproxy
+SSL certificates should be generated or not.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Settings.KeyFile">
+<tt class="descname">KeyFile</tt><a class="headerlink" href="#pysiriproxy.options.options.Settings.KeyFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>The setting should contain the path to the file that is used as
+the key file for connecting to the Apple&#8217;s server.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Settings.LogFile">
+<tt class="descname">LogFile</tt><a class="headerlink" href="#pysiriproxy.options.options.Settings.LogFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>This setting should contain the path to the log file where pysiriproxy
+should log all of its logging messages.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Settings.LogLevel">
+<tt class="descname">LogLevel</tt><a class="headerlink" href="#pysiriproxy.options.options.Settings.LogLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>This setting should contain the log level which will used by the system.</p>
+<p>Here are valid values for this setting:</p>
+<blockquote>
+<ul class="simple">
+<li>DEBUG,</li>
+<li>INFO,</li>
+<li>WARN, and</li>
+<li>ERROR</li>
+</ul>
+</blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Settings.PluginsDir">
+<tt class="descname">PluginsDir</tt><a class="headerlink" href="#pysiriproxy.options.options.Settings.PluginsDir" title="Permalink to this definition">¶</a></dt>
+<dd><p>This setting should contain the path to the system directory that
+contains the plugins which pysiriproxy should load.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Settings.ServerHost">
+<tt class="descname">ServerHost</tt><a class="headerlink" href="#pysiriproxy.options.options.Settings.ServerHost" title="Permalink to this definition">¶</a></dt>
+<dd><p>This setting should contain the host name of the Apple&#8217;s server.
+Defaults to the iOS 5 server.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Settings.ServerPort">
+<tt class="descname">ServerPort</tt><a class="headerlink" href="#pysiriproxy.options.options.Settings.ServerPort" title="Permalink to this definition">¶</a></dt>
+<dd><p>This setting should contain the port number used for connecting to
+Apple&#8217;s web server.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Settings.Timestamp">
+<tt class="descname">Timestamp</tt><a class="headerlink" href="#pysiriproxy.options.options.Settings.Timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>This setting should contain a string which is the format for the
+timestamp which will be applied to all logged messages. See the man
+page for the date command for more info on the format. If this is
+an empty string, no timestamp will be applied to logged messages.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Settings.iPhonePort">
+<tt class="descname">iPhonePort</tt><a class="headerlink" href="#pysiriproxy.options.options.Settings.iPhonePort" title="Permalink to this definition">¶</a></dt>
+<dd><p>This setting should contain the port number that the iPhone uses
+for its connection.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-directories-class">
+<h2>The Directories class<a class="headerlink" href="#the-directories-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-4517cefc17cb2af41c7d05f614f485ea0fb00879.png" alt="Inheritance diagram of pysiriproxy.options.options.Directories" usemap="#inheritancefa04634d35" class="inheritance"/>
+<map id="inheritancefa04634d35" name="inheritancefa04634d35">
+<area shape="rect" href="pysiriproxy_options_config.html#pysiriproxy.options.config.Directories" title="pysiriproxy.options.config.Directories" alt="" coords="5,7,259,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.options.options.Directories">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.options.options.</tt><tt class="descname">Directories</tt><a class="headerlink" href="#pysiriproxy.options.options.Directories" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Directories class contains various properties which define
+directories that contain pysiriproxy data.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Directories.Config">
+<tt class="descname">Config</tt><a class="headerlink" href="#pysiriproxy.options.options.Directories.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Config directory contains the user&#8217;s siri proxy configuration
+directory.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Directories.Etc">
+<tt class="descname">Etc</tt><a class="headerlink" href="#pysiriproxy.options.options.Directories.Etc" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Etc property contains the path to the system etc directory.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Directories.Home">
+<tt class="descname">Home</tt><a class="headerlink" href="#pysiriproxy.options.options.Directories.Home" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Home property contains the user&#8217;s home directory.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Directories.Scripts">
+<tt class="descname">Scripts</tt><a class="headerlink" href="#pysiriproxy.options.options.Directories.Scripts" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Scripts property contains the scripts directory within the user&#8217;s
+siri proxy configuration directory.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Directories.SiriInstall">
+<tt class="descname">SiriInstall</tt><a class="headerlink" href="#pysiriproxy.options.options.Directories.SiriInstall" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SiriInstall property contains the system installation directory
+for pysiriproxy.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Directories.SystemDefaultConfig">
+<tt class="descname">SystemDefaultConfig</tt><a class="headerlink" href="#pysiriproxy.options.options.Directories.SystemDefaultConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SystemDefaultConfig property contains the path to the system
+directory which contains the default configuration files created when
+pysiriproxy is installed on the system.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-ids-class">
+<h2>The Ids class<a class="headerlink" href="#the-ids-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-277810239061e13d42b498f43c7833df53828b95.png" alt="Inheritance diagram of pysiriproxy.options.options.Ids" usemap="#inheritancec3cc0cb3d0" class="inheritance"/>
+<map id="inheritancec3cc0cb3d0" name="inheritancec3cc0cb3d0">
+<area shape="rect" href="pysiriproxy_options_config.html#pysiriproxy.options.config.Ids" title="pysiriproxy.options.config.Ids" alt="" coords="5,7,208,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.options.options.Ids">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.options.options.</tt><tt class="descname">Ids</tt><a class="headerlink" href="#pysiriproxy.options.options.Ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Ids class defines various configuration settings.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference external" href="http://docs.python.org/library/configparser.html#ConfigParser" title="(in Python v2.7)"><tt class="docutils literal"><span class="pre">ConfigParser</span></tt></a> converts all properties to lower case</p>
+</div>
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Ids.CertFile">
+<tt class="descname">CertFile</tt><a class="headerlink" href="#pysiriproxy.options.options.Ids.CertFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the configuration property that stores the certification
+file.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Ids.DebugLevel">
+<tt class="descname">DebugLevel</tt><a class="headerlink" href="#pysiriproxy.options.options.Ids.DebugLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the configuration property that stores the debug level for
+the system.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Ids.ErrorResponse">
+<tt class="descname">ErrorResponse</tt><a class="headerlink" href="#pysiriproxy.options.options.Ids.ErrorResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the configuration property that stores the string which
+Siri will respond with in the event that an Exception is encountered while
+processing an object filter, or a speech rule.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Ids.ExitOnConnectionLost">
+<tt class="descname">ExitOnConnectionLost</tt><a class="headerlink" href="#pysiriproxy.options.options.Ids.ExitOnConnectionLost" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the configuration property that determines whether the
+server application will exit in the event that the connection to the
+iPhone is lost. This will allow an external script to restart the
+server cleanly each time the connection is lost.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Ids.GenCerts">
+<tt class="descname">GenCerts</tt><a class="headerlink" href="#pysiriproxy.options.options.Ids.GenCerts" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the command line property that determines if the SSL
+certificates should be generated.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Ids.Host">
+<tt class="descname">Host</tt><a class="headerlink" href="#pysiriproxy.options.options.Ids.Host" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the configuration property that stores a particular host
+name.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Ids.IOsVersion">
+<tt class="descname">IOsVersion</tt><a class="headerlink" href="#pysiriproxy.options.options.Ids.IOsVersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the configuration property that stores the version of iOS
+that pysiriproxy should be configured for.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Ids.KeyFile">
+<tt class="descname">KeyFile</tt><a class="headerlink" href="#pysiriproxy.options.options.Ids.KeyFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the configuration property that stores the path to the key
+file to use for the system.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Ids.LogFile">
+<tt class="descname">LogFile</tt><a class="headerlink" href="#pysiriproxy.options.options.Ids.LogFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the configuration property that stores the path to the log
+file to use for the system.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Ids.LogLevel">
+<tt class="descname">LogLevel</tt><a class="headerlink" href="#pysiriproxy.options.options.Ids.LogLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the configuration property that stores the log level to use
+for the system.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Ids.PluginsDir">
+<tt class="descname">PluginsDir</tt><a class="headerlink" href="#pysiriproxy.options.options.Ids.PluginsDir" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the configuration property that stores the path to the
+directory containing the plugin scripts.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Ids.Port">
+<tt class="descname">Port</tt><a class="headerlink" href="#pysiriproxy.options.options.Ids.Port" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the configuration property that stores the port number
+to use.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Ids.Timestamp">
+<tt class="descname">Timestamp</tt><a class="headerlink" href="#pysiriproxy.options.options.Ids.Timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the configuration property that stores the boolean
+indicating whether logged messages should be timestamped or not.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-values-class">
+<h2>The Values class<a class="headerlink" href="#the-values-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-0e853fe67d5e86a51d10be9e5f01f10702a88861.png" alt="Inheritance diagram of pysiriproxy.options.options.Values" usemap="#inheritancec8b73606ef" class="inheritance"/>
+<map id="inheritancec8b73606ef" name="inheritancec8b73606ef">
+<area shape="rect" href="#pysiriproxy.options.options.Values" title="pysiriproxy.options.options.Values" alt="" coords="5,7,240,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.options.options.Values">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.options.options.</tt><tt class="descname">Values</tt><a class="reference internal" href="../_modules/pysiriproxy/options/options.html#Values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.options.options.Values" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Values class contains definitions of values that are used for
+certain command line arguments, or configuration properties.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Values.IOs5">
+<tt class="descname">IOs5</tt><a class="headerlink" href="#pysiriproxy.options.options.Values.IOs5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure for iOS version 5.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Values.IOs5Server">
+<tt class="descname">IOs5Server</tt><a class="headerlink" href="#pysiriproxy.options.options.Values.IOs5Server" title="Permalink to this definition">¶</a></dt>
+<dd><p>The server for iOS 5.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Values.IOs6">
+<tt class="descname">IOs6</tt><a class="headerlink" href="#pysiriproxy.options.options.Values.IOs6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure for iOS version 6.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Values.IOs6Server">
+<tt class="descname">IOs6Server</tt><a class="headerlink" href="#pysiriproxy.options.options.Values.IOs6Server" title="Permalink to this definition">¶</a></dt>
+<dd><p>The server for iOS 6.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-vars-class">
+<h2>The Vars class<a class="headerlink" href="#the-vars-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-6e2e474d337ab5198ab9f9f6e7fcdf3f9fda9528.png" alt="Inheritance diagram of pysiriproxy.options.options.Vars" usemap="#inheritance0f887d2c28" class="inheritance"/>
+<map id="inheritance0f887d2c28" name="inheritance0f887d2c28">
+<area shape="rect" href="pysiriproxy_options_config.html#pysiriproxy.options.config.Vars" title="pysiriproxy.options.config.Vars" alt="" coords="5,7,216,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.options.options.Vars">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.options.options.</tt><tt class="descname">Vars</tt><a class="headerlink" href="#pysiriproxy.options.options.Vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define various variables that can be used within the
+configuration file.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Variables should be all caps</p>
+</div>
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Vars.Config">
+<tt class="descname">Config</tt><a class="headerlink" href="#pysiriproxy.options.options.Vars.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the variable which stores the path to the configuration
+file.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Vars.Home">
+<tt class="descname">Home</tt><a class="headerlink" href="#pysiriproxy.options.options.Vars.Home" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the variable which stores the path to the user&#8217;s home
+directory.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-sections-class">
+<h2>The Sections class<a class="headerlink" href="#the-sections-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-7942c218df13411c835d4a2c46d4bdb49e08b7ac.png" alt="Inheritance diagram of pysiriproxy.options.options.Sections" usemap="#inheritance49bfe67ca8" class="inheritance"/>
+<map id="inheritance49bfe67ca8" name="inheritance49bfe67ca8">
+<area shape="rect" href="pysiriproxy_options_config.html#pysiriproxy.options.config.Sections" title="pysiriproxy.options.config.Sections" alt="" coords="5,7,245,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.options.options.Sections">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.options.options.</tt><tt class="descname">Sections</tt><a class="headerlink" href="#pysiriproxy.options.options.Sections" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Sections class defines the names of the sections that can be
+used within the configuration file.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Sections.Debug">
+<tt class="descname">Debug</tt><a class="headerlink" href="#pysiriproxy.options.options.Sections.Debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>The section containing debugging configuration settings.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Sections.General">
+<tt class="descname">General</tt><a class="headerlink" href="#pysiriproxy.options.options.Sections.General" title="Permalink to this definition">¶</a></dt>
+<dd><p>The section containing general configuration settings.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Sections.Logging">
+<tt class="descname">Logging</tt><a class="headerlink" href="#pysiriproxy.options.options.Sections.Logging" title="Permalink to this definition">¶</a></dt>
+<dd><p>The section containing settings pertaining to logging the system.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Sections.Responses">
+<tt class="descname">Responses</tt><a class="headerlink" href="#pysiriproxy.options.options.Sections.Responses" title="Permalink to this definition">¶</a></dt>
+<dd><p>The section containing settings pertaining to creating responses.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Sections.Server">
+<tt class="descname">Server</tt><a class="headerlink" href="#pysiriproxy.options.options.Sections.Server" title="Permalink to this definition">¶</a></dt>
+<dd><p>The section containing settings pertaining to Apple&#8217;s web server.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Sections.iPhone">
+<tt class="descname">iPhone</tt><a class="headerlink" href="#pysiriproxy.options.options.Sections.iPhone" title="Permalink to this definition">¶</a></dt>
+<dd><p>The section containing settings pertaining to the iPhone connection.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-options-class">
+<h2>The Options class<a class="headerlink" href="#the-options-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-b137d9a639113c36082b2ff4500764bf0ffd7af6.png" alt="Inheritance diagram of pysiriproxy.options.options.Options" usemap="#inheritance03184a3b50" class="inheritance"/>
+<map id="inheritance03184a3b50" name="inheritance03184a3b50">
+<area shape="rect" href="#pysiriproxy.options.options.Options" title="pysiriproxy.options.options.Options" alt="" coords="96,161,339,188"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.options.options.Options">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.options.options.</tt><tt class="descname">Options</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/options/options.html#Options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.options.options.Options" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Options class is responsible for parsing command line and
+configuration file options and providing the ability to get the value of
+a given option.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Options.ClOptions">
+<tt class="descname">ClOptions</tt><a class="headerlink" href="#pysiriproxy.options.options.Options.ClOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the list of all of the options which are configurable only via
+the command line.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Options.Options">
+<tt class="descname">Options</tt><a class="headerlink" href="#pysiriproxy.options.options.Options.Options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the dictionary of possible configuration section names mapped to
+the list of configuration options available for that section.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.options.options.Options.Variables">
+<tt class="descname">Variables</tt><a class="headerlink" href="#pysiriproxy.options.options.Options.Variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the dictionary of variables that can be used in the pysiriproxy
+configuration file.</p>
+<p>These variables can be used by adding a dollar sign before the variable
+name in the configuration file. These variables will be replaced in the
+configuration file prior to parsing it.</p>
+<p>Example:</p>
+<div class="highlight-python"><pre># If the following setting is configured in the configuration file,
+# the $HOME variable would be replaced by the user's home directory
+# prior to parsing the configuration file
+RandomSetting = $HOME/Documents</pre>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The options module</a><ul>
+<li><a class="reference internal" href="#the-files-class">The Files class</a></li>
+<li><a class="reference internal" href="#the-settings-class">The Settings class</a></li>
+<li><a class="reference internal" href="#the-directories-class">The Directories class</a></li>
+<li><a class="reference internal" href="#the-ids-class">The Ids class</a></li>
+<li><a class="reference internal" href="#the-values-class">The Values class</a></li>
+<li><a class="reference internal" href="#the-vars-class">The Vars class</a></li>
+<li><a class="reference internal" href="#the-sections-class">The Sections class</a></li>
+<li><a class="reference internal" href="#the-options-class">The Options class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="mod_pysiriproxy_options.html"
+                        title="previous chapter">The options module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pysiriproxy_options_config.html"
+                        title="next chapter">The config module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/pysiriproxy_options_options.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_options_config.html" title="The config module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_options.html" title="The options module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_options.html" >The options module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

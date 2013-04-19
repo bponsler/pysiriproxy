@@ -1,0 +1,18 @@
+================================================================================
+The pysiriproxy module
+================================================================================
+
+.. toctree::
+   :maxdepth: 3
+
+   mod_pysiriproxy_testing
+   mod_pysiriproxy_connections
+   mod_pysiriproxy_options
+   mod_pysiriproxy_objects
+   mod_pysiriproxy_plugins
+   pysiriproxy_utf
+   pysiriproxy_interpreter
+   pysiriproxy_plist
+   pysiriproxy_constants
+   pysiriproxy_packetPlayer
+   pysiriproxy_utils

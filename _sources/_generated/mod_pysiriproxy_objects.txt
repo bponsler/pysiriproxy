@@ -1,0 +1,15 @@
+================================================================================
+The objects module
+================================================================================
+
+.. toctree::
+   :maxdepth: 3
+
+   pysiriproxy_objects_requests
+   pysiriproxy_objects_baseObject
+   pysiriproxy_objects_views
+   pysiriproxy_objects_actions
+   pysiriproxy_objects_commands
+   pysiriproxy_objects_factory
+   pysiriproxy_objects_buttons
+   pysiriproxy_objects_dataObjects

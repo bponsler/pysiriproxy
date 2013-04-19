@@ -1,0 +1,27 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.plugins.responses on April 18, 2013
+   This file should not be modified.
+
+=====================
+The responses module
+=====================
+
+.. automodule:: pysiriproxy.plugins.responses
+
+-----------------------
+The ResponseList class
+-----------------------
+
+.. inheritance-diagram:: pysiriproxy.plugins.responses.ResponseList
+
+.. autoclass:: pysiriproxy.plugins.responses.ResponseList
+    :members:
+
+-------------------
+The Response class
+-------------------
+
+.. inheritance-diagram:: pysiriproxy.plugins.responses.Response
+
+.. autoclass:: pysiriproxy.plugins.responses.Response
+    :members:

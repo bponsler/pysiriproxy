@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The pluginTester module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The testing module" href="mod_pysiriproxy_testing.html" />
+    <link rel="next" title="The testSupport module" href="pysiriproxy_testing_testSupport.html" />
+    <link rel="prev" title="The testing module" href="mod_pysiriproxy_testing.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_testing_testSupport.html" title="The testSupport module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_testing.html" title="The testing module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_testing.html" accesskey="U">The testing module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.testing.pluginTester">
+<span id="the-plugintester-module"></span><h1>The pluginTester module<a class="headerlink" href="#module-pysiriproxy.testing.pluginTester" title="Permalink to this headline">¶</a></h1>
+<p>The pluginTester module contains a class that provides the ability
+to test the object filters and speech rules.</p>
+<div class="section" id="the-server-class">
+<h2>The Server class<a class="headerlink" href="#the-server-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-3618f75608dcae699e70d22d548ffb4e588eb1d3.png" alt="Inheritance diagram of pysiriproxy.testing.pluginTester.Server" usemap="#inheritancea4d9992251" class="inheritance"/>
+<map id="inheritancea4d9992251" name="inheritancea4d9992251">
+<area shape="rect" href="pysiriproxy_testing_testSupport.html#pysiriproxy.testing.testSupport.Connection" title="pysiriproxy.testing.testSupport.Connection" alt="" coords="5,7,296,33"/>
+<area shape="rect" href="pysiriproxy_testing_testSupport.html#pysiriproxy.testing.testSupport.Server" title="pysiriproxy.testing.testSupport.Server" alt="" coords="20,84,281,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.testing.pluginTester.Server">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.testing.pluginTester.</tt><tt class="descname">Server</tt><a class="headerlink" href="#pysiriproxy.testing.pluginTester.Server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Server Connection for testing.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.testing.pluginTester.Server.Direction">
+<tt class="descname">Direction</tt><a class="headerlink" href="#pysiriproxy.testing.pluginTester.Server.Direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the direction for this Connection to indicate that it is from
+Apple&#8217;s web server.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.testing.pluginTester.Server.RefId">
+<tt class="descname">RefId</tt><a class="headerlink" href="#pysiriproxy.testing.pluginTester.Server.RefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the reference ID for the server Connection.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-iphone-class">
+<h2>The iPhone class<a class="headerlink" href="#the-iphone-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-b8ca6fc32e4df032020c2c32d8000f5a049275c4.png" alt="Inheritance diagram of pysiriproxy.testing.pluginTester.iPhone" usemap="#inheritance3128b9dba6" class="inheritance"/>
+<map id="inheritance3128b9dba6" name="inheritance3128b9dba6">
+<area shape="rect" href="pysiriproxy_testing_testSupport.html#pysiriproxy.testing.testSupport.Connection" title="pysiriproxy.testing.testSupport.Connection" alt="" coords="5,7,296,33"/>
+<area shape="rect" href="pysiriproxy_testing_testSupport.html#pysiriproxy.testing.testSupport.iPhone" title="pysiriproxy.testing.testSupport.iPhone" alt="" coords="20,84,281,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.testing.pluginTester.iPhone">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.testing.pluginTester.</tt><tt class="descname">iPhone</tt><a class="headerlink" href="#pysiriproxy.testing.pluginTester.iPhone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an iPhone Connection for testing.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.testing.pluginTester.iPhone.Direction">
+<tt class="descname">Direction</tt><a class="headerlink" href="#pysiriproxy.testing.pluginTester.iPhone.Direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the direction for this Connection to indicate that it is from
+the iPhone.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.testing.pluginTester.iPhone.RefId">
+<tt class="descname">RefId</tt><a class="headerlink" href="#pysiriproxy.testing.pluginTester.iPhone.RefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the reference ID for the iPhone Connection.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-plugintester-class">
+<h2>The PluginTester class<a class="headerlink" href="#the-plugintester-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-ab825738aa7df5a0bfe0e4c2bfd5b3a5fb0fb086.png" alt="Inheritance diagram of pysiriproxy.testing.pluginTester.PluginTester" usemap="#inheritance4c547c3c17" class="inheritance"/>
+<map id="inheritance4c547c3c17" name="inheritance4c547c3c17">
+<area shape="rect" href="#pysiriproxy.testing.pluginTester.PluginTester" title="pysiriproxy.testing.pluginTester.PluginTester" alt="" coords="5,7,299,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.testing.pluginTester.PluginTester">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.testing.pluginTester.</tt><tt class="descname">PluginTester</tt><big>(</big><em>logData=None</em>, <em>logColor=32</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/testing/pluginTester.html#PluginTester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.testing.pluginTester.PluginTester" title="Permalink to this definition">¶</a></dt>
+<dd><p>The PluginTester class provides the ability to test the configured
+plugins for pysiriproxy. The intent is for this class to be subclassed
+to preform desired tests. This class provides several callback functions
+which can be overridden by the concrete PluginTester subclasses for
+specific purposes. These functions are described below:</p>
+<blockquote>
+<ul class="simple">
+<li><a class="reference internal" href="#pysiriproxy.testing.pluginTester.PluginTester.iPhoneCallback" title="pysiriproxy.testing.pluginTester.PluginTester.iPhoneCallback"><tt class="xref py py-func docutils literal"><span class="pre">iPhoneCallback()</span></tt></a> &#8211; This function is called in the event that
+data is being sent from the iPhone connection to the Server connection,
+where <strong>obj</strong> is the specific data being transmitted.</li>
+<li><a class="reference internal" href="#pysiriproxy.testing.pluginTester.PluginTester.serverCallback" title="pysiriproxy.testing.pluginTester.PluginTester.serverCallback"><tt class="xref py py-func docutils literal"><span class="pre">serverCallback()</span></tt></a> &#8211; This function is called in the event that
+data is being sent from the Server connection to the iPhone connection,
+where <strong>obj</strong> is the specific data being transmitted.</li>
+</ul>
+</blockquote>
+<dl class="method">
+<dt id="pysiriproxy.testing.pluginTester.PluginTester.iPhoneCallback">
+<tt class="descname">iPhoneCallback</tt><big>(</big><em>cls</em>, <em>obj</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/testing/pluginTester.html#PluginTester.iPhoneCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.testing.pluginTester.PluginTester.iPhoneCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function called in the event that an object is received from
+the iPhone.</p>
+<ul class="simple">
+<li>obj &#8211; The object that was received</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.testing.pluginTester.PluginTester.serverCallback">
+<tt class="descname">serverCallback</tt><big>(</big><em>cls</em>, <em>obj</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/testing/pluginTester.html#PluginTester.serverCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.testing.pluginTester.PluginTester.serverCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function called in the event that an object is received from
+the Server server.</p>
+<ul class="simple">
+<li>obj &#8211; The object that was received</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.testing.pluginTester.PluginTester.testFilters">
+<tt class="descname">testFilters</tt><big>(</big><em>obj</em>, <em>direction</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/testing/pluginTester.html#PluginTester.testFilters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.testing.pluginTester.PluginTester.testFilters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the object filters for all of the configured Plugins to
+determine if any respond to the given object for the given direction.
+This function returns None if no filters were applied to this object,
+it returns False if this object was dropped, or it returns the object
+modified by the object filters.</p>
+<ul>
+<li><p class="first">obj &#8211; The object used to test filters</p>
+</li>
+<li><dl class="first docutils">
+<dt>direction &#8211; The direction the object was received (either from</dt>
+<dd><p class="first last">the iPhone or from the Server)</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.testing.pluginTester.PluginTester.testSpeech">
+<tt class="descname">testSpeech</tt><big>(</big><em>speech</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/testing/pluginTester.html#PluginTester.testSpeech"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.testing.pluginTester.PluginTester.testSpeech" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the speech rules for all of the configured Plugins to determine
+if any respond to the given speech text. This function returns True if
+any Plugins had speech rules that matched the given text, otherwise it
+returns False.</p>
+<ul class="simple">
+<li>speech &#8211; The simulated text that was &#8220;spoken&#8221; by the user</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The pluginTester module</a><ul>
+<li><a class="reference internal" href="#the-server-class">The Server class</a></li>
+<li><a class="reference internal" href="#the-iphone-class">The iPhone class</a></li>
+<li><a class="reference internal" href="#the-plugintester-class">The PluginTester class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="mod_pysiriproxy_testing.html"
+                        title="previous chapter">The testing module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pysiriproxy_testing_testSupport.html"
+                        title="next chapter">The testSupport module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/pysiriproxy_testing_pluginTester.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_testing_testSupport.html" title="The testSupport module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_testing.html" title="The testing module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_testing.html" >The testing module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

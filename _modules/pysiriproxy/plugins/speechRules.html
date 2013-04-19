@@ -1,0 +1,258 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.plugins.speechRules &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.plugins.speechRules</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The speechRules module contains classes pertaining to creating</span>
+<span class="sd">speech rules.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">pyamp.patterns</span> <span class="kn">import</span> <span class="n">listProperty</span>
+
+
+<span class="c"># The name of the property used to store the speech rules for a function</span>
+<span class="n">_SPEECH_RULES_PROP</span> <span class="o">=</span> <span class="s">&quot;SpeechRules&quot;</span>
+
+
+
+<span class="k">def</span> <span class="nf">getSpeechRules</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Get all of the speech rules for this function.</span>
+
+<span class="sd">    * function -- The function</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">_SPEECH_RULES_PROP</span><span class="p">,</span> <span class="p">[])</span>
+
+
+<span class="k">def</span> <span class="nf">isSpeechRule</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Determine if the given function is a speech rule.</span>
+
+<span class="sd">    * function -- The function</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">speechRules</span> <span class="o">=</span> <span class="n">getSpeechRules</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">speechRules</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">speechRules</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+
+<span class="k">def</span> <span class="nf">speechRuleMatches</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Determine if the given speech rule function applies to</span>
+<span class="sd">    the recognized text.</span>
+
+<span class="sd">    * function -- The speech rule function</span>
+<span class="sd">    * text -- The recognized text</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">speechRules</span> <span class="o">=</span> <span class="n">getSpeechRules</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+
+    <span class="c"># Traverse all of the speech rules for this function</span>
+    <span class="k">for</span> <span class="n">speechRule</span> <span class="ow">in</span> <span class="n">speechRules</span><span class="p">:</span>
+        <span class="c"># If the speech rule tests positively, then it applies</span>
+        <span class="k">if</span> <span class="n">speechRule</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+    <span class="c"># No speech rules applied to this text</span>
+    <span class="k">return</span> <span class="bp">False</span>
+
+
+
+<span class="k">def</span> <span class="nf">createSpeechRule</span><span class="p">(</span><span class="n">ruleClass</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Returns a function to be used as a decorator which creates the given</span>
+<span class="sd">    type of speech rule which will be applied to a string to determine if</span>
+<span class="sd">    the recognized speech applies to this speech rule.</span>
+
+<span class="sd">    * ruleClass -- The Rule class to use for this decorator</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;A wrapper function which takes text and creates a decorator</span>
+<span class="sd">        which adds the given speech rule to the list of speech rules</span>
+<span class="sd">        for the decorated function.</span>
+
+<span class="sd">        * text -- The text to use with the Rule</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">speechRule</span> <span class="o">=</span> <span class="n">ruleClass</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">listProperty</span><span class="p">(</span><span class="n">_SPEECH_RULES_PROP</span><span class="p">,</span> <span class="n">speechRule</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+
+<div class="viewcode-block" id="SpeechRule"><a class="viewcode-back" href="../../../_modified/pysiriproxy_plugins_speechRules.html#pysiriproxy.plugins.speechRules.SpeechRule">[docs]</a><span class="k">class</span> <span class="nc">SpeechRule</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The SpeechRule class encapsulates a speech rule and provides the ability</span>
+<span class="sd">    to test the recognized speech against expected text to determine if</span>
+<span class="sd">    this SpeechRule applies to the recognized speech.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * text -- The expected text for this SpeechRule</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__text</span> <span class="o">=</span> <span class="n">text</span>
+        
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="SpeechRule.text"><a class="viewcode-back" href="../../../_modified/pysiriproxy_plugins_speechRules.html#pysiriproxy.plugins.speechRules.SpeechRule.text">[docs]</a>    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the text for this SpeechRule.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__text</span>
+</div>
+<div class="viewcode-block" id="SpeechRule.test"><a class="viewcode-back" href="../../../_modified/pysiriproxy_plugins_speechRules.html#pysiriproxy.plugins.speechRules.SpeechRule.test">[docs]</a>    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Test the text to see if it matches our expected text.</span>
+
+<span class="sd">        .. note:: This function should return True if the SpeechRule applies</span>
+<span class="sd">                  to the recognized speech, otherwise it should return False.</span>
+
+<span class="sd">        .. note:: This function should be overriden by concrete SpeechRules.</span>
+
+<span class="sd">        * text -- The recogized speech to test</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+</div></div>
+<div class="viewcode-block" id="MatchSpeechRule"><a class="viewcode-back" href="../../../_modified/pysiriproxy_plugins_speechRules.html#pysiriproxy.plugins.speechRules.MatchSpeechRule">[docs]</a><span class="k">class</span> <span class="nc">MatchSpeechRule</span><span class="p">(</span><span class="n">SpeechRule</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Create a :class:`SpeechRule` to match text exactly.&#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="MatchSpeechRule.test"><a class="viewcode-back" href="../../../_modified/pysiriproxy_plugins_speechRules.html#pysiriproxy.plugins.speechRules.MatchSpeechRule.test">[docs]</a>    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Test the text to see if it matches our expected text.</span>
+
+<span class="sd">        * text -- The recogized speech to test</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+</div></div>
+<div class="viewcode-block" id="RegexSpeechRule"><a class="viewcode-back" href="../../../_modified/pysiriproxy_plugins_speechRules.html#pysiriproxy.plugins.speechRules.RegexSpeechRule">[docs]</a><span class="k">class</span> <span class="nc">RegexSpeechRule</span><span class="p">(</span><span class="n">SpeechRule</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Create a :class:`SpeechRule` to match text using a regular</span>
+<span class="sd">    expression.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="n">ignoreCase</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * regex -- The regular expression</span>
+<span class="sd">        * ignoreCase -- True to ignore the case, False otherwise</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">ignoreCase</span><span class="p">:</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
+
+        <span class="n">SpeechRule</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="RegexSpeechRule.test"><a class="viewcode-back" href="../../../_modified/pysiriproxy_plugins_speechRules.html#pysiriproxy.plugins.speechRules.RegexSpeechRule.test">[docs]</a>    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Test the text to see if it matches our expected text.</span>
+
+<span class="sd">        * text -- The recogized speech to test</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># Determine if the regular expression matches the given text</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+
+
+<span class="c"># Define all of the decorators for speech rules</span></div></div>
+<span class="n">matches</span> <span class="o">=</span> <span class="n">createSpeechRule</span><span class="p">(</span><span class="n">MatchSpeechRule</span><span class="p">)</span>
+<span class="n">regex</span> <span class="o">=</span> <span class="n">createSpeechRule</span><span class="p">(</span><span class="n">RegexSpeechRule</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

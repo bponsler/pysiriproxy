@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The actions module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The objects module" href="mod_pysiriproxy_objects.html" />
+    <link rel="next" title="The commands module" href="pysiriproxy_objects_commands.html" />
+    <link rel="prev" title="The views module" href="pysiriproxy_objects_views.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_commands.html" title="The commands module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_views.html" title="The views module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_objects.html" accesskey="U">The objects module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.objects.actions">
+<span id="the-actions-module"></span><h1>The actions module<a class="headerlink" href="#module-pysiriproxy.objects.actions" title="Permalink to this headline">¶</a></h1>
+<p>The actions module contains classes pertaining to creating objects which
+can be sent to the iPhone or Apple&#8217;s web server which pertain to specific
+actions.</p>
+<div class="section" id="the-commands-class">
+<h2>The Commands class<a class="headerlink" href="#the-commands-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-6171b4c6357a2dac5a0584d875898d1543ad03da.png" alt="Inheritance diagram of pysiriproxy.objects.actions.Commands" usemap="#inheritancea1120fdf65" class="inheritance"/>
+<map id="inheritancea1120fdf65" name="inheritancea1120fdf65">
+<area shape="rect" href="pysiriproxy_objects_commands.html#pysiriproxy.objects.commands.Commands" title="pysiriproxy.objects.commands.Commands" alt="" coords="5,7,296,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.actions.Commands">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.actions.</tt><tt class="descname">Commands</tt><a class="headerlink" href="#pysiriproxy.objects.actions.Commands" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Commands class contains the various types of Commands as well
+as a function for creating Commands of a specific type.</p>
+<p>This class provides a factory method for creating Commands of a specific
+type.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.objects.actions.Commands.CancelRequest">
+<tt class="descname">CancelRequest</tt><a class="headerlink" href="#pysiriproxy.objects.actions.Commands.CancelRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>The CancelRequest command type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.actions.Commands.CancelSnippet">
+<tt class="descname">CancelSnippet</tt><a class="headerlink" href="#pysiriproxy.objects.actions.Commands.CancelSnippet" title="Permalink to this definition">¶</a></dt>
+<dd><p>The CancelSnippet command type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.actions.Commands.ConfirmSnippet">
+<tt class="descname">ConfirmSnippet</tt><a class="headerlink" href="#pysiriproxy.objects.actions.Commands.ConfirmSnippet" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ConfirmSnippet command type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.actions.Commands.ConfirmationOptions">
+<tt class="descname">ConfirmationOptions</tt><a class="headerlink" href="#pysiriproxy.objects.actions.Commands.ConfirmationOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ConfirmationOptions command type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.actions.Commands.ResultCallback">
+<tt class="descname">ResultCallback</tt><a class="headerlink" href="#pysiriproxy.objects.actions.Commands.ResultCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ResultCallback command type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.actions.Commands.SendCommands">
+<tt class="descname">SendCommands</tt><a class="headerlink" href="#pysiriproxy.objects.actions.Commands.SendCommands" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SendCommands command type.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.actions.Commands.create">
+<em class="property">classmethod </em><tt class="descname">create</tt><big>(</big><em>commandType</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.actions.Commands.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Command of the specific type.</p>
+<ul class="simple">
+<li>commandType &#8211; The type of Command to create</li>
+<li>args &#8211; The arguments</li>
+<li>kwargs &#8211; THe keyword arguments</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-customcommand-class">
+<h2>The _CustomCommand class<a class="headerlink" href="#the-customcommand-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-39687089e38138c5977ead087a78f93e6fe1fc12.png" alt="Inheritance diagram of pysiriproxy.objects.actions._CustomCommand" usemap="#inheritancee13a30791c" class="inheritance"/>
+<map id="inheritancee13a30791c" name="inheritancee13a30791c">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="24,7,301,33"/>
+<area shape="rect" href="#pysiriproxy.objects.actions._CustomCommand" title="pysiriproxy.objects.actions._CustomCommand" alt="" coords="5,84,320,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.actions._CustomCommand">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.actions.</tt><tt class="descname">_CustomCommand</tt><big>(</big><em>command</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/actions.html#_CustomCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.actions._CustomCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _CustomCommand class creates a StartRequest object which contains a
+custom command.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-siriobject-class">
+<h2>The SiriObject class<a class="headerlink" href="#the-siriobject-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-a69d6b68580e1f8f3c24506089ad8f01c3bacfb6.png" alt="Inheritance diagram of pysiriproxy.objects.actions.SiriObject" usemap="#inheritance4a095c2e16" class="inheritance"/>
+<map id="inheritance4a095c2e16" name="inheritance4a095c2e16">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="5,7,283,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.actions.SiriObject">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.actions.</tt><tt class="descname">SiriObject</tt><big>(</big><em>className</em>, <em>group</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.actions.SiriObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SiriObject class encapsulates the base functionality for all
+object being sent to the iPhone or to Apple&#8217;s web server.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This class is meant to be subclassed to provide the
+implementation for a specific object.</p>
+</div>
+<dl class="attribute">
+<dt id="pysiriproxy.objects.actions.SiriObject.ProtocolVersion">
+<tt class="descname">ProtocolVersion</tt><a class="headerlink" href="#pysiriproxy.objects.actions.SiriObject.ProtocolVersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>The identifier which indicates the version of the protocol.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.actions.SiriObject.isArgumentList">
+<em class="property">classmethod </em><tt class="descname">isArgumentList</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.actions.SiriObject.isArgumentList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if the given object is a list of arguments, or not.</p>
+<ul class="simple">
+<li>obj &#8211; The object</li>
+</ul>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.actions.SiriObject.isSiriObject">
+<em class="property">classmethod </em><tt class="descname">isSiriObject</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.actions.SiriObject.isSiriObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if the given object is a SiriObject, or not.</p>
+<ul class="simple">
+<li>obj &#8211; The object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.actions.SiriObject.makeRoot">
+<tt class="descname">makeRoot</tt><big>(</big><em>refId=None</em>, <em>aceId=None</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.actions.SiriObject.makeRoot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the SiriObject the root object.</p>
+<ul class="simple">
+<li>refId &#8211; The refId for this object</li>
+<li>aceId &#8211; The aceId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.actions.SiriObject.setAceId">
+<tt class="descname">setAceId</tt><big>(</big><em>aceId=None</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.actions.SiriObject.setAceId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the ace id for this object.</p>
+<ul class="simple">
+<li>aceId &#8211; The aceId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.actions.SiriObject.setNonNoneArguments">
+<tt class="descname">setNonNoneArguments</tt><big>(</big><em>argumentNames</em>, <em>localVars</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.actions.SiriObject.setNonNoneArguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a list of strings which represent names of input variables and
+sets properties of the same name on the current object if the value of
+the argument is not None.</p>
+<ul class="simple">
+<li>argumentNames &#8211; The list of argument names to set</li>
+<li>localVars &#8211; The local variables</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.actions.SiriObject.setRefId">
+<tt class="descname">setRefId</tt><big>(</big><em>refId=None</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.actions.SiriObject.setRefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the ref id for this object.</p>
+<ul class="simple">
+<li>refId &#8211; The refId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.actions.SiriObject.toDict">
+<tt class="descname">toDict</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.objects.actions.SiriObject.toDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert this object into a Python dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-websearch-class">
+<h2>The _WebSearch class<a class="headerlink" href="#the-websearch-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-5f5bad1fd115f967736e345f4144b30bc31d7185.png" alt="Inheritance diagram of pysiriproxy.objects.actions._WebSearch" usemap="#inheritanceed75bd94e5" class="inheritance"/>
+<map id="inheritanceed75bd94e5" name="inheritanceed75bd94e5">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="5,7,283,33"/>
+<area shape="rect" href="#pysiriproxy.objects.actions._WebSearch" title="pysiriproxy.objects.actions._WebSearch" alt="" coords="9,84,279,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.actions._WebSearch">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.actions.</tt><tt class="descname">_WebSearch</tt><big>(</big><em>query</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/actions.html#_WebSearch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.actions._WebSearch" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _WebSearch class creates a command to perform a web search
+for a particular search phrase.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-actions-class">
+<h2>The Actions class<a class="headerlink" href="#the-actions-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-2adec0e7641561d5ccc0512ec3ee6d39a3323a07.png" alt="Inheritance diagram of pysiriproxy.objects.actions.Actions" usemap="#inheritance75d77abee3" class="inheritance"/>
+<map id="inheritance75d77abee3" name="inheritance75d77abee3">
+<area shape="rect" href="#pysiriproxy.objects.actions.Actions" title="pysiriproxy.objects.actions.Actions" alt="" coords="5,7,243,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.actions.Actions">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.actions.</tt><tt class="descname">Actions</tt><a class="reference internal" href="../_modules/pysiriproxy/objects/actions.html#Actions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.actions.Actions" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Actions class contains a list of Action types as well as a
+function for creating specific types of Actions.</p>
+<p>This class provides a factory function for creating Actions of a specific
+type.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.objects.actions.Actions.CustomCommand">
+<tt class="descname">CustomCommand</tt><a class="headerlink" href="#pysiriproxy.objects.actions.Actions.CustomCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>The CustomCommand action type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.actions.Actions.WebSearch">
+<tt class="descname">WebSearch</tt><a class="headerlink" href="#pysiriproxy.objects.actions.Actions.WebSearch" title="Permalink to this definition">¶</a></dt>
+<dd><p>The WebSearch action type.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.actions.Actions.create">
+<em class="property">classmethod </em><tt class="descname">create</tt><big>(</big><em>actionType</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/actions.html#Actions.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.actions.Actions.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a specific Action wrapped in a SendCommands object so
+it can be sent to Siri as a command.</p>
+<ul class="simple">
+<li>actionType &#8211; The type of Action to create</li>
+<li>args &#8211; The arguments</li>
+<li>kwargs &#8211; The keyword arguments</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The actions module</a><ul>
+<li><a class="reference internal" href="#the-commands-class">The Commands class</a></li>
+<li><a class="reference internal" href="#the-customcommand-class">The _CustomCommand class</a></li>
+<li><a class="reference internal" href="#the-siriobject-class">The SiriObject class</a></li>
+<li><a class="reference internal" href="#the-websearch-class">The _WebSearch class</a></li>
+<li><a class="reference internal" href="#the-actions-class">The Actions class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pysiriproxy_objects_views.html"
+                        title="previous chapter">The views module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pysiriproxy_objects_commands.html"
+                        title="next chapter">The commands module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/pysiriproxy_objects_actions.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_commands.html" title="The commands module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_views.html" title="The views module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_objects.html" >The objects module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

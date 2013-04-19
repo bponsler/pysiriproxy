@@ -1,0 +1,262 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.objects.baseObject &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.objects.baseObject</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The baseObject class contains the definition of the base class for</span>
+<span class="sd">all objects that can be sent to the iPhone, or to Apple&#39;s web server.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">uuid</span> <span class="kn">import</span> <span class="n">uuid4</span>
+
+<span class="kn">from</span> <span class="nn">pysiriproxy.constants</span> <span class="kn">import</span> <span class="n">Keys</span>
+
+
+<div class="viewcode-block" id="SiriObject"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject">[docs]</a><span class="k">class</span> <span class="nc">SiriObject</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The SiriObject class encapsulates the base functionality for all</span>
+<span class="sd">    object being sent to the iPhone or to Apple&#39;s web server.</span>
+
+<span class="sd">    .. note:: This class is meant to be subclassed to provide the</span>
+<span class="sd">              implementation for a specific object.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">ProtocolVersion</span> <span class="o">=</span> <span class="s">&quot;2.0&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The identifier which indicates the version of the protocol.&#39;&#39;&#39;</span>
+  
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">className</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * className -- The class name for the object</span>
+<span class="sd">        * group -- The group name for the object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__class</span> <span class="o">=</span> <span class="n">className</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__group</span> <span class="o">=</span> <span class="n">group</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__refId</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__aceId</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__version</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="SiriObject.setNonNoneArguments"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject.setNonNoneArguments">[docs]</a>    <span class="k">def</span> <span class="nf">setNonNoneArguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">argumentNames</span><span class="p">,</span> <span class="n">localVars</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Takes a list of strings which represent names of input variables and</span>
+<span class="sd">        sets properties of the same name on the current object if the value of</span>
+<span class="sd">        the argument is not None.</span>
+
+<span class="sd">        * argumentNames -- The list of argument names to set</span>
+<span class="sd">        * localVars -- The local variables</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">argName</span> <span class="ow">in</span> <span class="n">argumentNames</span><span class="p">:</span>
+            <span class="c"># Get the value of the local argument</span>
+            <span class="n">argValue</span> <span class="o">=</span> <span class="n">localVars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">argName</span><span class="p">)</span>
+
+            <span class="c"># Only set the argument if its value is not None</span>
+            <span class="k">if</span> <span class="n">argValue</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">argName</span><span class="p">,</span> <span class="n">argValue</span><span class="p">)</span>
+  </div>
+<div class="viewcode-block" id="SiriObject.toDict"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject.toDict">[docs]</a>    <span class="k">def</span> <span class="nf">toDict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Convert this object into a Python dictionary.&#39;&#39;&#39;</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">Keys</span><span class="o">.</span><span class="n">Class</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class</span><span class="p">,</span>
+            <span class="n">Keys</span><span class="o">.</span><span class="n">Group</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__group</span><span class="p">,</span>
+            <span class="n">Keys</span><span class="o">.</span><span class="n">Properties</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="p">}</span>
+      
+        <span class="c"># Store the refId, aceId, and version values if we have one</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__refId</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="n">Keys</span><span class="o">.</span><span class="n">RefId</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__refId</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__aceId</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="n">Keys</span><span class="o">.</span><span class="n">AceId</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__aceId</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="n">Keys</span><span class="o">.</span><span class="n">Version</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__version</span>
+
+        <span class="c"># Traverse all of the object&#39;s properties to add them each to</span>
+        <span class="c"># the output dictionary object</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getProperties</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="c"># Determine how to handle the current property type</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="nb">list</span><span class="p">()):</span>
+                <span class="n">itemList</span> <span class="o">=</span> <span class="p">[]</span>
+
+                <span class="c"># Convert all the items in the list to a dictionary, and keep</span>
+                <span class="c"># only the properties that are successfully converted</span>
+                <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">val</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">toDict</span><span class="p">()</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                    <span class="n">itemList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+                <span class="n">dictionary</span><span class="p">[</span><span class="n">Keys</span><span class="o">.</span><span class="n">Properties</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">itemList</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c"># Attempt to conver the current property into a dictionary</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">toDict</span><span class="p">()</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>
+
+                <span class="n">dictionary</span><span class="p">[</span><span class="n">Keys</span><span class="o">.</span><span class="n">Properties</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+
+        <span class="k">return</span> <span class="n">dictionary</span>
+</div>
+<div class="viewcode-block" id="SiriObject.makeRoot"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject.makeRoot">[docs]</a>    <span class="k">def</span> <span class="nf">makeRoot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refId</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">aceId</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Make the SiriObject the root object.</span>
+
+<span class="sd">        * refId -- The refId for this object</span>
+<span class="sd">        * aceId -- The aceId for this object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setRefId</span><span class="p">(</span><span class="n">refId</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setAceId</span><span class="p">(</span><span class="n">aceId</span><span class="p">)</span>
+
+        <span class="c"># Only the root object has a version entry</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ProtocolVersion</span>
+</div>
+<div class="viewcode-block" id="SiriObject.setRefId"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject.setRefId">[docs]</a>    <span class="k">def</span> <span class="nf">setRefId</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refId</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Set the ref id for this object.</span>
+
+<span class="sd">        * refId -- The refId for this object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__refId</span> <span class="o">=</span> <span class="n">refId</span> <span class="k">if</span> <span class="n">refId</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">__randomRefId</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="SiriObject.setAceId"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject.setAceId">[docs]</a>    <span class="k">def</span> <span class="nf">setAceId</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aceId</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Set the ace id for this object.</span>
+
+<span class="sd">        * aceId -- The aceId for this object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__aceId</span> <span class="o">=</span> <span class="n">aceId</span> <span class="k">if</span> <span class="n">aceId</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">__randomAceId</span><span class="p">()</span>
+</div>
+    <span class="k">def</span> <span class="nf">__getProperties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get all of the properties for this SiriObject.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span> \
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;_&quot;</span><span class="p">))</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__randomRefId</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a random refId.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid4</span><span class="p">())</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__randomAceId</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a random aceId.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid4</span><span class="p">())</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SiriObject.isArgumentList"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject.isArgumentList">[docs]</a>    <span class="k">def</span> <span class="nf">isArgumentList</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Determine if the given object is a list of arguments, or not.</span>
+
+<span class="sd">        * obj -- The object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">SiriObject</span><span class="o">.</span><span class="n">isSiriObject</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="nb">tuple</span><span class="p">())</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SiriObject.isSiriObject"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject.isSiriObject">[docs]</a>    <span class="k">def</span> <span class="nf">isSiriObject</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Determine if the given object is a SiriObject, or not.</span>
+
+<span class="sd">        * obj -- The object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">SiriObject</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

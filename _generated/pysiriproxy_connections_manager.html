@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The manager module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The connections module" href="mod_pysiriproxy_connections.html" />
+    <link rel="next" title="The guzzoni module" href="pysiriproxy_connections_guzzoni.html" />
+    <link rel="prev" title="The iphone module" href="pysiriproxy_connections_iphone.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_connections_guzzoni.html" title="The guzzoni module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_connections_iphone.html" title="The iphone module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_connections.html" accesskey="U">The connections module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.connections.manager">
+<span id="the-manager-module"></span><h1>The manager module<a class="headerlink" href="#module-pysiriproxy.connections.manager" title="Permalink to this headline">¶</a></h1>
+<p>The manager module contains the ConnectionManager class which is
+responsible for managing the ability to transfer data between two
+different connections.</p>
+<div class="section" id="the-connectionmanager-class">
+<h2>The ConnectionManager class<a class="headerlink" href="#the-connectionmanager-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-6ba61fd983c24569432a29d4dfcc2ca9d568091f.png" alt="Inheritance diagram of pysiriproxy.connections.manager.ConnectionManager" usemap="#inheritance7b7e4853dd" class="inheritance"/>
+<map id="inheritance7b7e4853dd" name="inheritance7b7e4853dd">
+<area shape="rect" href="#pysiriproxy.connections.manager.ConnectionManager" title="pysiriproxy.connections.manager.ConnectionManager" alt="" coords="5,7,365,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.connections.manager.ConnectionManager">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.connections.manager.</tt><tt class="descname">ConnectionManager</tt><big>(</big><em>logger=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/manager.html#ConnectionManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.manager.ConnectionManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ConnectionManager object managers incoming connection
+directions and provides the ability to forward data between them.</p>
+<p>It allows a connection direction to be connected to an opposite
+connection direction which allows data to be forwarded from the
+direction to the connected direction.</p>
+<dl class="method">
+<dt id="pysiriproxy.connections.manager.ConnectionManager.connect">
+<tt class="descname">connect</tt><big>(</big><em>connection</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/manager.html#ConnectionManager.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.manager.ConnectionManager.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a connection to our set of connections.</p>
+<ul class="simple">
+<li>connection &#8211; The connection object to add</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.manager.ConnectionManager.disconnect">
+<tt class="descname">disconnect</tt><big>(</big><em>direction</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/manager.html#ConnectionManager.disconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.manager.ConnectionManager.disconnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a directed connection from our set of connections.</p>
+<ul class="simple">
+<li>direction &#8211; The direction of the connection object to remove</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.manager.ConnectionManager.forward">
+<tt class="descname">forward</tt><big>(</big><em>direction</em>, <em>data</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/manager.html#ConnectionManager.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.manager.ConnectionManager.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward the data from one connection to another.</p>
+<ul class="simple">
+<li>direction &#8211; The direction of the data</li>
+<li>data &#8211; The data to forward</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.manager.ConnectionManager.getConnection">
+<tt class="descname">getConnection</tt><big>(</big><em>direction</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/manager.html#ConnectionManager.getConnection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.manager.ConnectionManager.getConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the connection for the specific direction.</p>
+<ul class="simple">
+<li>direction &#8211; The direction for the connection to retrieve</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.manager.ConnectionManager.getForwardName">
+<tt class="descname">getForwardName</tt><big>(</big><em>direction</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/manager.html#ConnectionManager.getForwardName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.manager.ConnectionManager.getForwardName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the formatted name of the forward direction for the
+given direction.</p>
+<ul class="simple">
+<li>direction &#8211; The data direction</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.manager.ConnectionManager.getRefId">
+<tt class="descname">getRefId</tt><big>(</big><em>direction</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/manager.html#ConnectionManager.getRefId"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.manager.ConnectionManager.getRefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the most recently used reference id for the connection with
+the given direction.</p>
+<ul class="simple">
+<li>direction &#8211; The direction for the connection</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.manager.ConnectionManager.hasConnection">
+<tt class="descname">hasConnection</tt><big>(</big><em>direction</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/manager.html#ConnectionManager.hasConnection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.manager.ConnectionManager.hasConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if there is a connection to forward data to.</p>
+<ul class="simple">
+<li>direction &#8211; The incoming data direction</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.manager.ConnectionManager.injectObject">
+<tt class="descname">injectObject</tt><big>(</big><em>direction</em>, <em>obj</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/manager.html#ConnectionManager.injectObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.manager.ConnectionManager.injectObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inject an object into the connection with the given direction.</p>
+<ul class="simple">
+<li>direction &#8211; The direction to inject the object</li>
+<li>obj &#8211; The object to inject</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.manager.ConnectionManager.resetConnections">
+<tt class="descname">resetConnections</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/manager.html#ConnectionManager.resetConnections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.manager.ConnectionManager.resetConnections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset all of the connections that are being managed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.manager.ConnectionManager.setRefId">
+<tt class="descname">setRefId</tt><big>(</big><em>refId</em>, <em>direction</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/manager.html#ConnectionManager.setRefId"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.manager.ConnectionManager.setRefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the ref id for the forward connection.</p>
+<ul class="simple">
+<li>refId &#8211; The ref id</li>
+<li>direction &#8211; The data direction</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The manager module</a><ul>
+<li><a class="reference internal" href="#the-connectionmanager-class">The ConnectionManager class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pysiriproxy_connections_iphone.html"
+                        title="previous chapter">The iphone module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pysiriproxy_connections_guzzoni.html"
+                        title="next chapter">The guzzoni module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/pysiriproxy_connections_manager.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_connections_guzzoni.html" title="The guzzoni module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_connections_iphone.html" title="The iphone module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_connections.html" >The connections module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.plist on April 18, 2013
+   This file should not be modified.
+
+=================
+The plist module
+=================
+
+.. automodule:: pysiriproxy.plist
+
+----------------------
+The BinaryPlist class
+----------------------
+
+.. inheritance-diagram:: pysiriproxy.plist.BinaryPlist
+
+.. autoclass:: pysiriproxy.plist.BinaryPlist
+    :members:
+
+---------------
+The Keys class
+---------------
+
+.. inheritance-diagram:: pysiriproxy.plist.Keys
+
+.. autoclass:: pysiriproxy.plist.Keys
+    :members:
+
+----------------
+The Plist class
+----------------
+
+.. inheritance-diagram:: pysiriproxy.plist.Plist
+
+.. autoclass:: pysiriproxy.plist.Plist
+    :members:

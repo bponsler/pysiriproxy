@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.connections.server &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.connections.server</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The server module contains the necessary classes for creating a</span>
+<span class="sd">concrete connection which is responsible for managing the connection between</span>
+<span class="sd">pysiriproxy and Apple&#39;s web server.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span>
+
+<span class="kn">from</span> <span class="nn">OpenSSL</span> <span class="kn">import</span> <span class="n">SSL</span>
+<span class="kn">from</span> <span class="nn">twisted.internet</span> <span class="kn">import</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">reactor</span><span class="p">,</span> <span class="n">ssl</span>
+
+<span class="kn">from</span> <span class="nn">pysiriproxy.constants</span> <span class="kn">import</span> <span class="n">Directions</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.options.options</span> <span class="kn">import</span> <span class="n">Options</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.options.config</span> <span class="kn">import</span> <span class="n">Ids</span><span class="p">,</span> <span class="n">Sections</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.connections.connection</span> <span class="kn">import</span> <span class="n">Connection</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.connections.manager</span> <span class="kn">import</span> <span class="n">ConnectionManager</span>
+
+<span class="kn">from</span> <span class="nn">pyamp.logging</span> <span class="kn">import</span> <span class="n">Colors</span>
+
+
+<div class="viewcode-block" id="_Server"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_server.html#pysiriproxy.connections.server._Server">[docs]</a><span class="k">class</span> <span class="nc">_Server</span><span class="p">(</span><span class="n">Connection</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _Server class manages a connection to the Apple server which</span>
+<span class="sd">    proceses Siri requests and responds accordingly.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logger</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * logger -- The logger</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># Grab the hostname of the Apple server to which we will be connecting</span>
+        <span class="c"># and use it as the name of this connection for debugging purposes</span>
+        <span class="n">hostname</span> <span class="o">=</span> <span class="n">Options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Sections</span><span class="o">.</span><span class="n">Server</span><span class="p">,</span> <span class="n">Ids</span><span class="o">.</span><span class="n">Host</span><span class="p">)</span>
+
+        <span class="c"># Remove the &#39;.apple.com&#39; extension from the hostname, and also</span>
+        <span class="c"># capitalize it for better appearance</span>
+        <span class="n">hostname</span> <span class="o">=</span> <span class="n">hostname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;.apple.com&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">hostname</span> <span class="o">=</span> <span class="n">hostname</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+
+        <span class="n">Connection</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hostname</span><span class="p">,</span> <span class="n">Directions</span><span class="o">.</span><span class="n">From_Server</span><span class="p">,</span>
+                            <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">,</span> <span class="n">logColor</span><span class="o">=</span><span class="n">Colors</span><span class="o">.</span><span class="n">Foreground</span><span class="o">.</span><span class="n">Blue</span><span class="p">)</span>
+
+<div class="viewcode-block" id="_Server.connectionMade"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_server.html#pysiriproxy.connections.server._Server.connectionMade">[docs]</a>    <span class="k">def</span> <span class="nf">connectionMade</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Called when the connection has been made successfully.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Connection made.&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ssled</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="c"># Create the empty TLS context, and enable TLS mode</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="n">ClientTLSContext</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transport</span><span class="o">.</span><span class="n">startTLS</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="_Server.receiveObject"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_server.html#pysiriproxy.connections.server._Server.receiveObject">[docs]</a>    <span class="k">def</span> <span class="nf">receiveObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Called when an object has been received.</span>
+
+<span class="sd">        * obj -- The received object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+</div></div>
+<div class="viewcode-block" id="ClientTLSContext"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_server.html#pysiriproxy.connections.server.ClientTLSContext">[docs]</a><span class="k">class</span> <span class="nc">ClientTLSContext</span><span class="p">(</span><span class="n">ssl</span><span class="o">.</span><span class="n">ClientContextFactory</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The ClientTLSContext class creates a concrete factory class responsible</span>
+<span class="sd">    for creating a client connection.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">isClient</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="sd">&#39;&#39;&#39;Indicate that this is a client connection.&#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="ClientTLSContext.getContext"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_server.html#pysiriproxy.connections.server.ClientTLSContext.getContext">[docs]</a>    <span class="k">def</span> <span class="nf">getContext</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the context for this client connection.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">SSL</span><span class="o">.</span><span class="n">Context</span><span class="p">(</span><span class="n">SSL</span><span class="o">.</span><span class="n">TLSv1_METHOD</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="_Factory"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_server.html#pysiriproxy.connections.server._Factory">[docs]</a><span class="k">class</span> <span class="nc">_Factory</span><span class="p">(</span><span class="n">protocol</span><span class="o">.</span><span class="n">ClientFactory</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _Factory class is responsible for creating a _Server</span>
+<span class="sd">    connection.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c"># Define the name and log color used for logging messages for this class</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;ServerFactory&quot;</span>
+    <span class="n">logColor</span> <span class="o">=</span> <span class="n">Colors</span><span class="o">.</span><span class="n">Foreground</span><span class="o">.</span><span class="n">Blue</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * logger -- The logger</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># Get an instance to the connection manager so we can properly</span>
+        <span class="c"># disconnect Apple&#39;s server connection when it is lost</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__connectionManager</span> <span class="o">=</span> <span class="n">ConnectionManager</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
+
+        <span class="c"># If no logger is given, be sure to create it</span>
+        <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">logger</span> <span class="o">=</span> <span class="n">LogData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">logColor</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span> <span class="o">=</span> <span class="n">logger</span>
+
+<div class="viewcode-block" id="_Factory.buildProtocol"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_server.html#pysiriproxy.connections.server._Factory.buildProtocol">[docs]</a>    <span class="k">def</span> <span class="nf">buildProtocol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_addr</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Build the protocol for the _Server connection.</span>
+
+<span class="sd">        * _addr -- The address</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">server</span> <span class="o">=</span> <span class="n">_Server</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="p">)</span>
+        <span class="n">server</span><span class="o">.</span><span class="n">factory</span> <span class="o">=</span> <span class="bp">self</span>
+
+        <span class="k">return</span> <span class="n">server</span>
+</div>
+    <span class="k">def</span> <span class="nf">clientConnectionFailed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connector</span><span class="p">,</span> <span class="n">reason</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Connection failed: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">reason</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">protocol</span><span class="o">.</span><span class="n">ClientFactory</span><span class="o">.</span><span class="n">clientConnectionFailed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connector</span><span class="p">,</span>
+                                                      <span class="n">reason</span><span class="p">)</span>
+
+        <span class="c"># Delete the server connection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__connectionManager</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="n">Directions</span><span class="o">.</span><span class="n">From_Server</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">clientConnectionLost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connector</span><span class="p">,</span> <span class="n">reason</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Connection lost: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">reason</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">protocol</span><span class="o">.</span><span class="n">ClientFactory</span><span class="o">.</span><span class="n">clientConnectionLost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connector</span><span class="p">,</span>
+                                                    <span class="n">reason</span><span class="p">)</span>
+
+        <span class="c"># Delete the server connection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__connectionManager</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="n">Directions</span><span class="o">.</span><span class="n">From_Server</span><span class="p">)</span>
+
+</div>
+<span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Connect the Siri server to handle server data.</span>
+
+<span class="sd">    * logger -- The logger</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">host</span> <span class="o">=</span> <span class="n">Options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Sections</span><span class="o">.</span><span class="n">Server</span><span class="p">,</span> <span class="n">Ids</span><span class="o">.</span><span class="n">Host</span><span class="p">)</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="n">Options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Sections</span><span class="o">.</span><span class="n">Server</span><span class="p">,</span> <span class="n">Ids</span><span class="o">.</span><span class="n">Port</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">reactor</span><span class="o">.</span><span class="n">connectTCP</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">_Factory</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.packetPlayer on April 18, 2013
+   This file should not be modified.
+
+========================
+The packetPlayer module
+========================
+
+.. automodule:: pysiriproxy.packetPlayer
+
+-----------------
+The Player class
+-----------------
+
+.. inheritance-diagram:: pysiriproxy.packetPlayer.Player
+
+.. autoclass:: pysiriproxy.packetPlayer.Player
+    :members:
+
+----------------
+The Modes class
+----------------
+
+.. inheritance-diagram:: pysiriproxy.packetPlayer.Modes
+
+.. autoclass:: pysiriproxy.packetPlayer.Modes
+    :members:

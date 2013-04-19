@@ -1,0 +1,72 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.objects.views on April 18, 2013
+   This file should not be modified.
+
+=================
+The views module
+=================
+
+.. automodule:: pysiriproxy.objects.views
+
+-------------------------
+The _ShowMapPoints class
+-------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.views._ShowMapPoints
+
+.. autoclass:: pysiriproxy.objects.views._ShowMapPoints
+    :members:
+
+--------------------------
+The _MapItemSnippet class
+--------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.views._MapItemSnippet
+
+.. autoclass:: pysiriproxy.objects.views._MapItemSnippet
+    :members:
+
+----------------
+The Views class
+----------------
+
+.. inheritance-diagram:: pysiriproxy.objects.views.Views
+
+.. autoclass:: pysiriproxy.objects.views.Views
+    :members:
+
+-------------------------
+The _AnswerSnippet class
+-------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.views._AnswerSnippet
+
+.. autoclass:: pysiriproxy.objects.views._AnswerSnippet
+    :members:
+
+---------------------
+The SiriObject class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.views.SiriObject
+
+.. autoclass:: pysiriproxy.objects.views.SiriObject
+    :members:
+
+---------------------
+The _Utterance class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.views._Utterance
+
+.. autoclass:: pysiriproxy.objects.views._Utterance
+    :members:
+
+--------------------
+The _AddViews class
+--------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.views._AddViews
+
+.. autoclass:: pysiriproxy.objects.views._AddViews
+    :members:

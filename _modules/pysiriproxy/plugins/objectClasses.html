@@ -1,0 +1,175 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.plugins.objectClasses &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.plugins.objectClasses</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The objectClasses module contains functions and attributes which are</span>
+<span class="sd">used to create object class filters for plugins.</span>
+
+<span class="sd">An object class filter is a plugin function which will be notified in the</span>
+<span class="sd">event that pysiriproxy receives an object of a specific type (or class).</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.constants</span> <span class="kn">import</span> <span class="n">ClassNames</span>
+
+<span class="kn">from</span> <span class="nn">pyamp.patterns</span> <span class="kn">import</span> <span class="n">listProperty</span>
+
+
+<span class="c"># The property name used to store the list of classes which is used to</span>
+<span class="c"># identify the object classes that a decorator function filters</span>
+<span class="n">_CLASSES_PROP</span> <span class="o">=</span> <span class="s">&quot;Classes&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">createClassFilter</span><span class="p">(</span><span class="n">className</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Create a function decorator which is used to filter received objects</span>
+<span class="sd">    to find objects with the given class name.</span>
+
+<span class="sd">    * className -- The class name used to filter received objects</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">listProperty</span><span class="p">(</span><span class="n">_CLASSES_PROP</span><span class="p">,</span> <span class="n">className</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">isObjectClassFilter</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Determine if the given function is an object class filter function.</span>
+
+<span class="sd">    * function -- The function</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">objectClasses</span> <span class="o">=</span> <span class="n">getObjectClasses</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">objectClasses</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">objectClasses</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+
+<span class="k">def</span> <span class="nf">getObjectClasses</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Get the list of object classes that this filter function</span>
+<span class="sd">    supports.</span>
+
+<span class="sd">    * function -- The filter function</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">_CLASSES_PROP</span><span class="p">,</span> <span class="p">[])</span>
+
+
+<span class="k">def</span> <span class="nf">objectClassesMatch</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">objectClass</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Determine if the given object class is found in the list</span>
+<span class="sd">    of object classes for this function.</span>
+
+<span class="sd">    * function -- The function</span>
+<span class="sd">    * objectClass -- The given object classes</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">objectClasses</span> <span class="o">=</span> <span class="n">getObjectClasses</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">objectClasses</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">objectClasses</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> \
+        <span class="n">objectClass</span> <span class="ow">in</span> <span class="n">objectClasses</span>
+
+
+<span class="c"># Grab a reference to the current module object so we can add</span>
+<span class="c"># attributes to it</span>
+<span class="n">thisModule</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">__name__</span><span class="p">]</span>
+
+<span class="c"># Create class filter decorators for all of the known class names</span>
+<span class="k">for</span> <span class="n">className</span> <span class="ow">in</span> <span class="n">ClassNames</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+    <span class="n">classFilter</span> <span class="o">=</span> <span class="n">createClassFilter</span><span class="p">(</span><span class="n">className</span><span class="p">)</span>
+    <span class="nb">setattr</span><span class="p">(</span><span class="n">thisModule</span><span class="p">,</span> <span class="n">className</span><span class="p">,</span> <span class="n">classFilter</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

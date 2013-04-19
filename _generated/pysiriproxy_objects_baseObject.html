@@ -1,0 +1,221 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The baseObject module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The objects module" href="mod_pysiriproxy_objects.html" />
+    <link rel="next" title="The views module" href="pysiriproxy_objects_views.html" />
+    <link rel="prev" title="The requests module" href="pysiriproxy_objects_requests.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_views.html" title="The views module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_requests.html" title="The requests module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_objects.html" accesskey="U">The objects module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.objects.baseObject">
+<span id="the-baseobject-module"></span><h1>The baseObject module<a class="headerlink" href="#module-pysiriproxy.objects.baseObject" title="Permalink to this headline">¶</a></h1>
+<p>The baseObject class contains the definition of the base class for
+all objects that can be sent to the iPhone, or to Apple&#8217;s web server.</p>
+<div class="section" id="the-siriobject-class">
+<h2>The SiriObject class<a class="headerlink" href="#the-siriobject-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-ef393513b75c2d93373c2c2d18d40920b96d9ef5.png" alt="Inheritance diagram of pysiriproxy.objects.baseObject.SiriObject" usemap="#inheritance6d9ba9f466" class="inheritance"/>
+<map id="inheritance6d9ba9f466" name="inheritance6d9ba9f466">
+<area shape="rect" href="#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="5,7,283,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.baseObject.SiriObject">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.baseObject.</tt><tt class="descname">SiriObject</tt><big>(</big><em>className</em>, <em>group</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/baseObject.html#SiriObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.baseObject.SiriObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SiriObject class encapsulates the base functionality for all
+object being sent to the iPhone or to Apple&#8217;s web server.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This class is meant to be subclassed to provide the
+implementation for a specific object.</p>
+</div>
+<dl class="attribute">
+<dt id="pysiriproxy.objects.baseObject.SiriObject.ProtocolVersion">
+<tt class="descname">ProtocolVersion</tt><a class="headerlink" href="#pysiriproxy.objects.baseObject.SiriObject.ProtocolVersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>The identifier which indicates the version of the protocol.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.baseObject.SiriObject.isArgumentList">
+<em class="property">classmethod </em><tt class="descname">isArgumentList</tt><big>(</big><em>obj</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/baseObject.html#SiriObject.isArgumentList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.baseObject.SiriObject.isArgumentList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if the given object is a list of arguments, or not.</p>
+<ul class="simple">
+<li>obj &#8211; The object</li>
+</ul>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.baseObject.SiriObject.isSiriObject">
+<em class="property">classmethod </em><tt class="descname">isSiriObject</tt><big>(</big><em>obj</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/baseObject.html#SiriObject.isSiriObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.baseObject.SiriObject.isSiriObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if the given object is a SiriObject, or not.</p>
+<ul class="simple">
+<li>obj &#8211; The object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.baseObject.SiriObject.makeRoot">
+<tt class="descname">makeRoot</tt><big>(</big><em>refId=None</em>, <em>aceId=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/baseObject.html#SiriObject.makeRoot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.baseObject.SiriObject.makeRoot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the SiriObject the root object.</p>
+<ul class="simple">
+<li>refId &#8211; The refId for this object</li>
+<li>aceId &#8211; The aceId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.baseObject.SiriObject.setAceId">
+<tt class="descname">setAceId</tt><big>(</big><em>aceId=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/baseObject.html#SiriObject.setAceId"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.baseObject.SiriObject.setAceId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the ace id for this object.</p>
+<ul class="simple">
+<li>aceId &#8211; The aceId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.baseObject.SiriObject.setNonNoneArguments">
+<tt class="descname">setNonNoneArguments</tt><big>(</big><em>argumentNames</em>, <em>localVars</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/baseObject.html#SiriObject.setNonNoneArguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.baseObject.SiriObject.setNonNoneArguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a list of strings which represent names of input variables and
+sets properties of the same name on the current object if the value of
+the argument is not None.</p>
+<ul class="simple">
+<li>argumentNames &#8211; The list of argument names to set</li>
+<li>localVars &#8211; The local variables</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.baseObject.SiriObject.setRefId">
+<tt class="descname">setRefId</tt><big>(</big><em>refId=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/baseObject.html#SiriObject.setRefId"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.baseObject.SiriObject.setRefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the ref id for this object.</p>
+<ul class="simple">
+<li>refId &#8211; The refId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.baseObject.SiriObject.toDict">
+<tt class="descname">toDict</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/baseObject.html#SiriObject.toDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.baseObject.SiriObject.toDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert this object into a Python dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The baseObject module</a><ul>
+<li><a class="reference internal" href="#the-siriobject-class">The SiriObject class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pysiriproxy_objects_requests.html"
+                        title="previous chapter">The requests module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pysiriproxy_objects_views.html"
+                        title="next chapter">The views module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/pysiriproxy_objects_baseObject.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_views.html" title="The views module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_requests.html" title="The requests module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_objects.html" >The objects module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

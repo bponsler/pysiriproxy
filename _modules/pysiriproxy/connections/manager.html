@@ -1,0 +1,301 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.connections.manager &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.connections.manager</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The manager module contains the ConnectionManager class which is</span>
+<span class="sd">responsible for managing the ability to transfer data between two</span>
+<span class="sd">different connections.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.constants</span> <span class="kn">import</span> <span class="n">Directions</span>
+
+<span class="kn">from</span> <span class="nn">pyamp.logging</span> <span class="kn">import</span> <span class="n">LogData</span><span class="p">,</span> <span class="n">Colors</span>
+
+
+<div class="viewcode-block" id="ConnectionManager"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_manager.html#pysiriproxy.connections.manager.ConnectionManager">[docs]</a><span class="k">class</span> <span class="nc">ConnectionManager</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The ConnectionManager object managers incoming connection</span>
+<span class="sd">    directions and provides the ability to forward data between them.</span>
+
+<span class="sd">    It allows a connection direction to be connected to an opposite</span>
+<span class="sd">    connection direction which allows data to be forwarded from the</span>
+<span class="sd">    direction to the connected direction.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c"># Implement the borg pattern</span>
+    <span class="n">__shared_state</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * logger -- The logger</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shared_state</span>
+
+        <span class="c"># If the manager has not been initialized, then initialize it</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;_initialized&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="c"># Create a map of directions to connection objects</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">Directions</span><span class="o">.</span><span class="n">From_iPhone</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                <span class="n">Directions</span><span class="o">.</span><span class="n">From_Server</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                <span class="p">}</span>
+
+            <span class="c"># Map incoming direction, to its forwarding direction</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_forwardMap</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">Directions</span><span class="o">.</span><span class="n">From_iPhone</span><span class="p">:</span> <span class="n">Directions</span><span class="o">.</span><span class="n">From_Server</span><span class="p">,</span>
+                <span class="n">Directions</span><span class="o">.</span><span class="n">From_Server</span><span class="p">:</span> <span class="n">Directions</span><span class="o">.</span><span class="n">From_iPhone</span>
+                <span class="p">}</span>
+
+            <span class="c"># String readable versions of the directions</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nameMap</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">Directions</span><span class="o">.</span><span class="n">From_iPhone</span><span class="p">:</span> <span class="s">&quot;iPhone&quot;</span><span class="p">,</span>
+                <span class="n">Directions</span><span class="o">.</span><span class="n">From_Server</span><span class="p">:</span> <span class="s">&quot;Server&quot;</span><span class="p">,</span>
+                <span class="p">}</span>
+
+            <span class="c"># Create the logger for this class</span>
+            <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">logger</span> <span class="o">=</span> <span class="n">LogData</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;ConnectionManager&quot;</span><span class="p">,</span>
+                                   <span class="n">color</span><span class="o">=</span><span class="n">Colors</span><span class="o">.</span><span class="n">Foreground</span><span class="o">.</span><span class="n">Orange</span><span class="p">)</span>
+
+            <span class="c"># The connection manager has now been initialized</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="bp">True</span>
+
+<div class="viewcode-block" id="ConnectionManager.connect"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_manager.html#pysiriproxy.connections.manager.ConnectionManager.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Add a connection to our set of connections.</span>
+
+<span class="sd">        * connection -- The connection object to add</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">getDirection</span><span class="p">()</span>
+
+        <span class="c"># Only add the connection a single time</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">strDirection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getName</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Connected [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> <span class="n">strDirection</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="p">[</span><span class="n">direction</span><span class="p">]</span> <span class="o">=</span> <span class="n">connection</span>
+</div>
+<div class="viewcode-block" id="ConnectionManager.disconnect"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_manager.html#pysiriproxy.connections.manager.ConnectionManager.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Remove a directed connection from our set of connections.</span>
+
+<span class="sd">        * direction -- The direction of the connection object to remove</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># Only remove the connection a single time</span>
+        <span class="k">if</span> <span class="n">direction</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="p">:</span>
+            <span class="n">connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="p">[</span><span class="n">direction</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">connection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="c"># Close the connection, and then remove it from the</span>
+                <span class="c"># dictionary of connections</span>
+                <span class="n">connection</span><span class="o">.</span><span class="n">transport</span><span class="o">.</span><span class="n">loseConnection</span><span class="p">()</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="p">[</span><span class="n">direction</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="ConnectionManager.forward"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_manager.html#pysiriproxy.connections.manager.ConnectionManager.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Forward the data from one connection to another.</span>
+
+<span class="sd">        * direction -- The direction of the data</span>
+<span class="sd">        * data -- The data to forward</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">forwarded</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="c"># Get the forwarding direction, and connection</span>
+        <span class="n">forwardDirection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forwardMap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span>
+        <span class="n">forwardConnection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">forwardDirection</span><span class="p">)</span> 
+
+        <span class="c"># If the connection is found, forward the data</span>
+        <span class="k">if</span> <span class="n">forwardConnection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">strDirection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getName</span><span class="p">(</span><span class="n">forwardDirection</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Forwarding </span><span class="si">%d</span><span class="s"> bytes of data to </span><span class="si">%s</span><span class="s">&quot;</span> \
+                                <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">strDirection</span><span class="p">),</span> <span class="n">level</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="n">forwardConnection</span><span class="o">.</span><span class="n">transport</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">forwarded</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="k">return</span> <span class="n">forwarded</span>
+</div>
+<div class="viewcode-block" id="ConnectionManager.resetConnections"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_manager.html#pysiriproxy.connections.manager.ConnectionManager.resetConnections">[docs]</a>    <span class="k">def</span> <span class="nf">resetConnections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Reset all of the connections that are being managed.&#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">connection</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">connection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">connection</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+        </div>
+<div class="viewcode-block" id="ConnectionManager.hasConnection"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_manager.html#pysiriproxy.connections.manager.ConnectionManager.hasConnection">[docs]</a>    <span class="k">def</span> <span class="nf">hasConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Determine if there is a connection to forward data to.</span>
+
+<span class="sd">        * direction -- The incoming data direction</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># Get the forwarding direction, and connection</span>
+        <span class="n">forwardDirection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forwardMap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span>
+        <span class="n">forwardConnection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">forwardDirection</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">forwardConnection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="ConnectionManager.injectObject"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_manager.html#pysiriproxy.connections.manager.ConnectionManager.injectObject">[docs]</a>    <span class="k">def</span> <span class="nf">injectObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Inject an object into the connection with the given direction.</span>
+
+<span class="sd">        * direction -- The direction to inject the object</span>
+<span class="sd">        * obj -- The object to inject</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">connection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">injectObjectToOutputStream</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ConnectionManager.getConnection"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_manager.html#pysiriproxy.connections.manager.ConnectionManager.getConnection">[docs]</a>    <span class="k">def</span> <span class="nf">getConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the connection for the specific direction.</span>
+
+<span class="sd">        * direction -- The direction for the connection to retrieve</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ConnectionManager.getRefId"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_manager.html#pysiriproxy.connections.manager.ConnectionManager.getRefId">[docs]</a>    <span class="k">def</span> <span class="nf">getRefId</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the most recently used reference id for the connection with</span>
+<span class="sd">        the given direction.</span>
+
+<span class="sd">        * direction -- The direction for the connection</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span>
+
+        <span class="n">refId</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">connection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">refId</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">getRefId</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">refId</span>
+</div>
+<div class="viewcode-block" id="ConnectionManager.setRefId"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_manager.html#pysiriproxy.connections.manager.ConnectionManager.setRefId">[docs]</a>    <span class="k">def</span> <span class="nf">setRefId</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refId</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Set the ref id for the forward connection.</span>
+
+<span class="sd">        * refId -- The ref id</span>
+<span class="sd">        * direction -- The data direction</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c"># Get the forwarding direction, and connection</span>
+        <span class="n">forwardDirection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forwardMap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span>
+        <span class="n">forwardConnection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">forwardDirection</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">forwardConnection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">forwardConnection</span><span class="o">.</span><span class="n">setRefId</span><span class="p">(</span><span class="n">refId</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ConnectionManager.getForwardName"><a class="viewcode-back" href="../../../_generated/pysiriproxy_connections_manager.html#pysiriproxy.connections.manager.ConnectionManager.getForwardName">[docs]</a>    <span class="k">def</span> <span class="nf">getForwardName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the formatted name of the forward direction for the</span>
+<span class="sd">        given direction.</span>
+
+<span class="sd">        * direction -- The data direction</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">forwardDirection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forwardMap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getName</span><span class="p">(</span><span class="n">forwardDirection</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__getName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Format the given direction into a string.</span>
+
+<span class="sd">        * direction -- The direction to format</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nameMap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">direction</span><span class="p">))</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

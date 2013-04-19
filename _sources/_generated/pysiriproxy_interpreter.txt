@@ -1,0 +1,36 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.interpreter on April 18, 2013
+   This file should not be modified.
+
+=======================
+The interpreter module
+=======================
+
+.. automodule:: pysiriproxy.interpreter
+
+---------------
+The Keys class
+---------------
+
+.. inheritance-diagram:: pysiriproxy.interpreter.Keys
+
+.. autoclass:: pysiriproxy.interpreter.Keys
+    :members:
+
+----------------------
+The Interpreter class
+----------------------
+
+.. inheritance-diagram:: pysiriproxy.interpreter.Interpreter
+
+.. autoclass:: pysiriproxy.interpreter.Interpreter
+    :members:
+
+---------------------
+The ClassNames class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.interpreter.ClassNames
+
+.. autoclass:: pysiriproxy.interpreter.ClassNames
+    :members:

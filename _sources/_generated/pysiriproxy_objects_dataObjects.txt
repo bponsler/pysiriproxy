@@ -1,0 +1,72 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.objects.dataObjects on April 18, 2013
+   This file should not be modified.
+
+=======================
+The dataObjects module
+=======================
+
+.. automodule:: pysiriproxy.objects.dataObjects
+
+--------------------
+The _Location class
+--------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.dataObjects._Location
+
+.. autoclass:: pysiriproxy.objects.dataObjects._Location
+    :members:
+
+---------------------------
+The _CurrentLocation class
+---------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.dataObjects._CurrentLocation
+
+.. autoclass:: pysiriproxy.objects.dataObjects._CurrentLocation
+    :members:
+
+---------------------
+The SiriObject class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.dataObjects.SiriObject
+
+.. autoclass:: pysiriproxy.objects.dataObjects.SiriObject
+    :members:
+
+-------------------
+The _MapItem class
+-------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.dataObjects._MapItem
+
+.. autoclass:: pysiriproxy.objects.dataObjects._MapItem
+    :members:
+
+----------------------
+The DataObjects class
+----------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.dataObjects.DataObjects
+
+.. autoclass:: pysiriproxy.objects.dataObjects.DataObjects
+    :members:
+
+------------------
+The _Answer class
+------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.dataObjects._Answer
+
+.. autoclass:: pysiriproxy.objects.dataObjects._Answer
+    :members:
+
+----------------------
+The _AnswerLine class
+----------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.dataObjects._AnswerLine
+
+.. autoclass:: pysiriproxy.objects.dataObjects._AnswerLine
+    :members:

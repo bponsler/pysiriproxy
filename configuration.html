@@ -1,0 +1,409 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Configuring pysiriproxy &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="index.html" />
+    <link rel="next" title="Running pysiriproxy" href="running.html" />
+    <link rel="prev" title="Installing pysiriproxy" href="installation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="running.html" title="Running pysiriproxy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installing pysiriproxy"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="configuring-pysiriproxy">
+<span id="configuring-label"></span><h1>Configuring pysiriproxy<a class="headerlink" href="#configuring-pysiriproxy" title="Permalink to this headline">¶</a></h1>
+<p>The first time pysiriproxy is executed on your system (assuming it has been
+<a class="reference internal" href="installation.html#installing-label"><em>installed</em></a>), the following directory will be created
+in your home directory. The typical location of this directory is:</p>
+<blockquote>
+<strong>~/.pysiriproxy</strong></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All instructions will refer to this directory location even though
+it may be located in different place on your system.</p>
+</div>
+<p>The default contents of the configuration directory will look like:</p>
+<blockquote>
+<p><em>./pysiriproxy.cfg</em></p>
+<dl class="docutils">
+<dt><strong>./certificates</strong></dt>
+<dd><em>ca.pem</em>
+<em>cert.log</em>
+<em>server.passless.crt</em>
+<em>server.passless.key</em></dd>
+<dt><strong>./plugins:</strong></dt>
+<dd><em>__init__.py</em>
+<em>buttonTest.py</em>
+<em>locationTest.py</em>
+<em>resetPlugin.py</em>
+<em>testPlugin.py</em></dd>
+<dt><strong>./scripts:</strong></dt>
+<dd><em>gen_certs.sh</em>
+<em>openssl.cnf</em>
+<em>setDnsmasq.sh</em></dd>
+</dl>
+</blockquote>
+<p>The contents are described below:</p>
+<div class="section" id="the-pysiriproxy-configuration-file">
+<h2>The pysiriproxy configuration file<a class="headerlink" href="#the-pysiriproxy-configuration-file" title="Permalink to this headline">¶</a></h2>
+<p>The pysiriproxy configuration file is named <em>pysiriproxy.cfg</em> and it has
+the standard <a class="reference external" href="http://docs.python.org/library/configparser.html#ConfigParser" title="(in Python v2.7)"><tt class="docutils literal"><span class="pre">ConfigParser</span></tt></a> format. This configuration contains the
+following configuration sections and settings which can alter how pysiriproxy
+will run:</p>
+<blockquote>
+<ul>
+<li><dl class="first docutils">
+<dt>The <strong>General</strong> section:</dt>
+<dd><ul class="first last simple">
+<li><strong>PluginsDir</strong> &#8211; This setting contains the path where pysiriproxy
+plugins are located.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>The <strong>Server</strong> section:</dt>
+<dd><ul class="first last simple">
+<li><strong>Host</strong> &#8211; This setting contains the hostname for Apple&#8217;s web server.</li>
+<li><strong>Port</strong> &#8211; This setting contains the port number for Apple&#8217;s web server.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>The <strong>iPhone</strong> section:</dt>
+<dd><ul class="first last simple">
+<li><strong>Port</strong> &#8211; This setting contains the port number which the iPhone
+will connect to.</li>
+<li><strong>KeyFile</strong> &#8211; This setting contains the path to the <em>key</em> file which
+was generated by the
+<a class="reference internal" href="#gencerts-label"><em>certificate generation process</em></a>.</li>
+<li><strong>CertFile</strong> &#8211; This setting contains the path to the <em>crt</em> file
+which was generated by the
+<a class="reference internal" href="#gencerts-label"><em>certificate generation process</em></a>.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>The <strong>Logging</strong> section:</dt>
+<dd><ul class="first last simple">
+<li><strong>LogLevel</strong> &#8211; This setting contains the log level used by
+pysiriproxy. This can have the following values: DEBUG, INFO, WARN, or
+ERROR. This setting controls the amount of output which is logged by
+the system.</li>
+<li><strong>DebugLevel</strong> &#8211; This setting contains the debug level to use for
+the system, where a value of 0 indicates a higher importance.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>The <strong>Responses</strong> section:</dt>
+<dd><ul class="first last simple">
+<li><strong>Error</strong> &#8211; This setting contains a string which Siri will say in
+the event that an Exception is encountered during the process of
+processing an iPhone request.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="the-plugins-directory">
+<h2>The plugins directory<a class="headerlink" href="#the-plugins-directory" title="Permalink to this headline">¶</a></h2>
+<p>The plugins directory is the location where pysiriproxy expects all plugins to
+be stored. At runtime, pysiriproxy will load all of the Python files located
+in this directory into memory and the loaded plugins will then be used to
+intercept the communications between the iPhone and Apple&#8217;s web server.</p>
+<p>After the initial installation of pysiriproxy, the plugins directory will
+contain the following files:</p>
+<blockquote>
+<ul class="simple">
+<li><strong>__init__.py</strong> &#8211; This file is needed to allow pysiriproxy to import
+the plugin scripts at runtime.</li>
+<li><strong>buttonTest.py</strong> &#8211; This is an example of a plugin that creates
+buttons which the user is able to interact with to perform different
+tasks.</li>
+<li><strong>locationTest.py</strong> &#8211; This is an example of a plugin that allows the
+user to test creating map locations, and getting directions between
+two map locations.</li>
+<li><strong>resetPlugin.py</strong> &#8211; This is a plugin which performs the task of
+resetting the request context in the event that an object is received
+that cancels the current request.</li>
+<li><strong>testPlugin.py</strong> &#8211; This is an example of plugin that demonstrates how
+to command Siri to interact with the user in various ways, such as:
+asking the user a question, or displaying text to the user.</li>
+</ul>
+</blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Developers should never need to modify the  __init__.py, or
+resetPlugin.py files.</p>
+</div>
+<p>Developers can create new plugins by adding a new Python file to the plugins
+directory. This file should contain a subclass of the
+<a class="reference internal" href="_generated/pysiriproxy_plugins_plugin.html#pysiriproxy.plugins.plugin.BasePlugin" title="pysiriproxy.plugins.plugin.BasePlugin"><tt class="xref py py-class docutils literal"><span class="pre">BasePlugin</span></tt></a> class, and should have the
+<em>.py</em> extension. These new plugins will be loaded by pysiriproxy at the
+start of the system.</p>
+<p>Please see the section on <a class="reference internal" href="writing_plugins.html#writingplugins-label"><em>Writing plugins</em></a> for
+instructions on how to create a custom plugin.</p>
+</div>
+<div class="section" id="the-scripts-directory">
+<h2>The scripts directory<a class="headerlink" href="#the-scripts-directory" title="Permalink to this headline">¶</a></h2>
+<p>The scripts directory contains various scripts needed by pysiriproxy. The
+scripts are as follows:</p>
+<blockquote>
+<ul class="simple">
+<li><strong>gen_certs.sh</strong> &#8211; This script generates the certificate files needed
+to create the correct permissions to connect to Apple&#8217;s web server.</li>
+<li><strong>openssl.cnf</strong> &#8211; This is a configuration file used by the gen_certs
+script to generate the certificate files.</li>
+<li><strong>setDnsmasq.sh</strong> &#8211; This script takes an IP address as its only
+argument and modifies the <em>/etc/dnsmasq.conf</em> to use the given IP
+address. It also handles restarting dnsmasq to use the new settings.</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="the-certificates-directory">
+<h2>The certificates directory<a class="headerlink" href="#the-certificates-directory" title="Permalink to this headline">¶</a></h2>
+<p>The certificates directory contains the certificate files generated by the
+gen_certs script. Once the certificates have been generated this directory
+will contain the following files:</p>
+<blockquote>
+<ul class="simple">
+<li><strong>ca.pem</strong> &#8211; The security certificate which should be sent to the iPhone
+which will use pysiriproxy.</li>
+<li><strong>cert.log</strong> &#8211; The log file created by the gen_certs script.</li>
+<li><strong>server.passless.crt</strong> &#8211; The certificate file generated by the gen_certs
+script.</li>
+<li><strong>server.passless.key</strong> &#8211; The key file generated by the gen_certs script.</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="generating-certificates-for-pysiriproxy">
+<span id="gencerts-label"></span><h2>Generating certificates for pysiriproxy<a class="headerlink" href="#generating-certificates-for-pysiriproxy" title="Permalink to this headline">¶</a></h2>
+<p>The pysiriproxy certificates can be generated by running the following
+commands (assuming the <a class="reference internal" href="installation.html#installing-label"><em>installation process</em></a> was
+followed exactly):</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> <span class="nb">cd</span> /opt/pysiriproxy
+<span class="gp">$</span> ./siriproxy --gencerts
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-the-certificate-on-your-iphone">
+<span id="installing-certificates-label"></span><h2>Installing the certificate on your iPhone<a class="headerlink" href="#installing-the-certificate-on-your-iphone" title="Permalink to this headline">¶</a></h2>
+<p>In order for your iPhone to have the correct permissions to interact with
+pysiriproxy, you must first generate the certificate files (see the section
+on <a class="reference internal" href="#gencerts-label"><em>generating certificates for pysiriproxy</em></a>), and then
+you must install the certificate onto your iPhone.</p>
+<p>In order to install the certificate on your iPhone you must copy the
+<em>~/pysiriproxy/certificates/ca.pem</em> file onto your iPhone. The easiest method
+for doing this is through e-mail.</p>
+<p>On your iPhone, you should be able to open the e-mail attachment and it should
+give you the option to open the file in Safari. Once opened, you will have the
+option to install the certificate onto your phone. Select <em>yes</em> and continue
+through the remaining prompts.</p>
+<p>The certificate is now installed onto your iPhone. You can edit this at any
+time by navigating through the following menus:</p>
+<p>Settings &gt; General &gt; Profiles &gt; SiriProxyCA</p>
+<p>This will give you the ability to view settings about the certificate, or
+to remove the certificate from your phone.</p>
+</div>
+<div class="section" id="changing-your-dnsmasq-ip-address">
+<span id="changingdnsmasqip-label"></span><h2>Changing your dnsmasq IP address<a class="headerlink" href="#changing-your-dnsmasq-ip-address" title="Permalink to this headline">¶</a></h2>
+<p>The next step in the configuration process is to set up your computer to
+properly intercept requests for Apple&#8217;s web server. This is done through
+use of the dnsmasq tool (see the section on
+<a class="reference internal" href="installation.html#dnsmasq-label"><em>installing dnsmasq</em></a>). Dnsmasq needs to be configured
+with the IP address of the machine on which it is running in order to
+properly function. The following steps will help you easily configure
+dnsmasq to use the IP address of your choosing:</p>
+<p>Once the pysiriproxy configuration directory has been created, there will be
+a script called <strong>~/.pysiriproxy/scripts/setDnsmasq.sh</strong> which can be used
+to quickly change the IP address used by dnsmasq.</p>
+<p>Here is an example of how to use this script to set the dnsmasq IP address to
+use 192.168.0.5:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> sh ~/.pysiriproxy/scripts/setDnsmasq.sh 192.168.0.5
+</pre></div>
+</div>
+<p>This script should be run with the IP address of your machine which is connected
+to the same network as the iPhone. You will not be able to successfully use
+pysiriproxy if both the machine running dnsmasq and the iPhone are not connected
+to the same network.</p>
+</div>
+<div class="section" id="configure-the-iphone-wireless-setttings">
+<span id="iphonewireless-label"></span><h2>Configure the iPhone wireless setttings<a class="headerlink" href="#configure-the-iphone-wireless-setttings" title="Permalink to this headline">¶</a></h2>
+<p>The final step in the configuration process is to set up the wireless settings for
+the iPhone so that its requests are processed by the machine running dnsmasq. This
+is done by modifying the DNS option of the wireless network. The following will
+describe how this is done:</p>
+<p>On the iPhone, navigate through the following menus:</p>
+<p>Settings &gt; WiFi</p>
+<p>On this menu you should first connect to the desired wireless network, and then
+once connected click on the blue arrow to modify the settings for that wireless
+network.</p>
+<p>This will bring you to the settings menu for your wireless network. Scroll down
+and select the text in the <strong>DNS</strong> option. This will allow you to enter the IP
+address for the machine running dnsmasq. This should be the <strong>same</strong> IP address
+as was used when <a class="reference internal" href="#changingdnsmasqip-label"><em>configuring dnsmasq</em></a>. This
+will force all DNS requests to be processed by the machine running dnsmasq,
+which allows pysiriproxy to intercept the commands being sent to Apple&#8217;s server.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you find that you wish to reset the DNS settings for this wireless
+network you can do so by deleting the entire IP address from the DNS option.
+Once you do this, and leave the menu you will find that the DNS option will
+be reset to its original value.</p>
+</div>
+</div>
+<div class="section" id="configure-pysiriproxy-for-ios-6">
+<h2>Configure pysiriproxy for iOS 6<a class="headerlink" href="#configure-pysiriproxy-for-ios-6" title="Permalink to this headline">¶</a></h2>
+<p>With the release of iOS 6 Apple has updated Siri to use different servers
+than it was using in the previous version of iOS. As of release 0.0.6,
+the pysiriproxy server has been updated to accept requests from iPhones
+running either iOS 5 or iOS 6 with only a single configuration change.</p>
+<p>This is accomplished by generating a generic SSL certificate for the
+iPhone which supports the <tt class="docutils literal"><span class="pre">*.apple.com</span></tt> server. This should allow
+the same certificate to support future changes to the Apple server.</p>
+<p>The <em>setDnsmasq.sh</em> script properly configures dnsmasq to route requests
+for both the Guzzoni and Kryten servers to the local machine.</p>
+<p>The pysiriproxy server is now setup, by default, to route queries to
+the iOS 6 server at <tt class="docutils literal"><span class="pre">kryten.apple.com</span></tt> rather than the iOS 5 server
+at <tt class="docutils literal"><span class="pre">guzzoni.apple.com</span></tt>. If you wish to change which server is being
+used modify the <strong>Hosts</strong> property under the <strong>Server</strong> section to
+be the desired server address.</p>
+<p>The <strong>only</strong> configuration change needed to change whether pysiriproxy
+supports iOS 5 or iOS 6 phones is to change the configuration file
+<em>~/.pysiriproxy/pysiriproxy.cfg</em>. The <strong>Hosts</strong> setting under the
+<strong>Server</strong> section needs to be updated according to which version of
+iOS you would like the server to support.</p>
+<p>For <strong>iOS 5</strong> the file should read:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Host</span> <span class="o">=</span> <span class="s">&quot;guzzoni.apple.com&quot;</span>
+</pre></div>
+</div>
+<p>And for <strong>iOS 6</strong> the file should read:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Host</span> <span class="o">=</span> <span class="s">&quot;kryten.apple.com&quot;</span>
+</pre></div>
+</div>
+<p>A special thanks to Aaron (meluvalli) for his help with thoroughly
+investigating and testing support for iOS 6.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Configuring pysiriproxy</a><ul>
+<li><a class="reference internal" href="#the-pysiriproxy-configuration-file">The pysiriproxy configuration file</a></li>
+<li><a class="reference internal" href="#the-plugins-directory">The plugins directory</a></li>
+<li><a class="reference internal" href="#the-scripts-directory">The scripts directory</a></li>
+<li><a class="reference internal" href="#the-certificates-directory">The certificates directory</a></li>
+<li><a class="reference internal" href="#generating-certificates-for-pysiriproxy">Generating certificates for pysiriproxy</a></li>
+<li><a class="reference internal" href="#installing-the-certificate-on-your-iphone">Installing the certificate on your iPhone</a></li>
+<li><a class="reference internal" href="#changing-your-dnsmasq-ip-address">Changing your dnsmasq IP address</a></li>
+<li><a class="reference internal" href="#configure-the-iphone-wireless-setttings">Configure the iPhone wireless setttings</a></li>
+<li><a class="reference internal" href="#configure-pysiriproxy-for-ios-6">Configure pysiriproxy for iOS 6</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="previous chapter">Installing pysiriproxy</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="running.html"
+                        title="next chapter">Running pysiriproxy</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/configuration.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="running.html" title="Running pysiriproxy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installing pysiriproxy"
+             >previous</a> |</li>
+        <li><a href="index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+================================================================================
+The testing module
+================================================================================
+
+.. toctree::
+   :maxdepth: 3
+
+   pysiriproxy_testing_pluginTester
+   pysiriproxy_testing_testSupport

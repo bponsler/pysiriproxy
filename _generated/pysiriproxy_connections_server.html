@@ -1,0 +1,466 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The server module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The connections module" href="mod_pysiriproxy_connections.html" />
+    <link rel="next" title="The options module" href="mod_pysiriproxy_options.html" />
+    <link rel="prev" title="The connection module" href="pysiriproxy_connections_connection.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_options.html" title="The options module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_connections_connection.html" title="The connection module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_connections.html" accesskey="U">The connections module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.connections.server">
+<span id="the-server-module"></span><h1>The server module<a class="headerlink" href="#module-pysiriproxy.connections.server" title="Permalink to this headline">¶</a></h1>
+<p>The server module contains the necessary classes for creating a
+concrete connection which is responsible for managing the connection between
+pysiriproxy and Apple&#8217;s web server.</p>
+<div class="section" id="the-clienttlscontext-class">
+<h2>The ClientTLSContext class<a class="headerlink" href="#the-clienttlscontext-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-e2b09db908d4739bba2d7012101c3a20f0e42b30.png" alt="Inheritance diagram of pysiriproxy.connections.server.ClientTLSContext" usemap="#inheritancea11bba3321" class="inheritance"/>
+<map id="inheritancea11bba3321" name="inheritancea11bba3321">
+<area shape="rect" href="#pysiriproxy.connections.server.ClientTLSContext" title="pysiriproxy.connections.server.ClientTLSContext" alt="" coords="5,84,328,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.connections.server.ClientTLSContext">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.connections.server.</tt><tt class="descname">ClientTLSContext</tt><a class="reference internal" href="../_modules/pysiriproxy/connections/server.html#ClientTLSContext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.server.ClientTLSContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ClientTLSContext class creates a concrete factory class responsible
+for creating a client connection.</p>
+<dl class="method">
+<dt id="pysiriproxy.connections.server.ClientTLSContext.getContext">
+<tt class="descname">getContext</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/server.html#ClientTLSContext.getContext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.server.ClientTLSContext.getContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the context for this client connection.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.connections.server.ClientTLSContext.isClient">
+<tt class="descname">isClient</tt><a class="headerlink" href="#pysiriproxy.connections.server.ClientTLSContext.isClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicate that this is a client connection.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-connectionmanager-class">
+<h2>The ConnectionManager class<a class="headerlink" href="#the-connectionmanager-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-c26106fb85a5076a52587a9b190fe3f3ee4bd538.png" alt="Inheritance diagram of pysiriproxy.connections.server.ConnectionManager" usemap="#inheritance505238d9bf" class="inheritance"/>
+<map id="inheritance505238d9bf" name="inheritance505238d9bf">
+<area shape="rect" href="pysiriproxy_connections_manager.html#pysiriproxy.connections.manager.ConnectionManager" title="pysiriproxy.connections.manager.ConnectionManager" alt="" coords="5,7,365,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.connections.server.ConnectionManager">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.connections.server.</tt><tt class="descname">ConnectionManager</tt><big>(</big><em>logger=None</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.ConnectionManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ConnectionManager object managers incoming connection
+directions and provides the ability to forward data between them.</p>
+<p>It allows a connection direction to be connected to an opposite
+connection direction which allows data to be forwarded from the
+direction to the connected direction.</p>
+<dl class="method">
+<dt id="pysiriproxy.connections.server.ConnectionManager.connect">
+<tt class="descname">connect</tt><big>(</big><em>connection</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.ConnectionManager.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a connection to our set of connections.</p>
+<ul class="simple">
+<li>connection &#8211; The connection object to add</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.ConnectionManager.disconnect">
+<tt class="descname">disconnect</tt><big>(</big><em>direction</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.ConnectionManager.disconnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a directed connection from our set of connections.</p>
+<ul class="simple">
+<li>direction &#8211; The direction of the connection object to remove</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.ConnectionManager.forward">
+<tt class="descname">forward</tt><big>(</big><em>direction</em>, <em>data</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.ConnectionManager.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward the data from one connection to another.</p>
+<ul class="simple">
+<li>direction &#8211; The direction of the data</li>
+<li>data &#8211; The data to forward</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.ConnectionManager.getConnection">
+<tt class="descname">getConnection</tt><big>(</big><em>direction</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.ConnectionManager.getConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the connection for the specific direction.</p>
+<ul class="simple">
+<li>direction &#8211; The direction for the connection to retrieve</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.ConnectionManager.getForwardName">
+<tt class="descname">getForwardName</tt><big>(</big><em>direction</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.ConnectionManager.getForwardName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the formatted name of the forward direction for the
+given direction.</p>
+<ul class="simple">
+<li>direction &#8211; The data direction</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.ConnectionManager.getRefId">
+<tt class="descname">getRefId</tt><big>(</big><em>direction</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.ConnectionManager.getRefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the most recently used reference id for the connection with
+the given direction.</p>
+<ul class="simple">
+<li>direction &#8211; The direction for the connection</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.ConnectionManager.hasConnection">
+<tt class="descname">hasConnection</tt><big>(</big><em>direction</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.ConnectionManager.hasConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if there is a connection to forward data to.</p>
+<ul class="simple">
+<li>direction &#8211; The incoming data direction</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.ConnectionManager.injectObject">
+<tt class="descname">injectObject</tt><big>(</big><em>direction</em>, <em>obj</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.ConnectionManager.injectObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inject an object into the connection with the given direction.</p>
+<ul class="simple">
+<li>direction &#8211; The direction to inject the object</li>
+<li>obj &#8211; The object to inject</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.ConnectionManager.resetConnections">
+<tt class="descname">resetConnections</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.ConnectionManager.resetConnections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset all of the connections that are being managed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.ConnectionManager.setRefId">
+<tt class="descname">setRefId</tt><big>(</big><em>refId</em>, <em>direction</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.ConnectionManager.setRefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the ref id for the forward connection.</p>
+<ul class="simple">
+<li>refId &#8211; The ref id</li>
+<li>direction &#8211; The data direction</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-connection-class">
+<h2>The Connection class<a class="headerlink" href="#the-connection-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-17d7144223c33b567589ad287db45c3f36bba932.png" alt="Inheritance diagram of pysiriproxy.connections.server.Connection" usemap="#inheritanceafe153bc5a" class="inheritance"/>
+<map id="inheritanceafe153bc5a" name="inheritanceafe153bc5a">
+<area shape="rect" href="pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection" title="pysiriproxy.connections.connection.Connection" alt="" coords="117,239,435,265"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.connections.server.Connection">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.connections.server.</tt><tt class="descname">Connection</tt><big>(</big><em>name</em>, <em>direction</em>, <em>logger</em>, <em>logColor=0</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Connection class implements the base functionaltiy for creating
+a concrete twisted internet protocol which is able to receive data in
+the form of lines.</p>
+<p>This base class implements the functionality of receiving data from the
+iPhone or from Apple&#8217;s web server. The iPhone Apple&#8217;s web server transmit
+plist objects which are compressed using zlib compression. This class
+implements the necessary functionality for receiving the data, and
+decompressing it to retrieve the plist object data that is being
+transmitted.</p>
+<p>The Connection objects are connected to the
+<tt class="xref py py-class docutils literal"><span class="pre">connections.ConnectionManager</span></tt> which provides the ability for
+one Connection to forward data to another Connection.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This class is intended to be subclassed to create a connection
+between two specific machines.</p>
+</div>
+<dl class="method">
+<dt id="pysiriproxy.connections.server.Connection.connectionFailed">
+<tt class="descname">connectionFailed</tt><big>(</big><em>reason</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection.connectionFailed" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is called when a connection failed.</p>
+<ul class="simple">
+<li>reason &#8211; The reason the connection was lost</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.Connection.connectionLost">
+<tt class="descname">connectionLost</tt><big>(</big><em>reason</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection.connectionLost" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is called when a connection is lost.</p>
+<ul class="simple">
+<li>reason &#8211; The reason the connection was lost</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.Connection.connectionMade">
+<tt class="descname">connectionMade</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection.connectionMade" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is called when a connection is made.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.Connection.getConnectionManager">
+<tt class="descname">getConnectionManager</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection.getConnectionManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the ConnectionManager object for this Connection.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.Connection.getDirection">
+<tt class="descname">getDirection</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection.getDirection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the direction for this connection.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.Connection.getMode">
+<tt class="descname">getMode</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection.getMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current receiving mode the server is in.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.Connection.getRefId">
+<tt class="descname">getRefId</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection.getRefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the most recently used reference id.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.Connection.injectObjectToOutputStream">
+<tt class="descname">injectObjectToOutputStream</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection.injectObjectToOutputStream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inject the given object into the output stream of this
+connection. This effectively sends the object to the foward destination
+connection for this connection.</p>
+<ul class="simple">
+<li>obj &#8211; The object to inject into the output stream</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.Connection.lineReceived">
+<tt class="descname">lineReceived</tt><big>(</big><em>line</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection.lineReceived" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is called when a line of data is received.</p>
+<ul class="simple">
+<li>line &#8211; The line of data</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.Connection.rawDataReceived">
+<tt class="descname">rawDataReceived</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection.rawDataReceived" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is called when raw data is received.</p>
+<ul class="simple">
+<li>data &#8211; The raw data</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.Connection.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset this connection.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.Connection.setLineMode">
+<tt class="descname">setLineMode</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection.setLineMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the server to receive lines.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.Connection.setRawMode">
+<tt class="descname">setRawMode</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection.setRawMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the server to receive raw data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server.Connection.setRefId">
+<tt class="descname">setRefId</tt><big>(</big><em>refId</em><big>)</big><a class="headerlink" href="#pysiriproxy.connections.server.Connection.setRefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the reference id.</p>
+<ul class="simple">
+<li>refId &#8211; The reference id</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-server-class">
+<h2>The _Server class<a class="headerlink" href="#the-server-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-c89bcda7bff305f8a25c025165c215f3ca4614a8.png" alt="Inheritance diagram of pysiriproxy.connections.server._Server" usemap="#inheritancefffcf9d4bb" class="inheritance"/>
+<map id="inheritancefffcf9d4bb" name="inheritancefffcf9d4bb">
+<area shape="rect" href="#pysiriproxy.connections.server._Server" title="pysiriproxy.connections.server._Server" alt="" coords="144,316,408,343"/>
+<area shape="rect" href="pysiriproxy_connections_connection.html#pysiriproxy.connections.connection.Connection" title="pysiriproxy.connections.connection.Connection" alt="" coords="117,239,435,265"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.connections.server._Server">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.connections.server.</tt><tt class="descname">_Server</tt><big>(</big><em>logger</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/server.html#_Server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.server._Server" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _Server class manages a connection to the Apple server which
+proceses Siri requests and responds accordingly.</p>
+<dl class="method">
+<dt id="pysiriproxy.connections.server._Server.connectionMade">
+<tt class="descname">connectionMade</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/server.html#_Server.connectionMade"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.server._Server.connectionMade" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when the connection has been made successfully.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.connections.server._Server.receiveObject">
+<tt class="descname">receiveObject</tt><big>(</big><em>obj</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/server.html#_Server.receiveObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.server._Server.receiveObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when an object has been received.</p>
+<ul class="simple">
+<li>obj &#8211; The received object</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-factory-class">
+<h2>The _Factory class<a class="headerlink" href="#the-factory-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-cad3a5eec552c87b1fd8ea0e827baa2e23d3d953.png" alt="Inheritance diagram of pysiriproxy.connections.server._Factory" usemap="#inheritancee50f7acdd5" class="inheritance"/>
+<map id="inheritancee50f7acdd5" name="inheritancee50f7acdd5">
+<area shape="rect" href="#pysiriproxy.connections.server._Factory" title="pysiriproxy.connections.server._Factory" alt="" coords="5,161,272,188"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.connections.server._Factory">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.connections.server.</tt><tt class="descname">_Factory</tt><big>(</big><em>logger=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/server.html#_Factory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.server._Factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _Factory class is responsible for creating a _Server
+connection.</p>
+<dl class="method">
+<dt id="pysiriproxy.connections.server._Factory.buildProtocol">
+<tt class="descname">buildProtocol</tt><big>(</big><em>_addr</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/connections/server.html#_Factory.buildProtocol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.connections.server._Factory.buildProtocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the protocol for the _Server connection.</p>
+<ul class="simple">
+<li>_addr &#8211; The address</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The server module</a><ul>
+<li><a class="reference internal" href="#the-clienttlscontext-class">The ClientTLSContext class</a></li>
+<li><a class="reference internal" href="#the-connectionmanager-class">The ConnectionManager class</a></li>
+<li><a class="reference internal" href="#the-connection-class">The Connection class</a></li>
+<li><a class="reference internal" href="#the-server-class">The _Server class</a></li>
+<li><a class="reference internal" href="#the-factory-class">The _Factory class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pysiriproxy_connections_connection.html"
+                        title="previous chapter">The connection module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mod_pysiriproxy_options.html"
+                        title="next chapter">The options module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/pysiriproxy_connections_server.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_options.html" title="The options module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_connections_connection.html" title="The connection module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_connections.html" >The connections module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

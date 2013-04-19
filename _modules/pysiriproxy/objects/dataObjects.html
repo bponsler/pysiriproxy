@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysiriproxy.objects.dataObjects &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pysiriproxy.objects.dataObjects</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2012 Brett Ponsler, Pete Lamonica</span>
+<span class="c"># This file is part of pysiriproxy.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># pysiriproxy is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with pysiriproxy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&#39;&#39;&#39;The dataObjects module contains classes pertaining to creating objects which</span>
+<span class="sd">can be sent to the iPhone or Apples&#39; web server which contain various types of</span>
+<span class="sd">data to be displayed to the user.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">pysiriproxy.objects.baseObject</span> <span class="kn">import</span> <span class="n">SiriObject</span>
+
+
+<div class="viewcode-block" id="_Location"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_dataObjects.html#pysiriproxy.objects.dataObjects._Location">[docs]</a><span class="k">class</span> <span class="nc">_Location</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _Location class provides the ability to create a</span>
+<span class="sd">    :class:`.SiriObject` which contains a specific map location to be</span>
+<span class="sd">    displayed to the user.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">street</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">stateCode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">countryCode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">postalCode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">longitude</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * label -- The label for the location</span>
+<span class="sd">        * street -- The street for the location</span>
+<span class="sd">        * city -- The city of the location</span>
+<span class="sd">        * stateCode -- The state code for the location</span>
+<span class="sd">        * countryCode -- The country code for the location</span>
+<span class="sd">        * postalCode -- The postal code for the location</span>
+<span class="sd">        * latitude -- The latitude for the location</span>
+<span class="sd">        * longitude -- The longitude for the location</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;Location&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.system&quot;</span><span class="p">)</span>
+
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;label&quot;</span><span class="p">,</span> <span class="s">&quot;street&quot;</span><span class="p">,</span> <span class="s">&quot;city&quot;</span><span class="p">,</span> <span class="s">&quot;stateCode&quot;</span><span class="p">,</span> <span class="s">&quot;countryCode&quot;</span><span class="p">,</span>
+                 <span class="s">&quot;postalCode&quot;</span><span class="p">,</span> <span class="s">&quot;latitude&quot;</span><span class="p">,</span> <span class="s">&quot;longitude&quot;</span><span class="p">]</span>
+
+        <span class="c"># Set all of the arguments so long as their values are not None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setNonNoneArguments</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="nb">locals</span><span class="p">())</span>
+
+</div>
+<div class="viewcode-block" id="_Answer"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_dataObjects.html#pysiriproxy.objects.dataObjects._Answer">[docs]</a><span class="k">class</span> <span class="nc">_Answer</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _Answer class creates an object which is Siri&#39;s answer to</span>
+<span class="sd">    a user&#39;s question.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * title -- The title for the answer</span>
+<span class="sd">        * lines -- The lines of text for the answer</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;Object&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.answer&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">lines</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">lines</span>
+
+</div>
+<div class="viewcode-block" id="_AnswerLine"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_dataObjects.html#pysiriproxy.objects.dataObjects._AnswerLine">[docs]</a><span class="k">class</span> <span class="nc">_AnswerLine</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _AnswerLine creates a single line for Siri&#39;s answer to a</span>
+<span class="sd">    user&#39;s question.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * text -- The text to display</span>
+<span class="sd">        * image -- The image to display</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;ObjectLine&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.answer&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
+
+</div>
+<div class="viewcode-block" id="_MapItem"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_dataObjects.html#pysiriproxy.objects.dataObjects._MapItem">[docs]</a><span class="k">class</span> <span class="nc">_MapItem</span><span class="p">(</span><span class="n">SiriObject</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _MapItem creates an object that displayed to the user as a</span>
+<span class="sd">    map item.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">detailType</span><span class="o">=</span><span class="s">&quot;BUSINESS_ITEM&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * label -- The label for the map item</span>
+<span class="sd">        * location -- The :class:`._Location` object for the map item</span>
+<span class="sd">        * detailType -- The detail type for this map item</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">SiriObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;MapItem&quot;</span><span class="p">,</span> <span class="s">&quot;com.apple.ace.localsearch&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">detailType</span> <span class="o">=</span> <span class="n">detailType</span>
+
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;label&quot;</span><span class="p">,</span> <span class="s">&quot;location&quot;</span><span class="p">]</span>
+
+        <span class="c"># Set all of the arguments so long as their values are not None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setNonNoneArguments</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="nb">locals</span><span class="p">())</span>
+
+</div>
+<div class="viewcode-block" id="_CurrentLocation"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_dataObjects.html#pysiriproxy.objects.dataObjects._CurrentLocation">[docs]</a><span class="k">class</span> <span class="nc">_CurrentLocation</span><span class="p">(</span><span class="n">_MapItem</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;The _CurrentLocation class creates an object that displays the user&#39;s</span>
+<span class="sd">    current location as a map item.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">__DetailType</span> <span class="o">=</span> <span class="s">&#39;CURRENT_LOCATION&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        * label -- The label for this map item</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">_MapItem</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">detailType</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__DetailType</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="DataObjects"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_dataObjects.html#pysiriproxy.objects.dataObjects.DataObjects">[docs]</a><span class="k">class</span> <span class="nc">DataObjects</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The DataObjects class provides definitions of various types of objects</span>
+<span class="sd">    to display data to the Siri user.</span>
+
+<span class="sd">    This class also provides a factory method for creating objects of specific</span>
+<span class="sd">    types.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Location</span> <span class="o">=</span> <span class="s">&quot;Location&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The object type corresponding to a map location.&#39;&#39;&#39;</span>
+
+    <span class="n">Answer</span> <span class="o">=</span> <span class="s">&quot;Answer&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The object type corresponding to Siri&#39;s answer to a user&#39;s question.&#39;&#39;&#39;</span>
+
+    <span class="n">AnswerLine</span> <span class="o">=</span> <span class="s">&quot;AnswerLine&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The object type corresponding to a single answer line.&#39;&#39;&#39;</span>
+
+    <span class="n">MapItem</span> <span class="o">=</span> <span class="s">&quot;MapItem&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The object type corresponding to creating an item on a map.&#39;&#39;&#39;</span>
+
+    <span class="n">CurrentLocation</span> <span class="o">=</span> <span class="s">&quot;CurrentLocation&quot;</span>
+    <span class="sd">&#39;&#39;&#39;The object type corresponding to creating an item on a map corresponding</span>
+<span class="sd">    to the iPhone&#39;s current location.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">__TypeMap</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">Location</span><span class="p">:</span> <span class="n">_Location</span><span class="p">,</span>
+        <span class="n">Answer</span><span class="p">:</span> <span class="n">_Answer</span><span class="p">,</span>
+        <span class="n">AnswerLine</span><span class="p">:</span> <span class="n">_AnswerLine</span><span class="p">,</span>
+        <span class="n">MapItem</span><span class="p">:</span> <span class="n">_MapItem</span><span class="p">,</span>
+        <span class="n">CurrentLocation</span><span class="p">:</span> <span class="n">_CurrentLocation</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="DataObjects.create"><a class="viewcode-back" href="../../../_generated/pysiriproxy_objects_dataObjects.html#pysiriproxy.objects.dataObjects.DataObjects.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">objectType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create a DataObject of the given type.</span>
+
+<span class="sd">        * dataObject -- The type of DataObject to create</span>
+<span class="sd">        * args -- The arguments</span>
+<span class="sd">        * kwargs -- The keyword arguments</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">dataObject</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="c"># Create the button object if it is found</span>
+        <span class="n">objectClass</span> <span class="o">=</span> <span class="n">DataObjects</span><span class="o">.</span><span class="n">__TypeMap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">objectType</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">objectClass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">dataObject</span> <span class="o">=</span> <span class="n">objectClass</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataObject</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

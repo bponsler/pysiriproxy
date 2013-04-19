@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The dataObjects module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The objects module" href="mod_pysiriproxy_objects.html" />
+    <link rel="next" title="The plugins module" href="mod_pysiriproxy_plugins.html" />
+    <link rel="prev" title="The buttons module" href="pysiriproxy_objects_buttons.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_plugins.html" title="The plugins module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_buttons.html" title="The buttons module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_objects.html" accesskey="U">The objects module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.objects.dataObjects">
+<span id="the-dataobjects-module"></span><h1>The dataObjects module<a class="headerlink" href="#module-pysiriproxy.objects.dataObjects" title="Permalink to this headline">¶</a></h1>
+<p>The dataObjects module contains classes pertaining to creating objects which
+can be sent to the iPhone or Apples&#8217; web server which contain various types of
+data to be displayed to the user.</p>
+<div class="section" id="the-location-class">
+<h2>The _Location class<a class="headerlink" href="#the-location-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-52c398055bc653219f307dbc33747a316226a8c7.png" alt="Inheritance diagram of pysiriproxy.objects.dataObjects._Location" usemap="#inheritance356a327303" class="inheritance"/>
+<map id="inheritance356a327303" name="inheritance356a327303">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="8,7,285,33"/>
+<area shape="rect" href="#pysiriproxy.objects.dataObjects._Location" title="pysiriproxy.objects.dataObjects._Location" alt="" coords="5,84,288,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.dataObjects._Location">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.dataObjects.</tt><tt class="descname">_Location</tt><big>(</big><em>label=None</em>, <em>street=None</em>, <em>city=None</em>, <em>stateCode=None</em>, <em>countryCode=None</em>, <em>postalCode=None</em>, <em>latitude=None</em>, <em>longitude=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/dataObjects.html#_Location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.dataObjects._Location" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _Location class provides the ability to create a
+<a class="reference internal" href="#pysiriproxy.objects.dataObjects.SiriObject" title="pysiriproxy.objects.dataObjects.SiriObject"><tt class="xref py py-class docutils literal"><span class="pre">SiriObject</span></tt></a> which contains a specific map location to be
+displayed to the user.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-currentlocation-class">
+<h2>The _CurrentLocation class<a class="headerlink" href="#the-currentlocation-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-79e15bfbd6c8a026d3a4ee07415a97fe247e431f.png" alt="Inheritance diagram of pysiriproxy.objects.dataObjects._CurrentLocation" usemap="#inheritancef29f2644ca" class="inheritance"/>
+<map id="inheritancef29f2644ca" name="inheritancef29f2644ca">
+<area shape="rect" href="#pysiriproxy.objects.dataObjects._MapItem" title="pysiriproxy.objects.dataObjects._MapItem" alt="" coords="28,84,313,111"/>
+<area shape="rect" href="#pysiriproxy.objects.dataObjects._CurrentLocation" title="pysiriproxy.objects.dataObjects._CurrentLocation" alt="" coords="5,161,336,188"/>
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="32,7,309,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.dataObjects._CurrentLocation">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.dataObjects.</tt><tt class="descname">_CurrentLocation</tt><big>(</big><em>label=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/dataObjects.html#_CurrentLocation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.dataObjects._CurrentLocation" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _CurrentLocation class creates an object that displays the user&#8217;s
+current location as a map item.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-siriobject-class">
+<h2>The SiriObject class<a class="headerlink" href="#the-siriobject-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-e19de6e20bd34ff2b8df78def7e197ab5e90d35d.png" alt="Inheritance diagram of pysiriproxy.objects.dataObjects.SiriObject" usemap="#inheritance52bb767aea" class="inheritance"/>
+<map id="inheritance52bb767aea" name="inheritance52bb767aea">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="5,7,283,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.dataObjects.SiriObject">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.dataObjects.</tt><tt class="descname">SiriObject</tt><big>(</big><em>className</em>, <em>group</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.dataObjects.SiriObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SiriObject class encapsulates the base functionality for all
+object being sent to the iPhone or to Apple&#8217;s web server.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This class is meant to be subclassed to provide the
+implementation for a specific object.</p>
+</div>
+<dl class="attribute">
+<dt id="pysiriproxy.objects.dataObjects.SiriObject.ProtocolVersion">
+<tt class="descname">ProtocolVersion</tt><a class="headerlink" href="#pysiriproxy.objects.dataObjects.SiriObject.ProtocolVersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>The identifier which indicates the version of the protocol.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.dataObjects.SiriObject.isArgumentList">
+<em class="property">classmethod </em><tt class="descname">isArgumentList</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.dataObjects.SiriObject.isArgumentList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if the given object is a list of arguments, or not.</p>
+<ul class="simple">
+<li>obj &#8211; The object</li>
+</ul>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.dataObjects.SiriObject.isSiriObject">
+<em class="property">classmethod </em><tt class="descname">isSiriObject</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.dataObjects.SiriObject.isSiriObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if the given object is a SiriObject, or not.</p>
+<ul class="simple">
+<li>obj &#8211; The object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.dataObjects.SiriObject.makeRoot">
+<tt class="descname">makeRoot</tt><big>(</big><em>refId=None</em>, <em>aceId=None</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.dataObjects.SiriObject.makeRoot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the SiriObject the root object.</p>
+<ul class="simple">
+<li>refId &#8211; The refId for this object</li>
+<li>aceId &#8211; The aceId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.dataObjects.SiriObject.setAceId">
+<tt class="descname">setAceId</tt><big>(</big><em>aceId=None</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.dataObjects.SiriObject.setAceId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the ace id for this object.</p>
+<ul class="simple">
+<li>aceId &#8211; The aceId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.dataObjects.SiriObject.setNonNoneArguments">
+<tt class="descname">setNonNoneArguments</tt><big>(</big><em>argumentNames</em>, <em>localVars</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.dataObjects.SiriObject.setNonNoneArguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a list of strings which represent names of input variables and
+sets properties of the same name on the current object if the value of
+the argument is not None.</p>
+<ul class="simple">
+<li>argumentNames &#8211; The list of argument names to set</li>
+<li>localVars &#8211; The local variables</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.dataObjects.SiriObject.setRefId">
+<tt class="descname">setRefId</tt><big>(</big><em>refId=None</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.dataObjects.SiriObject.setRefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the ref id for this object.</p>
+<ul class="simple">
+<li>refId &#8211; The refId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.dataObjects.SiriObject.toDict">
+<tt class="descname">toDict</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.objects.dataObjects.SiriObject.toDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert this object into a Python dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-mapitem-class">
+<h2>The _MapItem class<a class="headerlink" href="#the-mapitem-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-4f2145c09f526a8812f8468bef49ec08e313c7a5.png" alt="Inheritance diagram of pysiriproxy.objects.dataObjects._MapItem" usemap="#inheritance0b1b1a61b6" class="inheritance"/>
+<map id="inheritance0b1b1a61b6" name="inheritance0b1b1a61b6">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="9,7,287,33"/>
+<area shape="rect" href="#pysiriproxy.objects.dataObjects._MapItem" title="pysiriproxy.objects.dataObjects._MapItem" alt="" coords="5,84,291,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.dataObjects._MapItem">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.dataObjects.</tt><tt class="descname">_MapItem</tt><big>(</big><em>label=None</em>, <em>location=None</em>, <em>detailType='BUSINESS_ITEM'</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/dataObjects.html#_MapItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.dataObjects._MapItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _MapItem creates an object that displayed to the user as a
+map item.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-dataobjects-class">
+<h2>The DataObjects class<a class="headerlink" href="#the-dataobjects-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-c5496b5e01fd791df95c6141001afa25a12c753f.png" alt="Inheritance diagram of pysiriproxy.objects.dataObjects.DataObjects" usemap="#inheritance1dc1ce38df" class="inheritance"/>
+<map id="inheritance1dc1ce38df" name="inheritance1dc1ce38df">
+<area shape="rect" href="#pysiriproxy.objects.dataObjects.DataObjects" title="pysiriproxy.objects.dataObjects.DataObjects" alt="" coords="5,7,307,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.dataObjects.DataObjects">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.dataObjects.</tt><tt class="descname">DataObjects</tt><a class="reference internal" href="../_modules/pysiriproxy/objects/dataObjects.html#DataObjects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.dataObjects.DataObjects" title="Permalink to this definition">¶</a></dt>
+<dd><p>The DataObjects class provides definitions of various types of objects
+to display data to the Siri user.</p>
+<p>This class also provides a factory method for creating objects of specific
+types.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.objects.dataObjects.DataObjects.Answer">
+<tt class="descname">Answer</tt><a class="headerlink" href="#pysiriproxy.objects.dataObjects.DataObjects.Answer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The object type corresponding to Siri&#8217;s answer to a user&#8217;s question.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.dataObjects.DataObjects.AnswerLine">
+<tt class="descname">AnswerLine</tt><a class="headerlink" href="#pysiriproxy.objects.dataObjects.DataObjects.AnswerLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>The object type corresponding to a single answer line.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.dataObjects.DataObjects.CurrentLocation">
+<tt class="descname">CurrentLocation</tt><a class="headerlink" href="#pysiriproxy.objects.dataObjects.DataObjects.CurrentLocation" title="Permalink to this definition">¶</a></dt>
+<dd><p>The object type corresponding to creating an item on a map corresponding
+to the iPhone&#8217;s current location.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.dataObjects.DataObjects.Location">
+<tt class="descname">Location</tt><a class="headerlink" href="#pysiriproxy.objects.dataObjects.DataObjects.Location" title="Permalink to this definition">¶</a></dt>
+<dd><p>The object type corresponding to a map location.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.dataObjects.DataObjects.MapItem">
+<tt class="descname">MapItem</tt><a class="headerlink" href="#pysiriproxy.objects.dataObjects.DataObjects.MapItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>The object type corresponding to creating an item on a map.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.dataObjects.DataObjects.create">
+<em class="property">classmethod </em><tt class="descname">create</tt><big>(</big><em>objectType</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/dataObjects.html#DataObjects.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.dataObjects.DataObjects.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a DataObject of the given type.</p>
+<ul class="simple">
+<li>dataObject &#8211; The type of DataObject to create</li>
+<li>args &#8211; The arguments</li>
+<li>kwargs &#8211; The keyword arguments</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-answer-class">
+<h2>The _Answer class<a class="headerlink" href="#the-answer-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-9fa7c3ed5130f8202197c2c20c5e8c9525cc095f.png" alt="Inheritance diagram of pysiriproxy.objects.dataObjects._Answer" usemap="#inheritance2e7c376ccf" class="inheritance"/>
+<map id="inheritance2e7c376ccf" name="inheritance2e7c376ccf">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="5,7,283,33"/>
+<area shape="rect" href="#pysiriproxy.objects.dataObjects._Answer" title="pysiriproxy.objects.dataObjects._Answer" alt="" coords="7,84,281,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.dataObjects._Answer">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.dataObjects.</tt><tt class="descname">_Answer</tt><big>(</big><em>title=''</em>, <em>lines=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/dataObjects.html#_Answer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.dataObjects._Answer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _Answer class creates an object which is Siri&#8217;s answer to
+a user&#8217;s question.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-answerline-class">
+<h2>The _AnswerLine class<a class="headerlink" href="#the-answerline-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-40932d5bc126b646ba6ac0ef027503b1c873bb2a.png" alt="Inheritance diagram of pysiriproxy.objects.dataObjects._AnswerLine" usemap="#inheritance6c3c01ed3d" class="inheritance"/>
+<map id="inheritance6c3c01ed3d" name="inheritance6c3c01ed3d">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="17,7,295,33"/>
+<area shape="rect" href="#pysiriproxy.objects.dataObjects._AnswerLine" title="pysiriproxy.objects.dataObjects._AnswerLine" alt="" coords="5,84,307,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.dataObjects._AnswerLine">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.dataObjects.</tt><tt class="descname">_AnswerLine</tt><big>(</big><em>text=''</em>, <em>image=''</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/dataObjects.html#_AnswerLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.dataObjects._AnswerLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _AnswerLine creates a single line for Siri&#8217;s answer to a
+user&#8217;s question.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The dataObjects module</a><ul>
+<li><a class="reference internal" href="#the-location-class">The _Location class</a></li>
+<li><a class="reference internal" href="#the-currentlocation-class">The _CurrentLocation class</a></li>
+<li><a class="reference internal" href="#the-siriobject-class">The SiriObject class</a></li>
+<li><a class="reference internal" href="#the-mapitem-class">The _MapItem class</a></li>
+<li><a class="reference internal" href="#the-dataobjects-class">The DataObjects class</a></li>
+<li><a class="reference internal" href="#the-answer-class">The _Answer class</a></li>
+<li><a class="reference internal" href="#the-answerline-class">The _AnswerLine class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pysiriproxy_objects_buttons.html"
+                        title="previous chapter">The buttons module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mod_pysiriproxy_plugins.html"
+                        title="next chapter">The plugins module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/pysiriproxy_objects_dataObjects.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_plugins.html" title="The plugins module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_buttons.html" title="The buttons module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_objects.html" >The objects module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

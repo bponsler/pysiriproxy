@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The requests module &mdash; pysiriproxy v0.0.8 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pysiriproxy v0.0.8 documentation" href="../index.html" />
+    <link rel="up" title="The objects module" href="mod_pysiriproxy_objects.html" />
+    <link rel="next" title="The baseObject module" href="pysiriproxy_objects_baseObject.html" />
+    <link rel="prev" title="The objects module" href="mod_pysiriproxy_objects.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_baseObject.html" title="The baseObject module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_objects.html" title="The objects module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_objects.html" accesskey="U">The objects module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysiriproxy.objects.requests">
+<span id="the-requests-module"></span><h1>The requests module<a class="headerlink" href="#module-pysiriproxy.objects.requests" title="Permalink to this headline">¶</a></h1>
+<p>The request module contains classes pertaining to creating objects which
+can be sent to the iPhone or Apple&#8217;s web server which pertain to creating
+requests to be sent to the iPhone.</p>
+<div class="section" id="the-requestcompleted-class">
+<h2>The _RequestCompleted class<a class="headerlink" href="#the-requestcompleted-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-abd59cb4146003d95b23ddc97b11a2e59263b9fd.png" alt="Inheritance diagram of pysiriproxy.objects.requests._RequestCompleted" usemap="#inheritancee8577fe5c0" class="inheritance"/>
+<map id="inheritancee8577fe5c0" name="inheritancee8577fe5c0">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="31,7,308,33"/>
+<area shape="rect" href="#pysiriproxy.objects.requests._RequestCompleted" title="pysiriproxy.objects.requests._RequestCompleted" alt="" coords="5,84,333,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.requests._RequestCompleted">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.requests.</tt><tt class="descname">_RequestCompleted</tt><big>(</big><em>callbacks=None</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/requests.html#_RequestCompleted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.requests._RequestCompleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _RequestCompleted object notifies the iPhone that the current 
+request can be completed.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-startrequest-class">
+<h2>The _StartRequest class<a class="headerlink" href="#the-startrequest-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-a0662caf8d13e32aac2427ace30da0eaf46bcd33.png" alt="Inheritance diagram of pysiriproxy.objects.requests._StartRequest" usemap="#inheritance15578acdbd" class="inheritance"/>
+<map id="inheritance15578acdbd" name="inheritance15578acdbd">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="12,7,289,33"/>
+<area shape="rect" href="#pysiriproxy.objects.requests._StartRequest" title="pysiriproxy.objects.requests._StartRequest" alt="" coords="5,84,296,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.requests._StartRequest">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.requests.</tt><tt class="descname">_StartRequest</tt><big>(</big><em>utterance='Testing'</em>, <em>handsFree=False</em>, <em>proxyOnly=False</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/requests.html#_StartRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.requests._StartRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _StartRequest object signifies that a request is being started.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-getrequestorigin-class">
+<h2>The _GetRequestOrigin class<a class="headerlink" href="#the-getrequestorigin-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-9db5a18f39cf40124a355330f7da1d6cb3679644.png" alt="Inheritance diagram of pysiriproxy.objects.requests._GetRequestOrigin" usemap="#inheritanceda7ec6b250" class="inheritance"/>
+<map id="inheritanceda7ec6b250" name="inheritanceda7ec6b250">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="27,7,304,33"/>
+<area shape="rect" href="#pysiriproxy.objects.requests._GetRequestOrigin" title="pysiriproxy.objects.requests._GetRequestOrigin" alt="" coords="5,84,325,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.requests._GetRequestOrigin">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.requests.</tt><tt class="descname">_GetRequestOrigin</tt><big>(</big><em>desiredAccuracy='HundredMeters'</em>, <em>searchTimeout=8.0</em>, <em>maxAge=1800</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/requests.html#_GetRequestOrigin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.requests._GetRequestOrigin" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _GetRequestOrigin class creates an object that gets the
+origin of the request.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-siriobject-class">
+<h2>The SiriObject class<a class="headerlink" href="#the-siriobject-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-98fbb1601b750798a7284caf989d11cd8537c4dc.png" alt="Inheritance diagram of pysiriproxy.objects.requests.SiriObject" usemap="#inheritanceb14283479c" class="inheritance"/>
+<map id="inheritanceb14283479c" name="inheritanceb14283479c">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="5,7,283,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.requests.SiriObject">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.requests.</tt><tt class="descname">SiriObject</tt><big>(</big><em>className</em>, <em>group</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.requests.SiriObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SiriObject class encapsulates the base functionality for all
+object being sent to the iPhone or to Apple&#8217;s web server.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This class is meant to be subclassed to provide the
+implementation for a specific object.</p>
+</div>
+<dl class="attribute">
+<dt id="pysiriproxy.objects.requests.SiriObject.ProtocolVersion">
+<tt class="descname">ProtocolVersion</tt><a class="headerlink" href="#pysiriproxy.objects.requests.SiriObject.ProtocolVersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>The identifier which indicates the version of the protocol.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.requests.SiriObject.isArgumentList">
+<em class="property">classmethod </em><tt class="descname">isArgumentList</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.requests.SiriObject.isArgumentList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if the given object is a list of arguments, or not.</p>
+<ul class="simple">
+<li>obj &#8211; The object</li>
+</ul>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.requests.SiriObject.isSiriObject">
+<em class="property">classmethod </em><tt class="descname">isSiriObject</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.requests.SiriObject.isSiriObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if the given object is a SiriObject, or not.</p>
+<ul class="simple">
+<li>obj &#8211; The object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.requests.SiriObject.makeRoot">
+<tt class="descname">makeRoot</tt><big>(</big><em>refId=None</em>, <em>aceId=None</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.requests.SiriObject.makeRoot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the SiriObject the root object.</p>
+<ul class="simple">
+<li>refId &#8211; The refId for this object</li>
+<li>aceId &#8211; The aceId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.requests.SiriObject.setAceId">
+<tt class="descname">setAceId</tt><big>(</big><em>aceId=None</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.requests.SiriObject.setAceId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the ace id for this object.</p>
+<ul class="simple">
+<li>aceId &#8211; The aceId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.requests.SiriObject.setNonNoneArguments">
+<tt class="descname">setNonNoneArguments</tt><big>(</big><em>argumentNames</em>, <em>localVars</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.requests.SiriObject.setNonNoneArguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a list of strings which represent names of input variables and
+sets properties of the same name on the current object if the value of
+the argument is not None.</p>
+<ul class="simple">
+<li>argumentNames &#8211; The list of argument names to set</li>
+<li>localVars &#8211; The local variables</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.requests.SiriObject.setRefId">
+<tt class="descname">setRefId</tt><big>(</big><em>refId=None</em><big>)</big><a class="headerlink" href="#pysiriproxy.objects.requests.SiriObject.setRefId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the ref id for this object.</p>
+<ul class="simple">
+<li>refId &#8211; The refId for this object</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysiriproxy.objects.requests.SiriObject.toDict">
+<tt class="descname">toDict</tt><big>(</big><big>)</big><a class="headerlink" href="#pysiriproxy.objects.requests.SiriObject.toDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert this object into a Python dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-requests-class">
+<h2>The Requests class<a class="headerlink" href="#the-requests-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-182eb5071f093210220a21e0e879cb5c97e95a27.png" alt="Inheritance diagram of pysiriproxy.objects.requests.Requests" usemap="#inheritance2a94ad5c5d" class="inheritance"/>
+<map id="inheritance2a94ad5c5d" name="inheritance2a94ad5c5d">
+<area shape="rect" href="#pysiriproxy.objects.requests.Requests" title="pysiriproxy.objects.requests.Requests" alt="" coords="5,7,264,33"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.requests.Requests">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.requests.</tt><tt class="descname">Requests</tt><a class="reference internal" href="../_modules/pysiriproxy/objects/requests.html#Requests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.requests.Requests" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Requests class contains the various types of Requests as well as a
+function for creating Requests of a specific type.</p>
+<p>This class contains a factory method for creating Request object of
+a specific type.</p>
+<dl class="attribute">
+<dt id="pysiriproxy.objects.requests.Requests.GetRequestOrigin">
+<tt class="descname">GetRequestOrigin</tt><a class="headerlink" href="#pysiriproxy.objects.requests.Requests.GetRequestOrigin" title="Permalink to this definition">¶</a></dt>
+<dd><p>The GetRequestOrigin object type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.requests.Requests.RequestCompleted">
+<tt class="descname">RequestCompleted</tt><a class="headerlink" href="#pysiriproxy.objects.requests.Requests.RequestCompleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>The RequestCompleted object type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.requests.Requests.SetRequestOrigin">
+<tt class="descname">SetRequestOrigin</tt><a class="headerlink" href="#pysiriproxy.objects.requests.Requests.SetRequestOrigin" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SetRequestOrigin object type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysiriproxy.objects.requests.Requests.StartRequest">
+<tt class="descname">StartRequest</tt><a class="headerlink" href="#pysiriproxy.objects.requests.Requests.StartRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>The StartRequest object type.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pysiriproxy.objects.requests.Requests.create">
+<em class="property">classmethod </em><tt class="descname">create</tt><big>(</big><em>requestType</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/requests.html#Requests.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.requests.Requests.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Request of the given type.</p>
+<ul class="simple">
+<li>requestType &#8211; The request type</li>
+<li>args &#8211; The arguments</li>
+<li>kwargs &#8211; The keyword arguments</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-setrequestorigin-class">
+<h2>The _SetRequestOrigin class<a class="headerlink" href="#the-setrequestorigin-class" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="../_images/inheritance-18f8c1424da2604867912e211418e001d46d7272.png" alt="Inheritance diagram of pysiriproxy.objects.requests._SetRequestOrigin" usemap="#inheritance87a7829caa" class="inheritance"/>
+<map id="inheritance87a7829caa" name="inheritance87a7829caa">
+<area shape="rect" href="pysiriproxy_objects_baseObject.html#pysiriproxy.objects.baseObject.SiriObject" title="pysiriproxy.objects.baseObject.SiriObject" alt="" coords="25,7,303,33"/>
+<area shape="rect" href="#pysiriproxy.objects.requests._SetRequestOrigin" title="pysiriproxy.objects.requests._SetRequestOrigin" alt="" coords="5,84,323,111"/>
+</map>
+</p>
+<dl class="class">
+<dt id="pysiriproxy.objects.requests._SetRequestOrigin">
+<em class="property">class </em><tt class="descclassname">pysiriproxy.objects.requests.</tt><tt class="descname">_SetRequestOrigin</tt><big>(</big><em>longitude=-122.03008979558901</em>, <em>latitude=37.331703186035199</em>, <em>desiredAccuracy='HundredMeters'</em>, <em>altitude=0.0</em>, <em>speed=1.0</em>, <em>direction=1.0</em>, <em>age=0</em>, <em>horizontalAccuracy=50.0</em>, <em>verticalAccuracy=10.0</em><big>)</big><a class="reference internal" href="../_modules/pysiriproxy/objects/requests.html#_SetRequestOrigin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysiriproxy.objects.requests._SetRequestOrigin" title="Permalink to this definition">¶</a></dt>
+<dd><p>The _SetRequestOrigin class creates an object to set the origin of
+a request.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The requests module</a><ul>
+<li><a class="reference internal" href="#the-requestcompleted-class">The _RequestCompleted class</a></li>
+<li><a class="reference internal" href="#the-startrequest-class">The _StartRequest class</a></li>
+<li><a class="reference internal" href="#the-getrequestorigin-class">The _GetRequestOrigin class</a></li>
+<li><a class="reference internal" href="#the-siriobject-class">The SiriObject class</a></li>
+<li><a class="reference internal" href="#the-requests-class">The Requests class</a></li>
+<li><a class="reference internal" href="#the-setrequestorigin-class">The _SetRequestOrigin class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="mod_pysiriproxy_objects.html"
+                        title="previous chapter">The objects module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pysiriproxy_objects_baseObject.html"
+                        title="next chapter">The baseObject module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_generated/pysiriproxy_objects_requests.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pysiriproxy_objects_baseObject.html" title="The baseObject module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mod_pysiriproxy_objects.html" title="The objects module"
+             >previous</a> |</li>
+        <li><a href="../index.html">pysiriproxy v0.0.8 documentation</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy.html" >The pysiriproxy module</a> &raquo;</li>
+          <li><a href="mod_pysiriproxy_objects.html" >The objects module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Brett Ponsler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

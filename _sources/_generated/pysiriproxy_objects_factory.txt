@@ -1,0 +1,90 @@
+.. pysiriproxy documentation file, created by
+   generateRsts for pysiriproxy.objects.factory on April 18, 2013
+   This file should not be modified.
+
+===================
+The factory module
+===================
+
+.. automodule:: pysiriproxy.objects.factory
+
+-------------------
+The Commands class
+-------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.factory.Commands
+
+.. autoclass:: pysiriproxy.objects.factory.Commands
+    :members:
+
+----------------
+The Views class
+----------------
+
+.. inheritance-diagram:: pysiriproxy.objects.factory.Views
+
+.. autoclass:: pysiriproxy.objects.factory.Views
+    :members:
+
+---------------------
+The SiriObject class
+---------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.factory.SiriObject
+
+.. autoclass:: pysiriproxy.objects.factory.SiriObject
+    :members:
+
+------------------------
+The ObjectFactory class
+------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.factory.ObjectFactory
+
+.. autoclass:: pysiriproxy.objects.factory.ObjectFactory
+    :members:
+
+------------------
+The Actions class
+------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.factory.Actions
+
+.. autoclass:: pysiriproxy.objects.factory.Actions
+    :members:
+
+------------------
+The Buttons class
+------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.factory.Buttons
+
+.. autoclass:: pysiriproxy.objects.factory.Buttons
+    :members:
+
+--------------------------
+The ResponseFactory class
+--------------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.factory.ResponseFactory
+
+.. autoclass:: pysiriproxy.objects.factory.ResponseFactory
+    :members:
+
+----------------------
+The DataObjects class
+----------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.factory.DataObjects
+
+.. autoclass:: pysiriproxy.objects.factory.DataObjects
+    :members:
+
+-------------------
+The Requests class
+-------------------
+
+.. inheritance-diagram:: pysiriproxy.objects.factory.Requests
+
+.. autoclass:: pysiriproxy.objects.factory.Requests
+    :members:
